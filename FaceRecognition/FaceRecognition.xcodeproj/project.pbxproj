@@ -14,6 +14,7 @@
 		D1439B551A76C055006E1DCB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1439B541A76C055006E1DCB /* Images.xcassets */; };
 		D1439B581A76C055006E1DCB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1439B561A76C055006E1DCB /* LaunchScreen.xib */; };
 		D1439B641A76C055006E1DCB /* FaceRecognitionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D1439B631A76C055006E1DCB /* FaceRecognitionTests.m */; };
+		D1439B701A76C468006E1DCB /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1439B6F1A76C468006E1DCB /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		D1439B5D1A76C055006E1DCB /* FaceRecognitionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceRecognitionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1439B621A76C055006E1DCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1439B631A76C055006E1DCB /* FaceRecognitionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceRecognitionTests.m; sourceTree = "<group>"; };
+		D1439B6F1A76C468006E1DCB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1439B701A76C468006E1DCB /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		D1439B3B1A76C054006E1DCB = {
 			isa = PBXGroup;
 			children = (
+				D1439B6F1A76C468006E1DCB /* FacebookSDK.framework */,
 				D1439B461A76C054006E1DCB /* FaceRecognition */,
 				D1439B601A76C055006E1DCB /* FaceRecognitionTests */,
 				D1439B451A76C054006E1DCB /* Products */,
@@ -343,6 +347,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/paragdulan/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = FaceRecognition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -353,6 +362,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/paragdulan/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = FaceRecognition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
