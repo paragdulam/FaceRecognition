@@ -17,7 +17,7 @@
 // #import <ParseCrashReporting/ParseCrashReporting.h>
 
 #import "ParseStarterProjectAppDelegate.h"
-#import "ParseStarterProjectViewController.h"
+#import <ParseUI/ParseUI.h>
 
 @implementation ParseStarterProjectAppDelegate
 
@@ -51,8 +51,9 @@
     [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
 
     // Override point for customization after application launch.
-
-    self.window.rootViewController = self.viewController;
+    
+    PFLogInViewController *loginViewController = [[PFLogInViewController alloc] init];
+    self.window.rootViewController = loginViewController;
     [self.window makeKeyAndVisible];
 
     if (application.applicationState != UIApplicationStateBackground) {
