@@ -5,6 +5,7 @@
 //
 
 #import <Parse/Parse.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 // If you want to use any of the UI components, uncomment this line
 // #import <ParseUI/ParseUI.h>
@@ -33,11 +34,11 @@
     // [ParseCrashReporting enable];
     //
     // Uncomment and fill in with your Parse credentials:
-    // [Parse setApplicationId:@"your_application_id" clientKey:@"your_client_key"];
+    [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];
     //
     // If you are using Facebook, uncomment and add your FacebookAppID to your bundle's plist as
     // described here: https://developers.facebook.com/docs/getting-started/facebook-sdk-for-ios/
-    // [PFFacebookUtils initializeFacebook];
+    [PFFacebookUtils initializeFacebook];
     // ****************************************************************************
 
     [PFUser enableAutomaticUser];
