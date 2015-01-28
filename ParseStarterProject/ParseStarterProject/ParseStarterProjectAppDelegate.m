@@ -18,6 +18,8 @@
 
 #import "ParseStarterProjectAppDelegate.h"
 #import <ParseUI/ParseUI.h>
+#import "TFTwinsViewController.h"
+#import "TFLoginViewController.h"
 
 @implementation ParseStarterProjectAppDelegate
 
@@ -51,9 +53,9 @@
     [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
 
     // Override point for customization after application launch.
-    
-    PFLogInViewController *loginViewController = [[PFLogInViewController alloc] init];
-    self.window.rootViewController = loginViewController;
+
+    TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] init];
+    self.window.rootViewController = twinsViewController;
     [self.window makeKeyAndVisible];
 
     if (application.applicationState != UIApplicationStateBackground) {
