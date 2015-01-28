@@ -8,10 +8,14 @@
 
 #import "TFTwinsViewController.h"
 #import "TFLoginViewController.h"
+#import "TFCameraViewController.h"
 #import <Parse/Parse.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 
 @interface TFTwinsViewController ()<PFLogInViewControllerDelegate>
+
+@property (nonatomic,strong) TFLoginViewController *loginViewController;
 
 @end
 
@@ -28,10 +32,13 @@
 {
     [super viewDidAppear:animated];
     if (![[PFUser currentUser] isAuthenticated]) {
-        TFLoginViewController *loginViewController = [[TFLoginViewController alloc] init];
-        [loginViewController setFields:PFLogInFieldsFacebook];
-        [loginViewController setDelegate:self];
-        [self presentViewController:loginViewController animated:NO completion:NULL];
+        self.loginViewController = [[TFLoginViewController alloc] init];
+        [self.loginViewController setFields:PFLogInFieldsFacebook];
+        [self.loginViewController setDelegate:self];
+        [self presentViewController:self.loginViewController animated:NO completion:NULL];
+    } else {
+        TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] init];
+        [self presentViewController:cameraViewController animated:YES completion:NULL];
     }
 }
 
@@ -52,7 +59,7 @@ shouldBeginLogInWithUsername:(NSString *)username
 
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
-    
+    [logInController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
