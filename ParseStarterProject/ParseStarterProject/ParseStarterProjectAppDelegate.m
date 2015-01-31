@@ -29,11 +29,9 @@
 #pragma mark UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    
     // Enable storing and querying data from Local Datastore. Remove this line if you don't want to
     // use Local Datastore features or want to use cachePolicy.
-    //[Parse enableLocalDatastore];
+    [Parse enableLocalDatastore];
 
     // ****************************************************************************
     // Uncomment this line if you want to enable Crash Reporting
@@ -47,7 +45,6 @@
     [PFFacebookUtils initializeFacebook];
     // ****************************************************************************
 
-    [PFUser enableAutomaticUser];
     
     PFACL *defaultACL = [PFACL ACL];
 
@@ -58,7 +55,7 @@
 
     // Override point for customization after application launch.
 
-    TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] init];
+    TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithStyle:UITableViewStylePlain className:@"User"];
     self.window.rootViewController = twinsViewController;
     [self.window makeKeyAndVisible];
 

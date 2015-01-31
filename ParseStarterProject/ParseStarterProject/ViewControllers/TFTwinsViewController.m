@@ -27,24 +27,31 @@
 }
 
 
+
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![[PFUser currentUser] sessionToken]) { 
+    if (![[PFUser currentUser] sessionToken]) {
         self.loginViewController = [[TFLoginViewController alloc] init];
         [self.loginViewController setFields:PFLogInFieldsFacebook];
         [self.loginViewController setDelegate:self];
         [self presentViewController:self.loginViewController animated:NO completion:NULL];
     } else {
-        TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] init];
-        [self presentViewController:cameraViewController animated:YES completion:NULL];
+        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            NSLog(@"result %@",result);
+            
+        }];
+        
     }
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 
 #pragma mark - PFLogInViewControllerDelegate

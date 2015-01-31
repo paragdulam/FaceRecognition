@@ -36,6 +36,7 @@
 		D156AAB91A7829F700FD9585 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D156AAB81A7829F700FD9585 /* FacebookSDK.framework */; };
 		D156AABA1A78309B00FD9585 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372FF521613CC3C002132AF /* Accounts.framework */; };
 		D156AABB1A7830C000FD9585 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372FF551613CC42002132AF /* Social.framework */; };
+		D15C22C51A7CFDBA0036159C /* TFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D15C22C41A7CFDBA0036159C /* TFUser.m */; };
 		D178ED171A78B9A8009B8A3E /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */; };
 		D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED191A78BB0F009B8A3E /* TFTwinsViewController.m */; };
 		D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED1C1A78C610009B8A3E /* TFCameraViewController.m */; };
@@ -95,6 +96,8 @@
 		C4C51B551613CE0800959FDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C4C51B561613CE0800959FDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D156AAB81A7829F700FD9585 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		D15C22C31A7CFDBA0036159C /* TFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFUser.h; sourceTree = "<group>"; };
+		D15C22C41A7CFDBA0036159C /* TFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFUser.m; sourceTree = "<group>"; };
 		D178ED151A78B9A8009B8A3E /* TFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFLoginViewController.h; sourceTree = "<group>"; };
 		D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFLoginViewController.m; sourceTree = "<group>"; };
 		D178ED181A78BB0F009B8A3E /* TFTwinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTwinsViewController.h; sourceTree = "<group>"; };
@@ -205,6 +208,7 @@
 		09ABC07713A1D52D009C3FCF /* ParseStarterProject */ = {
 			isa = PBXGroup;
 			children = (
+				D15C22C21A7CFD860036159C /* Models */,
 				D178ED261A79645E009B8A3E /* Unirest */,
 				D178ED201A78C8E9009B8A3E /* Views */,
 				D178ED141A78B98B009B8A3E /* ViewControllers */,
@@ -253,6 +257,15 @@
 				09ABC07113A1D52D009C3FCF /* UIKit.framework */,
 			);
 			name = "System Frameworks";
+			sourceTree = "<group>";
+		};
+		D15C22C21A7CFD860036159C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D15C22C31A7CFDBA0036159C /* TFUser.h */,
+				D15C22C41A7CFDBA0036159C /* TFUser.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D178ED141A78B98B009B8A3E /* ViewControllers */ = {
@@ -426,6 +439,7 @@
 				D178ED511A79645E009B8A3E /* UNIHTTPRequestWithBody.m in Sources */,
 				D178ED471A79645E009B8A3E /* UNIBaseRequest.m in Sources */,
 				D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */,
+				D15C22C51A7CFDBA0036159C /* TFUser.m in Sources */,
 				D178ED481A79645E009B8A3E /* UNIBodyRequest.m in Sources */,
 				D178ED491A79645E009B8A3E /* UNISimpleRequest.m in Sources */,
 				D178ED4F1A79645E009B8A3E /* UNIHTTPClientHelper.m in Sources */,
