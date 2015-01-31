@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "TFCameraOverlayView.h"
 #import "UNIRest.h"
+#import <Parse/Parse.h>
 
 @interface TFCameraViewController ()
 
@@ -85,16 +86,21 @@
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         if (imageSampleBuffer != NULL) {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-            NSDictionary *headers = @{@"X-Mashape-Key": @"UR6cNZe0jWmshJTIjaQAEOdVfM02p1BvCy1jsnd3dGcYwJe14p", @"Accept": @"application/json"};
-            UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
-                [request setUrl:@"https://lambda-face-detection-and-recognition.p.mashape.com/detect?images=http%3A%2F%2Fwww.lambdal.com%2Ftest2.jpg"];
-                [request setHeaders:headers];
-            }] asJsonAsync:^(UNIHTTPJsonResponse *response, NSError *error) {
-                NSInteger code = response.code;
-                NSDictionary *responseHeaders = response.headers;
-                UNIJsonNode *body = response.body;
-                NSData *rawBody = response.rawBody;
-            }];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg",documentsDirectory,[PFUser currentUser].username];
+            [imageData writeToFile:filePath atomically:YES];
+            
+//            NSDictionary *headers = @{@"X-Mashape-Key": @"UR6cNZe0jWmshJTIjaQAEOdVfM02p1BvCy1jsnd3dGcYwJe14p", @"Accept": @"application/json"};
+//            UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
+//                [request setUrl:@"https://lambda-face-detection-and-recognition.p.mashape.com/detect?images=http%3A%2F%2Fwww.lambdal.com%2Ftest2.jpg"];
+//                [request setHeaders:headers];
+//            }] asJsonAsync:^(UNIHTTPJsonResponse *response, NSError *error) {
+//                NSInteger code = response.code;
+//                NSDictionary *responseHeaders = response.headers;
+//                UNIJsonNode *body = response.body;
+//                NSData *rawBody = response.rawBody;
+//            }];
         }
     }];
 }

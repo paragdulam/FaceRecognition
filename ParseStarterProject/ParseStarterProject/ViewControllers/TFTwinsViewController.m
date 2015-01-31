@@ -24,14 +24,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
 }
 
 
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![[PFUser currentUser] isAuthenticated]) {
+    if (![[PFUser currentUser] sessionToken]) { 
         self.loginViewController = [[TFLoginViewController alloc] init];
         [self.loginViewController setFields:PFLogInFieldsFacebook];
         [self.loginViewController setDelegate:self];

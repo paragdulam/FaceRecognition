@@ -18,8 +18,10 @@
 
 #import "ParseStarterProjectAppDelegate.h"
 #import <ParseUI/ParseUI.h>
+#import <Parse/Parse.h>
 #import "TFTwinsViewController.h"
 #import "TFLoginViewController.h"
+#import "UNIRest.h"
 
 @implementation ParseStarterProjectAppDelegate
 
@@ -27,6 +29,8 @@
 #pragma mark UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
     // Enable storing and querying data from Local Datastore. Remove this line if you don't want to
     // use Local Datastore features or want to use cachePolicy.
     //[Parse enableLocalDatastore];
@@ -44,7 +48,7 @@
     // ****************************************************************************
 
     [PFUser enableAutomaticUser];
-
+    
     PFACL *defaultACL = [PFACL ACL];
 
     // If you would like all objects to be private by default, remove this line.
