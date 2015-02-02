@@ -56,6 +56,7 @@
 		D178ED511A79645E009B8A3E /* UNIHTTPRequestWithBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED401A79645E009B8A3E /* UNIHTTPRequestWithBody.m */; };
 		D178ED521A79645E009B8A3E /* UNIRest.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED431A79645E009B8A3E /* UNIRest.m */; };
 		D178ED531A79645E009B8A3E /* UNIUrlConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED451A79645E009B8A3E /* UNIUrlConnection.m */; };
+		D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */; };
 		DD952FCB16E7F5CF00470144 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E18B1E1624CB5700B17A67 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
@@ -136,6 +137,8 @@
 		D178ED431A79645E009B8A3E /* UNIRest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRest.m; sourceTree = "<group>"; };
 		D178ED441A79645E009B8A3E /* UNIUrlConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIUrlConnection.h; sourceTree = "<group>"; };
 		D178ED451A79645E009B8A3E /* UNIUrlConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIUrlConnection.m; sourceTree = "<group>"; };
+		D1BC31A91A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StretchyHeaderCollectionViewLayout.h; sourceTree = "<group>"; };
+		D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StretchyHeaderCollectionViewLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +211,7 @@
 		09ABC07713A1D52D009C3FCF /* ParseStarterProject */ = {
 			isa = PBXGroup;
 			children = (
+				D1BC31A81A7FF7BF00E83268 /* Utilities */,
 				D15C22C21A7CFD860036159C /* Models */,
 				D178ED261A79645E009B8A3E /* Unirest */,
 				D178ED201A78C8E9009B8A3E /* Views */,
@@ -342,6 +346,15 @@
 			path = HttpResponse;
 			sourceTree = "<group>";
 		};
+		D1BC31A81A7FF7BF00E83268 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D1BC31A91A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.h */,
+				D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -435,6 +448,7 @@
 				D178ED231A78C903009B8A3E /* TFCameraOverlayView.m in Sources */,
 				D178ED521A79645E009B8A3E /* UNIRest.m in Sources */,
 				D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */,
+				D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				D178ED4E1A79645E009B8A3E /* UNIJsonNode.m in Sources */,
 				D178ED511A79645E009B8A3E /* UNIHTTPRequestWithBody.m in Sources */,
 				D178ED471A79645E009B8A3E /* UNIBaseRequest.m in Sources */,

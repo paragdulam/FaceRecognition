@@ -8,6 +8,6 @@
 
 #import <ParseUI/ParseUI.h>
 
-@interface TFTwinsViewController : PFQueryTableViewController
+@interface TFTwinsViewController : PFQueryCollectionViewController
 
 @end

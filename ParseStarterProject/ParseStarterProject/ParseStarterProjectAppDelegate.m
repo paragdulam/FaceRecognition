@@ -22,6 +22,7 @@
 #import "TFTwinsViewController.h"
 #import "TFLoginViewController.h"
 #import "UNIRest.h"
+#import "StretchyHeaderCollectionViewLayout.h"
 
 @implementation ParseStarterProjectAppDelegate
 
@@ -31,7 +32,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Enable storing and querying data from Local Datastore. Remove this line if you don't want to
     // use Local Datastore features or want to use cachePolicy.
-    [Parse enableLocalDatastore];
+    // [Parse enableLocalDatastore];
 
     // ****************************************************************************
     // Uncomment this line if you want to enable Crash Reporting
@@ -55,7 +56,9 @@
 
     // Override point for customization after application launch.
 
-    TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithStyle:UITableViewStylePlain className:@"User"];
+    StretchyHeaderCollectionViewLayout *layout = [[StretchyHeaderCollectionViewLayout alloc] init];
+    [layout setHeaderReferenceSize:CGSizeMake(320.0, 160.0)];
+    TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
     self.window.rootViewController = twinsViewController;
     [self.window makeKeyAndVisible];
 
@@ -138,11 +141,11 @@
 ///////////////////////////////////////////////////////////
 // Uncomment this method if you are using Facebook
 ///////////////////////////////////////////////////////////
-//- (BOOL)application:(UIApplication *)application
-//            openURL:(NSURL *)url
-//  sourceApplication:(NSString *)sourceApplication
-//         annotation:(id)annotation {
-//    return [PFFacebookUtils handleOpenURL:url];
-//}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[FBSession activeSession]];
+}
 
 @end

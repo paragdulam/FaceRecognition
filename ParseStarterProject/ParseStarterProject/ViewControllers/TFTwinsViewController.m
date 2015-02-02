@@ -24,6 +24,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.collectionView registerClass:[UICollectionViewCell class]
+            forCellWithReuseIdentifier:@"UICollectionViewCell"];
+    [self.collectionView setAlwaysBounceVertical:YES];
+    
+    // Then register a class to use for the header.
+    [self.collectionView registerClass:[UICollectionReusableView class]
+       forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+              withReuseIdentifier:@"header"];
 }
 
 
@@ -36,12 +44,6 @@
         [self.loginViewController setFields:PFLogInFieldsFacebook];
         [self.loginViewController setDelegate:self];
         [self presentViewController:self.loginViewController animated:NO completion:NULL];
-    } else {
-        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            NSLog(@"result %@",result);
-            
-        }];
-        
     }
 }
 
@@ -52,6 +54,42 @@
 }
 
 
+-(PFQuery *) queryForCollection
+{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery setCachePolicy:kPFCachePolicyCacheThenNetwork];
+    return userQuery;
+}
+
+
+
+#pragma mark - UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout
+
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)cv {
+    
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)cv numberOfItemsInSection:(NSInteger)section {
+    
+    return self.objects.count;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    
+     UICollectionReusableView *header = [cv dequeueReusableSupplementaryViewOfKind:kind
+                                                    withReuseIdentifier:@"header"
+                                                           forIndexPath:indexPath];
+    header.backgroundColor = [UIColor yellowColor];
+    return header;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor yellowColor];
+    return cell;
+}
 
 
 #pragma mark - PFLogInViewControllerDelegate
@@ -66,6 +104,9 @@ shouldBeginLogInWithUsername:(NSString *)username
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
     [logInController dismissViewControllerAnimated:YES completion:NULL];
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        NSLog(@"result %@",result);
+    }];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
