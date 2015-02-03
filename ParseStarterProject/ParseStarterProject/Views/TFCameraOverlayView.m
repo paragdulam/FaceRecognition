@@ -33,8 +33,8 @@
     
     // Both frames are defined in the same coordinate system
     CGRect biggerRect = self.bounds;
-    
     UIBezierPath *maskPath = [UIBezierPath bezierPath];
+    
     [maskPath moveToPoint:CGPointMake(CGRectGetMinX(biggerRect), CGRectGetMinY(biggerRect))];
     [maskPath addLineToPoint:CGPointMake(CGRectGetMinX(biggerRect), CGRectGetMaxY(biggerRect))];
     [maskPath addLineToPoint:CGPointMake(CGRectGetMaxX(biggerRect), CGRectGetMaxY(biggerRect))];

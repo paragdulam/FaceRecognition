@@ -59,10 +59,21 @@
     [captureButton setTitle:@"Capture" forState:UIControlStateNormal];
     [captureButton addTarget:self action:@selector(captureButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     captureButton.frame = CGRectMake(0, 0, 80, 30);
-    captureButton.center = CGPointMake(overlay.center.x, overlay.frame.size.height - 100.f);
+    captureButton.center = CGPointMake(overlay.center.x, overlay.frame.size.height - 50.f);
     [overlay addSubview:captureButton];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    cancelButton.frame = CGRectMake(10, overlay.frame.size.height - 50.f, 80, 30);
+    [overlay addSubview:cancelButton];
 }
 
+
+-(void)cancelButtonTapped:(UIButton *) btn
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
 
 -(void)captureButtonTapped:(UIButton *) btn
 {
@@ -82,25 +93,13 @@
         }
     }
     
-    NSLog(@"about to request a capture from: %@", self.stillImageOutput);
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         if (imageSampleBuffer != NULL) {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg",documentsDirectory,[PFUser currentUser].username];
-            [imageData writeToFile:filePath atomically:YES];
-            
-//            NSDictionary *headers = @{@"X-Mashape-Key": @"UR6cNZe0jWmshJTIjaQAEOdVfM02p1BvCy1jsnd3dGcYwJe14p", @"Accept": @"application/json"};
-//            UNIUrlConnection *asyncConnection = [[UNIRest get:^(UNISimpleRequest *request) {
-//                [request setUrl:@"https://lambda-face-detection-and-recognition.p.mashape.com/detect?images=http%3A%2F%2Fwww.lambdal.com%2Ftest2.jpg"];
-//                [request setHeaders:headers];
-//            }] asJsonAsync:^(UNIHTTPJsonResponse *response, NSError *error) {
-//                NSInteger code = response.code;
-//                NSDictionary *responseHeaders = response.headers;
-//                UNIJsonNode *body = response.body;
-//                NSData *rawBody = response.rawBody;
-//            }];
+            PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
+            if ([self.delegate respondsToSelector:@selector(cameraViewController:didCapturePicture:)]) {
+                [self.delegate cameraViewController:self didCapturePicture:imageFile];
+            }
         }
     }];
 }

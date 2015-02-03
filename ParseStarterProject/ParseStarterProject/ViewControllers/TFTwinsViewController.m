@@ -14,7 +14,7 @@
 #import "TFUserProfileView.h"
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate>
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate>
 {
 }
 
@@ -39,24 +39,41 @@
     [self.collectionView registerClass:[TFUserProfileView class]
        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
               withReuseIdentifier:@"TFUserProfileView"];
+    [self setNeedsStatusBarAppearanceUpdate];
+    if ([[PFUser currentUser] sessionToken]) {
+        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            self.profileInfo = result;
+            if ([[self.profileInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
+                [self.collectionView setBackgroundColor:[UIColor blueColor]];
+            } else {
+                [self.collectionView setBackgroundColor:[UIColor magentaColor]];
+            }
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        }];
+    } else {
+        [self performSelector:@selector(showLoginView) withObject:nil afterDelay:.3f];
+    }
 }
 
 
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+
+
+-(void) showLoginView
+{
+    self.loginViewController = [[TFLoginViewController alloc] init];
+    [self.loginViewController setFields:PFLogInFieldsFacebook];
+    [self.loginViewController setDelegate:self];
+    [self presentViewController:self.loginViewController animated:NO completion:NULL];
+}
+
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![[PFUser currentUser] sessionToken]) {
-        self.loginViewController = [[TFLoginViewController alloc] init];
-        [self.loginViewController setFields:PFLogInFieldsFacebook];
-        [self.loginViewController setDelegate:self];
-        [self presentViewController:self.loginViewController animated:NO completion:NULL];
-    } else {
-        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            self.profileInfo = result;
-            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-        }];
-    }
 }
 
 
@@ -73,6 +90,18 @@
     return userQuery;
 }
 
+
+#pragma mark - TFCameraViewControllerDelegate
+
+-(void) cameraViewController:(TFCameraViewController *) vc didCapturePicture:(PFFile *) imageFile
+{
+    
+}
+
+-(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
+{
+    
+}
 
 
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout
@@ -100,7 +129,15 @@
 
 -(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(collectionView.frame.size.width, 100);
+    switch (section) {
+        case 0:
+            return CGSizeMake(collectionView.frame.size.width, 60);
+            break;
+            
+        default:
+            break;
+    }
+    return CGSizeZero;
 }
 
 
@@ -110,15 +147,27 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    TFUserProfileView *header = [cv dequeueReusableSupplementaryViewOfKind:kind
-                                                    withReuseIdentifier:@"TFUserProfileView"
-                                                           forIndexPath:indexPath];
-    header.bounds = CGRectMake(0, 0, cv.frame.size.width, 100.f);
-    header.backgroundColor = [UIColor colorWithRed:222.f/255.f
-                                             green:222.f/255.f
-                                              blue:222.f/255.f
-                                             alpha:1.f];
+    TFUserProfileView *header = nil;
+    header = [cv dequeueReusableSupplementaryViewOfKind:kind
+                                    withReuseIdentifier:@"TFUserProfileView"
+                                           forIndexPath:indexPath];
+    switch (indexPath.section) {
+        case 0:
+        {
+            header.bounds = CGRectMake(0, 0, cv.frame.size.width, 60);
+            if (self.profileInfo) {
+                [header setUser:self.profileInfo];
+            }
+        }
+            break;
+        case 1:
+        {
+            header.bounds = CGRectZero;
+        }
+            break;
+        default:
+            break;
+    }
     return header;
 }
 
@@ -138,12 +187,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor lightGrayColor];
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.layer.cornerRadius = cell.frame.size.width/2;
+    cell.clipsToBounds = YES;
     
     switch (indexPath.section) {
         case 1:
         {
-            cell.backgroundColor = [UIColor darkGrayColor];
+            cell.backgroundColor = [UIColor whiteColor];
         }
             break;
             
@@ -154,6 +205,22 @@
     return cell;
 }
 
+
+-(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case 0:
+        {
+            TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] init];
+            [cameraViewController setDelegate:self];
+            [self presentViewController:cameraViewController animated:YES completion:NULL];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 
 #pragma mark - PFLogInViewControllerDelegate
 
@@ -168,7 +235,13 @@ shouldBeginLogInWithUsername:(NSString *)username
 {
     [logInController dismissViewControllerAnimated:YES completion:NULL];
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSLog(@"result %@",result);
+        self.profileInfo = result;
+        if ([[self.profileInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
+            [self.collectionView setBackgroundColor:[UIColor blueColor]];
+        } else {
+            [self.collectionView setBackgroundColor:[UIColor magentaColor]];
+        }
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     }];
 }
 
