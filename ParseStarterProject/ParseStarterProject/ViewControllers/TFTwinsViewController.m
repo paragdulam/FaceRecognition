@@ -11,11 +11,17 @@
 #import "TFCameraViewController.h"
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "TFUserProfileView.h"
 
 
 @interface TFTwinsViewController ()<PFLogInViewControllerDelegate>
+{
+}
+
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
+@property (nonatomic,strong) NSDictionary *profileInfo;
+
 
 @end
 
@@ -29,9 +35,10 @@
     [self.collectionView setAlwaysBounceVertical:YES];
     
     // Then register a class to use for the header.
-    [self.collectionView registerClass:[UICollectionReusableView class]
+    
+    [self.collectionView registerClass:[TFUserProfileView class]
        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-              withReuseIdentifier:@"header"];
+              withReuseIdentifier:@"TFUserProfileView"];
 }
 
 
@@ -44,6 +51,11 @@
         [self.loginViewController setFields:PFLogInFieldsFacebook];
         [self.loginViewController setDelegate:self];
         [self presentViewController:self.loginViewController animated:NO completion:NULL];
+    } else {
+        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            self.profileInfo = result;
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        }];
     }
 }
 
@@ -68,7 +80,7 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)cv {
     
-    return 1;
+    return 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)cv numberOfItemsInSection:(NSInteger)section {
@@ -76,12 +88,28 @@
     return self.objects.count;
 }
 
+
+-(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake(collectionView.frame.size.width, 200);
+}
+
+
+-(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(100, 100);
+}
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
-     UICollectionReusableView *header = [cv dequeueReusableSupplementaryViewOfKind:kind
-                                                    withReuseIdentifier:@"header"
+    TFUserProfileView *header = [cv dequeueReusableSupplementaryViewOfKind:kind
+                                                    withReuseIdentifier:@"TFUserProfileView"
                                                            forIndexPath:indexPath];
-    header.backgroundColor = [UIColor yellowColor];
+    header.frame = CGRectMake(0, 0, cv.frame.size.width, 200.f);
+    if (self.profileInfo) {
+        [header setUser:self.profileInfo];
+    }
+    header.backgroundColor = indexPath.section == 0 ? [UIColor yellowColor] : [UIColor redColor];
     return header;
 }
 

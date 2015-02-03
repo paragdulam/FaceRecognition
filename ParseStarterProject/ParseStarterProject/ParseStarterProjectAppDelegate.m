@@ -22,7 +22,7 @@
 #import "TFTwinsViewController.h"
 #import "TFLoginViewController.h"
 #import "UNIRest.h"
-#import "StretchyHeaderCollectionViewLayout.h"
+#import "CSStickyHeaderFlowLayout.h"
 
 @implementation ParseStarterProjectAppDelegate
 
@@ -56,8 +56,8 @@
 
     // Override point for customization after application launch.
 
-    StretchyHeaderCollectionViewLayout *layout = [[StretchyHeaderCollectionViewLayout alloc] init];
-    [layout setHeaderReferenceSize:CGSizeMake(320.0, 160.0)];
+    CSStickyHeaderFlowLayout *layout = [[CSStickyHeaderFlowLayout alloc] init];
+    //UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
     self.window.rootViewController = twinsViewController;
     [self.window makeKeyAndVisible];
