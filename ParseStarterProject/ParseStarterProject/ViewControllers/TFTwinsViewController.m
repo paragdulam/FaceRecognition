@@ -15,7 +15,7 @@
 #import "TFFriendsHeaderView.h"
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate>
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate>
 {
 }
 
@@ -57,7 +57,7 @@
             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
         }];
     } else {
-        [self performSelector:@selector(showLoginView) withObject:nil afterDelay:.3f];
+        [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
     }
 }
 
@@ -69,12 +69,12 @@
 
 
 
--(void) showLoginView
+-(void) showLoginView:(NSNumber *) animated
 {
     self.loginViewController = [[TFLoginViewController alloc] init];
     [self.loginViewController setFields:PFLogInFieldsFacebook];
     [self.loginViewController setDelegate:self];
-    [self presentViewController:self.loginViewController animated:NO completion:NULL];
+    [self presentViewController:self.loginViewController animated:[animated boolValue] completion:NULL];
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -97,11 +97,38 @@
 }
 
 
+#pragma mark - UIActionSheetDelegate
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [PFUser logOut];
+        [self showLoginView:[NSNumber numberWithBool:YES]];
+    }
+}
+
+
+#pragma mark - TFUserProfileViewDelegate
+
+
+-(void)profileButtonTappedInHeaderView:(TFUserProfileView *) view
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
+    [actionSheet setDelegate:self];
+    [actionSheet addButtonWithTitle:@"Log Out"];
+    [actionSheet addButtonWithTitle:@"Cancel"];
+    actionSheet.destructiveButtonIndex = 0;
+    actionSheet.cancelButtonIndex = 1;
+    [actionSheet showInView:self.view];
+}
+
 #pragma mark - TFCameraViewControllerDelegate
 
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePicture:(PFFile *) imageFile
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
+    
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
@@ -167,6 +194,7 @@
                                             withReuseIdentifier:@"TFUserProfileView"
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 60);
+            header.delegate = self;
             if (self.profileInfo) {
                 [header setUser:self.profileInfo];
             }

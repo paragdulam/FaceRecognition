@@ -8,9 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TFUserProfileViewDelegate;
+
 @interface TFUserProfileView : UICollectionReusableView
 
 
+@property (nonatomic,weak) id<TFUserProfileViewDelegate> delegate;
 -(void) setUser:(NSDictionary *) user;
 
 @end
+
+
+@protocol TFUserProfileViewDelegate<NSObject>
+
+-(void) profileButtonTappedInHeaderView:(TFUserProfileView *) view;
+
+@end
+
+

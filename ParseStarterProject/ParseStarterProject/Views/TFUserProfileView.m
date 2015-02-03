@@ -10,7 +10,7 @@
 
 @interface TFUserProfileView()
 {
-    UIImageView *backgroundImageView;
+    UIButton *profileButton;
     UILabel *nameLabel;
     UILabel *ageLabel;
     UIActivityIndicatorView *activityIndicator;
@@ -34,12 +34,12 @@
 -(id) initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self addSubview:backgroundImageView];
+        profileButton = [[UIButton alloc] initWithFrame:CGRectZero];
+        [self addSubview:profileButton];
         
         activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        [backgroundImageView addSubview:activityIndicator];
+        [profileButton addSubview:activityIndicator];
+        [profileButton addTarget:self action:@selector(profileButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [nameLabel setFont:[UIFont boldSystemFontOfSize:18.f]];
@@ -58,19 +58,22 @@
 -(void) layoutSubviews
 {
     [super layoutSubviews];
-    backgroundImageView.frame = CGRectMake(5,5, self.frame.size.height - 10, self.frame.size.height - 10);
-    backgroundImageView.layer.cornerRadius = backgroundImageView.frame.size.width/2;
-    backgroundImageView.clipsToBounds = YES;
-    backgroundImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    backgroundImageView.layer.borderWidth = 2.f;
+    profileButton.frame = CGRectMake(5,
+                                     5,
+                                     self.frame.size.height - 10,
+                                     self.frame.size.height - 10);
+    profileButton.layer.cornerRadius = profileButton.frame.size.width/2;
+    profileButton.clipsToBounds = YES;
+    profileButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    profileButton.layer.borderWidth = 2.f;
     
-    activityIndicator.center = CGPointMake(backgroundImageView.frame.size.width/2,
-                                           backgroundImageView.frame.size.height/2);
+    activityIndicator.center = CGPointMake(profileButton.frame.size.width/2,
+                                           profileButton.frame.size.height/2);
     
-    nameLabel.frame = CGRectMake(CGRectGetMaxX(backgroundImageView.frame) + 5.f,
-                                 backgroundImageView.frame.origin.y,
-                                 self.frame.size.width - 10 - backgroundImageView.frame.size.width,
-                                 backgroundImageView.frame.size.height/2);
+    nameLabel.frame = CGRectMake(CGRectGetMaxX(profileButton.frame) + 5.f,
+                                 profileButton.frame.origin.y,
+                                 self.frame.size.width - 10 - profileButton.frame.size.width,
+                                 profileButton.frame.size.height/2);
     
     ageLabel.frame = CGRectMake(nameLabel.frame.origin.x,
                                  CGRectGetMaxY(nameLabel.frame),
@@ -152,6 +155,13 @@
     
 }
 
+-(void) profileButtonTapped:(UIButton *) btn
+{
+    if ([self.delegate respondsToSelector:@selector(profileButtonTappedInHeaderView:)]) {
+        [self.delegate profileButtonTappedInHeaderView:self];
+    }
+}
+
 
 -(void) setUser:(NSDictionary *) user
 {
@@ -163,13 +173,19 @@
     NSString *age = [self age:[dateFormatter dateFromString:[user objectForKey:@"birthday"]]];
     [ageLabel setText:age];
     
+    if ([[user objectForKey:@"gender"] isEqualToString:@"male"]) {
+        [self setBackgroundColor:[UIColor blueColor]];
+    } else {
+        [self setBackgroundColor:[UIColor magentaColor]];
+    }
+    
     NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user[@"id"]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [activityIndicator startAnimating];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         [activityIndicator stopAnimating];
-        [backgroundImageView setImage:[UIImage imageWithData:data]];
+        [profileButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
     }];
 }
 
