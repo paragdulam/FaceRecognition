@@ -165,8 +165,7 @@
 
 -(void) setUser:(NSDictionary *) user
 {
-    NSString *name = [NSString stringWithFormat:@"%@ %@",[user objectForKey:@"first_name"],[user objectForKey:@"last_name"]];
-    [nameLabel setText:name];
+    [nameLabel setText:[user objectForKey:@"name"]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];

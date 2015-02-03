@@ -22,6 +22,8 @@
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
 @property (nonatomic,strong) NSDictionary *profileInfo;
+@property (nonatomic,strong) NSIndexPath *selectedIndexPath;
+@property (nonatomic,strong) PFFile *selectedImageFile;
 
 
 @end
@@ -31,12 +33,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.collectionView registerClass:[UICollectionViewCell class]
-            forCellWithReuseIdentifier:@"UICollectionViewCell"];
+    [self.collectionView registerClass:[PFCollectionViewCell class]
+            forCellWithReuseIdentifier:@"PFCollectionViewCell"];
     [self.collectionView setAlwaysBounceVertical:YES];
     
     // Then register a class to use for the header.
     [self.collectionView setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
+    [self.collectionView setScrollIndicatorInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
     [self.collectionView registerClass:[TFUserProfileView class]
        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
               withReuseIdentifier:@"TFUserProfileView"];
@@ -128,7 +131,8 @@
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePicture:(PFFile *) imageFile
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
-    
+    self.selectedImageFile = imageFile;
+    [self.collectionView reloadItemsAtIndexPaths:@[self.selectedIndexPath]];
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
@@ -242,9 +246,19 @@
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
+    PFCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     switch (indexPath.section) {
+        case 0:
+        {
+            if (self.selectedIndexPath) {
+                if (indexPath.section == self.selectedIndexPath.section &&
+                    indexPath.row == self.selectedIndexPath.row) {
+                    [cell.imageView setFile:self.selectedImageFile];
+                }
+            }
+        }
+            break;
         case 1:
         {
             cell.backgroundColor = [UIColor whiteColor];
@@ -261,6 +275,7 @@
 
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.selectedIndexPath = indexPath;
     switch (indexPath.section) {
         case 0:
         {
@@ -295,6 +310,7 @@ shouldBeginLogInWithUsername:(NSString *)username
             [self.collectionView setBackgroundColor:[UIColor magentaColor]];
         }
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
     }];
 }
 
