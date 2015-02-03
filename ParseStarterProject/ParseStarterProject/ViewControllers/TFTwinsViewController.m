@@ -35,7 +35,7 @@
     [self.collectionView setAlwaysBounceVertical:YES];
     
     // Then register a class to use for the header.
-    
+    [self.collectionView setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
     [self.collectionView registerClass:[TFUserProfileView class]
        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
               withReuseIdentifier:@"TFUserProfileView"];
@@ -84,14 +84,23 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)cv numberOfItemsInSection:(NSInteger)section {
-    
-    return self.objects.count;
+    switch (section) {
+        case 0:
+            return 3;
+            break;
+        case 1:
+            return self.objects.count;
+            break;
+        default:
+            break;
+    }
+    return 0;
 }
 
 
 -(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(collectionView.frame.size.width, 200);
+    return CGSizeMake(collectionView.frame.size.width, 100);
 }
 
 
@@ -105,17 +114,43 @@
     TFUserProfileView *header = [cv dequeueReusableSupplementaryViewOfKind:kind
                                                     withReuseIdentifier:@"TFUserProfileView"
                                                            forIndexPath:indexPath];
-    header.frame = CGRectMake(0, 0, cv.frame.size.width, 200.f);
-    if (self.profileInfo) {
-        [header setUser:self.profileInfo];
-    }
-    header.backgroundColor = indexPath.section == 0 ? [UIColor yellowColor] : [UIColor redColor];
+    header.bounds = CGRectMake(0, 0, cv.frame.size.width, 100.f);
+    header.backgroundColor = [UIColor colorWithRed:222.f/255.f
+                                             green:222.f/255.f
+                                              blue:222.f/255.f
+                                             alpha:1.f];
     return header;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object{
+- (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(5, 5, 5, 5); // top, left, bottom, right
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 0.0;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 5.0;
+}
+
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor yellowColor];
+    cell.backgroundColor = [UIColor lightGrayColor];
+    
+    switch (indexPath.section) {
+        case 1:
+        {
+            cell.backgroundColor = [UIColor darkGrayColor];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
     return cell;
 }
 
