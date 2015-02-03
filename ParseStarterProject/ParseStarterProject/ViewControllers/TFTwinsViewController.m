@@ -12,6 +12,7 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "TFUserProfileView.h"
+#import "TFFriendsHeaderView.h"
 
 
 @interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate>
@@ -39,6 +40,10 @@
     [self.collectionView registerClass:[TFUserProfileView class]
        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
               withReuseIdentifier:@"TFUserProfileView"];
+    [self.collectionView registerClass:[TFFriendsHeaderView class]
+            forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                   withReuseIdentifier:@"TFFriendsHeaderView"];
+    
     [self setNeedsStatusBarAppearanceUpdate];
     if ([[PFUser currentUser] sessionToken]) {
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -49,6 +54,7 @@
                 [self.collectionView setBackgroundColor:[UIColor magentaColor]];
             }
             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
         }];
     } else {
         [self performSelector:@selector(showLoginView) withObject:nil afterDelay:.3f];
@@ -109,7 +115,7 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)cv {
     
-    return 2;
+    return 3;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)cv numberOfItemsInSection:(NSInteger)section {
@@ -119,6 +125,9 @@
             break;
         case 1:
             return self.objects.count;
+            break;
+        case 2:
+            return 3;
             break;
         default:
             break;
@@ -133,7 +142,10 @@
         case 0:
             return CGSizeMake(collectionView.frame.size.width, 60);
             break;
-            
+        case 1:
+        case 2:
+            return CGSizeMake(collectionView.frame.size.width, 40);
+            break;
         default:
             break;
     }
@@ -147,28 +159,44 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    TFUserProfileView *header = nil;
-    header = [cv dequeueReusableSupplementaryViewOfKind:kind
-                                    withReuseIdentifier:@"TFUserProfileView"
-                                           forIndexPath:indexPath];
     switch (indexPath.section) {
         case 0:
         {
+            TFUserProfileView *header = nil;
+            header = [cv dequeueReusableSupplementaryViewOfKind:kind
+                                            withReuseIdentifier:@"TFUserProfileView"
+                                                   forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 60);
             if (self.profileInfo) {
                 [header setUser:self.profileInfo];
             }
+            return header;
         }
             break;
         case 1:
+        case 2:
         {
-            header.bounds = CGRectZero;
+            TFFriendsHeaderView *header = nil;
+            header = [cv dequeueReusableSupplementaryViewOfKind:kind
+                                            withReuseIdentifier:@"TFFriendsHeaderView"
+                                                   forIndexPath:indexPath];
+            header.bounds = CGRectMake(0, 0, cv.frame.size.width, 40);
+            if (self.profileInfo) {
+                NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.profileInfo objectForKey:@"first_name"]];
+                if (indexPath.section == 1) {
+                    [headerText appendString:@"Lookalikes"];
+                } else {
+                    [headerText appendString:@"Friends"];
+                }
+                [header setHeaderText:headerText];
+            }
+            return header;
         }
             break;
         default:
             break;
     }
-    return header;
+    return nil;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

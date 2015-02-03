@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface TFFriendsHeaderView : UICollectionReusableView
+{
+    UILabel *titleLabel;
+}
+
+-(void) setHeaderText:(NSString *) text;
 
 @end
