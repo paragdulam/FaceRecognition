@@ -98,9 +98,8 @@
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         if (imageSampleBuffer != NULL) {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-            PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
-            if ([self.delegate respondsToSelector:@selector(cameraViewController:didCapturePicture:)]) {
-                [self.delegate cameraViewController:self didCapturePicture:imageFile];
+            if ([self.delegate respondsToSelector:@selector(cameraViewController:didCapturePictureWithData:)]) {
+                [self.delegate cameraViewController:self didCapturePictureWithData:imageData];
             }
         }
     }];

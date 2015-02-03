@@ -13,6 +13,7 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "TFUserProfileView.h"
 #import "TFFriendsHeaderView.h"
+#import "TFAddImageCollectionViewCell.h"
 
 
 @interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate>
@@ -33,8 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.collectionView registerClass:[PFCollectionViewCell class]
-            forCellWithReuseIdentifier:@"PFCollectionViewCell"];
+    [self.collectionView registerClass:[TFAddImageCollectionViewCell class]
+            forCellWithReuseIdentifier:@"TFAddImageCollectionViewCell"];
     [self.collectionView setAlwaysBounceVertical:YES];
     
     // Then register a class to use for the header.
@@ -128,9 +129,10 @@
 
 #pragma mark - TFCameraViewControllerDelegate
 
--(void) cameraViewController:(TFCameraViewController *) vc didCapturePicture:(PFFile *) imageFile
+-(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
+    PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
     self.selectedImageFile = imageFile;
     [self.collectionView reloadItemsAtIndexPaths:@[self.selectedIndexPath]];
 }
@@ -246,7 +248,7 @@
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    PFCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
+    TFAddImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TFAddImageCollectionViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     switch (indexPath.section) {
         case 0:
@@ -254,7 +256,9 @@
             if (self.selectedIndexPath) {
                 if (indexPath.section == self.selectedIndexPath.section &&
                     indexPath.row == self.selectedIndexPath.row) {
-                    [cell.imageView setFile:self.selectedImageFile];
+                    [self.selectedImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                        [cell.imageView setImage:[UIImage imageWithData:data]];
+                    }];
                 }
             }
         }

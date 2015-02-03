@@ -6,8 +6,8 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+#import <ParseUI/ParseUI.h>
 
-@interface TFAddImageCollectionViewCell : UICollectionViewCell
+@interface TFAddImageCollectionViewCell : PFCollectionViewCell
 
 @end
