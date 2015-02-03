@@ -101,12 +101,12 @@
 
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePicture:(PFFile *) imageFile
 {
-    
+    [vc dismissViewControllerAnimated:YES completion:NULL];
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
 {
-    
+    [vc dismissViewControllerAnimated:YES completion:NULL];
 }
 
 
@@ -155,7 +155,7 @@
 
 -(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(100, 100);
+    return CGSizeMake(100, 100 * ([UIScreen mainScreen].bounds.size.height/[UIScreen mainScreen].bounds.size.width));
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -216,9 +216,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
-    cell.layer.cornerRadius = cell.frame.size.width/2;
-    cell.clipsToBounds = YES;
-    
     switch (indexPath.section) {
         case 1:
         {

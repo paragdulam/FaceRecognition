@@ -72,7 +72,9 @@
 
 -(void)cancelButtonTapped:(UIButton *) btn
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    if ([self.delegate respondsToSelector:@selector(cameraViewControllerDidCancel:)]) {
+        [self.delegate cameraViewControllerDidCancel:self];
+    }
 }
 
 -(void)captureButtonTapped:(UIButton *) btn
