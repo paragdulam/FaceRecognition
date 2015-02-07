@@ -64,6 +64,7 @@
 		D1BC31AE1A80004000E83268 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31AD1A80004000E83268 /* TFUserProfileView.m */; };
 		D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31B01A80075900E83268 /* CustomCollectionFlowLayout.m */; };
 		DD952FCB16E7F5CF00470144 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E18B1E1624CB5700B17A67 /* CoreLocation.framework */; };
+		F115FEF31A860C5800D00A39 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F115FEF21A860C5800D00A39 /* CoreImage.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,6 +158,7 @@
 		D1BC31AD1A80004000E83268 /* TFUserProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFUserProfileView.m; sourceTree = "<group>"; };
 		D1BC31AF1A80075900E83268 /* CustomCollectionFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionFlowLayout.h; sourceTree = "<group>"; };
 		D1BC31B01A80075900E83268 /* CustomCollectionFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionFlowLayout.m; sourceTree = "<group>"; };
+		F115FEF21A860C5800D00A39 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F115FEF31A860C5800D00A39 /* CoreImage.framework in Frameworks */,
 				D178ED1F1A78C62D009B8A3E /* AVFoundation.framework in Frameworks */,
 				D156AABB1A7830C000FD9585 /* Social.framework in Frameworks */,
 				D156AABA1A78309B00FD9585 /* Accounts.framework in Frameworks */,
@@ -213,6 +216,7 @@
 		09ABC07013A1D52D009C3FCF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F115FEF21A860C5800D00A39 /* CoreImage.framework */,
 				D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */,
 				D156AAB81A7829F700FD9585 /* FacebookSDK.framework */,
 				91D261781A36EB67005D713D /* libsqlite3.0.dylib */,

@@ -14,9 +14,12 @@
 #import "TFUserProfileView.h"
 #import "TFFriendsHeaderView.h"
 #import "TFAddImageCollectionViewCell.h"
+#import <CoreImage/CoreImage.h>
+#import <QuartzCore/QuartzCore.h>
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate>
+
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
 }
 
@@ -76,7 +79,7 @@
 -(void) showLoginView:(NSNumber *) animated
 {
     self.loginViewController = [[TFLoginViewController alloc] init];
-    [self.loginViewController setFields:PFLogInFieldsFacebook];
+    [self.loginViewController setFields:PFLogInFieldsFacebook | PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten];
     [self.loginViewController setDelegate:self];
     [self presentViewController:self.loginViewController animated:[animated boolValue] completion:NULL];
 }
@@ -98,6 +101,41 @@
     PFQuery *userQuery = [PFUser query];
     [userQuery setCachePolicy:kPFCachePolicyCacheThenNetwork];
     return userQuery;
+}
+
+
+
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    CIImage* image = [CIImage imageWithCGImage:pickedImage.CGImage];
+    CIDetector* detector = [CIDetector detectorOfType:CIDetectorTypeFace
+                                              context:nil options:[NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy]];
+    NSArray* features = [detector featuresInImage:image];
+    int count = 0;
+    for(CIFaceFeature* faceFeature in features)
+    {
+        if (faceFeature) {
+            count ++;
+        }
+    }
+    if (count == 1)
+    {
+        //process the image
+    } else {
+        UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The image that you select should have one and only one face in it.Click a selfie, may be." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alrt show];
+    }
+}
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 
@@ -286,9 +324,16 @@
     switch (indexPath.section) {
         case 0:
         {
-            TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] init];
-            [cameraViewController setDelegate:self];
-            [self presentViewController:cameraViewController animated:YES completion:NULL];
+            if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ])
+            {
+                TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] init];
+                [cameraViewController setDelegate:self];
+                [self presentViewController:cameraViewController animated:YES completion:NULL];
+            } else {
+                UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+                [imagePicker setDelegate:self];
+                [self presentViewController:imagePicker animated:YES completion:NULL];
+            }
         }
             break;
             
