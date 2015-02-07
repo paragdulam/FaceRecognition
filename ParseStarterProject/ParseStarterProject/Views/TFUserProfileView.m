@@ -169,13 +169,10 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-    NSString *age = [self age:[dateFormatter dateFromString:[user objectForKey:@"birthday"]]];
-    [ageLabel setText:age];
-    
-    if ([[user objectForKey:@"gender"] isEqualToString:@"male"]) {
-        [self setBackgroundColor:[UIColor blueColor]];
-    } else {
-        [self setBackgroundColor:[UIColor magentaColor]];
+    NSString *ageString = [user objectForKey:@"birthday"];
+    if ([ageString length]) {
+        NSString *age = [self age:[dateFormatter dateFromString:ageString]];
+        [ageLabel setText:age];
     }
     
     NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user[@"id"]];

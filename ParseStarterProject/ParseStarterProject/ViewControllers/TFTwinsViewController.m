@@ -28,11 +28,28 @@
 @property (nonatomic,strong) NSDictionary *profileInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
+@property (nonatomic,strong,readonly) UIColor *appColor;
+
+
+@property (nonatomic,strong) NSArray *faceImages;
+@property (nonatomic,strong) NSArray *friends;
+
 
 
 @end
 
 @implementation TFTwinsViewController
+
+
+-(UIColor *) appColor
+{
+    if ([[self.profileInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
+        return [UIColor blueColor];
+    } else {
+        return [UIColor magentaColor];
+    }
+    return [UIColor whiteColor];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,16 +70,7 @@
     
     [self setNeedsStatusBarAppearanceUpdate];
     if ([[PFUser currentUser] sessionToken]) {
-        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            self.profileInfo = result;
-            if ([[self.profileInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
-                [self.collectionView setBackgroundColor:[UIColor blueColor]];
-            } else {
-                [self.collectionView setBackgroundColor:[UIColor magentaColor]];
-            }
-            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-        }];
+        [self doPostLogin];
     } else {
         [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
     }
@@ -79,7 +87,7 @@
 -(void) showLoginView:(NSNumber *) animated
 {
     self.loginViewController = [[TFLoginViewController alloc] init];
-    [self.loginViewController setFields:PFLogInFieldsFacebook | PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten];
+    [self.loginViewController setFields:PFLogInFieldsFacebook];
     [self.loginViewController setDelegate:self];
     [self presentViewController:self.loginViewController animated:[animated boolValue] completion:NULL];
 }
@@ -103,6 +111,21 @@
     return userQuery;
 }
 
+
+-(void) doPostLogin
+{
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        self.profileInfo = result;
+        [self.collectionView setBackgroundColor:self.appColor];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+    }];
+    
+    [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        self.friends = [result objectForKey:@"data"];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
+    }];
+}
 
 
 
@@ -198,7 +221,7 @@
             return self.objects.count;
             break;
         case 2:
-            return 3;
+            return self.friends.count;
             break;
         default:
             break;
@@ -242,6 +265,7 @@
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 60);
             header.delegate = self;
+            header.backgroundColor = self.appColor;
             if (self.profileInfo) {
                 [header setUser:self.profileInfo];
             }
@@ -256,6 +280,7 @@
                                             withReuseIdentifier:@"TFFriendsHeaderView"
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 40);
+            header.backgroundColor = self.appColor;
             if (self.profileInfo) {
                 NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.profileInfo objectForKey:@"first_name"]];
                 if (indexPath.section == 1) {
@@ -351,19 +376,11 @@ shouldBeginLogInWithUsername:(NSString *)username
     return YES;
 }
 
+
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
     [logInController dismissViewControllerAnimated:YES completion:NULL];
-    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        self.profileInfo = result;
-        if ([[self.profileInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
-            [self.collectionView setBackgroundColor:[UIColor blueColor]];
-        } else {
-            [self.collectionView setBackgroundColor:[UIColor magentaColor]];
-        }
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-    }];
+    [self doPostLogin];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
