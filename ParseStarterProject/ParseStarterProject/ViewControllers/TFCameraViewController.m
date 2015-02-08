@@ -9,7 +9,6 @@
 #import "TFCameraViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TFCameraOverlayView.h"
-#import "UNIRest.h"
 #import <Parse/Parse.h>
 
 @interface TFCameraViewController ()

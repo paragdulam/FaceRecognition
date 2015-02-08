@@ -46,20 +46,6 @@
 		D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED1C1A78C610009B8A3E /* TFCameraViewController.m */; };
 		D178ED1F1A78C62D009B8A3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */; };
 		D178ED231A78C903009B8A3E /* TFCameraOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED221A78C903009B8A3E /* TFCameraOverlayView.m */; };
-		D178ED461A79645E009B8A3E /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED281A79645E009B8A3E /* Base64.m */; };
-		D178ED471A79645E009B8A3E /* UNIBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED2B1A79645E009B8A3E /* UNIBaseRequest.m */; };
-		D178ED481A79645E009B8A3E /* UNIBodyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED2D1A79645E009B8A3E /* UNIBodyRequest.m */; };
-		D178ED491A79645E009B8A3E /* UNISimpleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED2F1A79645E009B8A3E /* UNISimpleRequest.m */; };
-		D178ED4A1A79645E009B8A3E /* UNIHTTPBinaryResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED321A79645E009B8A3E /* UNIHTTPBinaryResponse.m */; };
-		D178ED4B1A79645E009B8A3E /* UNIHTTPJsonResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED341A79645E009B8A3E /* UNIHTTPJsonResponse.m */; };
-		D178ED4C1A79645E009B8A3E /* UNIHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED361A79645E009B8A3E /* UNIHTTPResponse.m */; };
-		D178ED4D1A79645E009B8A3E /* UNIHTTPStringResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED381A79645E009B8A3E /* UNIHTTPStringResponse.m */; };
-		D178ED4E1A79645E009B8A3E /* UNIJsonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED3A1A79645E009B8A3E /* UNIJsonNode.m */; };
-		D178ED4F1A79645E009B8A3E /* UNIHTTPClientHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED3C1A79645E009B8A3E /* UNIHTTPClientHelper.m */; };
-		D178ED501A79645E009B8A3E /* UNIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED3E1A79645E009B8A3E /* UNIHTTPRequest.m */; };
-		D178ED511A79645E009B8A3E /* UNIHTTPRequestWithBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED401A79645E009B8A3E /* UNIHTTPRequestWithBody.m */; };
-		D178ED521A79645E009B8A3E /* UNIRest.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED431A79645E009B8A3E /* UNIRest.m */; };
-		D178ED531A79645E009B8A3E /* UNIUrlConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED451A79645E009B8A3E /* UNIUrlConnection.m */; };
 		D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */; };
 		D1BC31AE1A80004000E83268 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31AD1A80004000E83268 /* TFUserProfileView.m */; };
 		D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31B01A80075900E83268 /* CustomCollectionFlowLayout.m */; };
@@ -123,35 +109,6 @@
 		D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D178ED211A78C903009B8A3E /* TFCameraOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCameraOverlayView.h; sourceTree = "<group>"; };
 		D178ED221A78C903009B8A3E /* TFCameraOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFCameraOverlayView.m; sourceTree = "<group>"; };
-		D178ED271A79645E009B8A3E /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
-		D178ED281A79645E009B8A3E /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
-		D178ED2A1A79645E009B8A3E /* UNIBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIBaseRequest.h; sourceTree = "<group>"; };
-		D178ED2B1A79645E009B8A3E /* UNIBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIBaseRequest.m; sourceTree = "<group>"; };
-		D178ED2C1A79645E009B8A3E /* UNIBodyRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIBodyRequest.h; sourceTree = "<group>"; };
-		D178ED2D1A79645E009B8A3E /* UNIBodyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIBodyRequest.m; sourceTree = "<group>"; };
-		D178ED2E1A79645E009B8A3E /* UNISimpleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNISimpleRequest.h; sourceTree = "<group>"; };
-		D178ED2F1A79645E009B8A3E /* UNISimpleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNISimpleRequest.m; sourceTree = "<group>"; };
-		D178ED311A79645E009B8A3E /* UNIHTTPBinaryResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPBinaryResponse.h; sourceTree = "<group>"; };
-		D178ED321A79645E009B8A3E /* UNIHTTPBinaryResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPBinaryResponse.m; sourceTree = "<group>"; };
-		D178ED331A79645E009B8A3E /* UNIHTTPJsonResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPJsonResponse.h; sourceTree = "<group>"; };
-		D178ED341A79645E009B8A3E /* UNIHTTPJsonResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPJsonResponse.m; sourceTree = "<group>"; };
-		D178ED351A79645E009B8A3E /* UNIHTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPResponse.h; sourceTree = "<group>"; };
-		D178ED361A79645E009B8A3E /* UNIHTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPResponse.m; sourceTree = "<group>"; };
-		D178ED371A79645E009B8A3E /* UNIHTTPStringResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPStringResponse.h; sourceTree = "<group>"; };
-		D178ED381A79645E009B8A3E /* UNIHTTPStringResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPStringResponse.m; sourceTree = "<group>"; };
-		D178ED391A79645E009B8A3E /* UNIJsonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIJsonNode.h; sourceTree = "<group>"; };
-		D178ED3A1A79645E009B8A3E /* UNIJsonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIJsonNode.m; sourceTree = "<group>"; };
-		D178ED3B1A79645E009B8A3E /* UNIHTTPClientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPClientHelper.h; sourceTree = "<group>"; };
-		D178ED3C1A79645E009B8A3E /* UNIHTTPClientHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPClientHelper.m; sourceTree = "<group>"; };
-		D178ED3D1A79645E009B8A3E /* UNIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPRequest.h; sourceTree = "<group>"; };
-		D178ED3E1A79645E009B8A3E /* UNIHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPRequest.m; sourceTree = "<group>"; };
-		D178ED3F1A79645E009B8A3E /* UNIHTTPRequestWithBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHTTPRequestWithBody.h; sourceTree = "<group>"; };
-		D178ED401A79645E009B8A3E /* UNIHTTPRequestWithBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHTTPRequestWithBody.m; sourceTree = "<group>"; };
-		D178ED411A79645E009B8A3E /* Unirest-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Unirest-Prefix.pch"; sourceTree = "<group>"; };
-		D178ED421A79645E009B8A3E /* UNIRest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRest.h; sourceTree = "<group>"; };
-		D178ED431A79645E009B8A3E /* UNIRest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRest.m; sourceTree = "<group>"; };
-		D178ED441A79645E009B8A3E /* UNIUrlConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIUrlConnection.h; sourceTree = "<group>"; };
-		D178ED451A79645E009B8A3E /* UNIUrlConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIUrlConnection.m; sourceTree = "<group>"; };
 		D1BC31A91A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StretchyHeaderCollectionViewLayout.h; sourceTree = "<group>"; };
 		D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StretchyHeaderCollectionViewLayout.m; sourceTree = "<group>"; };
 		D1BC31AC1A80004000E83268 /* TFUserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFUserProfileView.h; sourceTree = "<group>"; };
@@ -236,7 +193,6 @@
 				D145B3F61A81575E002204EC /* Cells */,
 				D1BC31A81A7FF7BF00E83268 /* Utilities */,
 				D15C22C21A7CFD860036159C /* Models */,
-				D178ED261A79645E009B8A3E /* Unirest */,
 				D178ED201A78C8E9009B8A3E /* Views */,
 				D178ED141A78B98B009B8A3E /* ViewControllers */,
 				09ABC08013A1D52D009C3FCF /* ParseStarterProjectAppDelegate.h */,
@@ -330,58 +286,6 @@
 				D145B3F41A814688002204EC /* TFFriendsHeaderView.m */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		D178ED261A79645E009B8A3E /* Unirest */ = {
-			isa = PBXGroup;
-			children = (
-				D178ED271A79645E009B8A3E /* Base64.h */,
-				D178ED281A79645E009B8A3E /* Base64.m */,
-				D178ED291A79645E009B8A3E /* HttpRequest */,
-				D178ED301A79645E009B8A3E /* HttpResponse */,
-				D178ED3B1A79645E009B8A3E /* UNIHTTPClientHelper.h */,
-				D178ED3C1A79645E009B8A3E /* UNIHTTPClientHelper.m */,
-				D178ED3D1A79645E009B8A3E /* UNIHTTPRequest.h */,
-				D178ED3E1A79645E009B8A3E /* UNIHTTPRequest.m */,
-				D178ED3F1A79645E009B8A3E /* UNIHTTPRequestWithBody.h */,
-				D178ED401A79645E009B8A3E /* UNIHTTPRequestWithBody.m */,
-				D178ED411A79645E009B8A3E /* Unirest-Prefix.pch */,
-				D178ED421A79645E009B8A3E /* UNIRest.h */,
-				D178ED431A79645E009B8A3E /* UNIRest.m */,
-				D178ED441A79645E009B8A3E /* UNIUrlConnection.h */,
-				D178ED451A79645E009B8A3E /* UNIUrlConnection.m */,
-			);
-			path = Unirest;
-			sourceTree = "<group>";
-		};
-		D178ED291A79645E009B8A3E /* HttpRequest */ = {
-			isa = PBXGroup;
-			children = (
-				D178ED2A1A79645E009B8A3E /* UNIBaseRequest.h */,
-				D178ED2B1A79645E009B8A3E /* UNIBaseRequest.m */,
-				D178ED2C1A79645E009B8A3E /* UNIBodyRequest.h */,
-				D178ED2D1A79645E009B8A3E /* UNIBodyRequest.m */,
-				D178ED2E1A79645E009B8A3E /* UNISimpleRequest.h */,
-				D178ED2F1A79645E009B8A3E /* UNISimpleRequest.m */,
-			);
-			path = HttpRequest;
-			sourceTree = "<group>";
-		};
-		D178ED301A79645E009B8A3E /* HttpResponse */ = {
-			isa = PBXGroup;
-			children = (
-				D178ED311A79645E009B8A3E /* UNIHTTPBinaryResponse.h */,
-				D178ED321A79645E009B8A3E /* UNIHTTPBinaryResponse.m */,
-				D178ED331A79645E009B8A3E /* UNIHTTPJsonResponse.h */,
-				D178ED341A79645E009B8A3E /* UNIHTTPJsonResponse.m */,
-				D178ED351A79645E009B8A3E /* UNIHTTPResponse.h */,
-				D178ED361A79645E009B8A3E /* UNIHTTPResponse.m */,
-				D178ED371A79645E009B8A3E /* UNIHTTPStringResponse.h */,
-				D178ED381A79645E009B8A3E /* UNIHTTPStringResponse.m */,
-				D178ED391A79645E009B8A3E /* UNIJsonNode.h */,
-				D178ED3A1A79645E009B8A3E /* UNIJsonNode.m */,
-			);
-			path = HttpResponse;
 			sourceTree = "<group>";
 		};
 		D1BC31A81A7FF7BF00E83268 /* Utilities */ = {
@@ -481,29 +385,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D178ED461A79645E009B8A3E /* Base64.m in Sources */,
-				D178ED4C1A79645E009B8A3E /* UNIHTTPResponse.m in Sources */,
 				D145B3F51A814688002204EC /* TFFriendsHeaderView.m in Sources */,
-				D178ED4D1A79645E009B8A3E /* UNIHTTPStringResponse.m in Sources */,
-				D178ED501A79645E009B8A3E /* UNIHTTPRequest.m in Sources */,
-				D178ED531A79645E009B8A3E /* UNIUrlConnection.m in Sources */,
-				D178ED4B1A79645E009B8A3E /* UNIHTTPJsonResponse.m in Sources */,
 				D145B3F21A808D74002204EC /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
 				D178ED231A78C903009B8A3E /* TFCameraOverlayView.m in Sources */,
-				D178ED521A79645E009B8A3E /* UNIRest.m in Sources */,
 				D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */,
 				D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				D145B3F11A808D74002204EC /* CSStickyHeaderFlowLayout.m in Sources */,
-				D178ED4E1A79645E009B8A3E /* UNIJsonNode.m in Sources */,
-				D178ED511A79645E009B8A3E /* UNIHTTPRequestWithBody.m in Sources */,
-				D178ED471A79645E009B8A3E /* UNIBaseRequest.m in Sources */,
 				D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */,
 				D15C22C51A7CFDBA0036159C /* TFUser.m in Sources */,
 				D145B3F91A81577D002204EC /* TFAddImageCollectionViewCell.m in Sources */,
-				D178ED481A79645E009B8A3E /* UNIBodyRequest.m in Sources */,
-				D178ED491A79645E009B8A3E /* UNISimpleRequest.m in Sources */,
-				D178ED4F1A79645E009B8A3E /* UNIHTTPClientHelper.m in Sources */,
-				D178ED4A1A79645E009B8A3E /* UNIHTTPBinaryResponse.m in Sources */,
 				D178ED171A78B9A8009B8A3E /* TFLoginViewController.m in Sources */,
 				D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */,
 				D1BC31AE1A80004000E83268 /* TFUserProfileView.m in Sources */,

@@ -21,7 +21,6 @@
 #import <Parse/Parse.h>
 #import "TFTwinsViewController.h"
 #import "TFLoginViewController.h"
-#import "UNIRest.h"
 #import "CSStickyHeaderFlowLayout.h"
 
 @implementation ParseStarterProjectAppDelegate
