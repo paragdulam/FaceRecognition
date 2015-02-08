@@ -110,11 +110,17 @@
 }
 
 
--(void) setUserInfo:(PFObject *) userInfo
+-(void) setUserInfo:(NSDictionary *) userInfo
 {
     [nameLabel setText:[userInfo objectForKey:@"name"]];
-    [ageLabel setText:[userInfo objectForKey:@"age"]];
-    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",userInfo[@"facebookId"]];
+    
+    NSString *birthday = [userInfo objectForKey:@"birthday"];
+    if (birthday) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+        [ageLabel setText:[self age:[dateFormatter dateFromString:birthday]]];
+    }
+    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",userInfo[@"id"]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [activityIndicator startAnimating];

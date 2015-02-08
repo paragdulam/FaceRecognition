@@ -25,7 +25,7 @@
 
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
-@property (nonatomic,strong) PFObject *userInfo;
+@property (nonatomic,strong) NSDictionary *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
 @property (nonatomic,strong,readonly) UIColor *appColor;
@@ -144,18 +144,10 @@
 
 -(void) doPostLogin
 {
-    PFQuery *userInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
-    [userInfoQuery fromLocalDatastore];
-    [userInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
-    [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        self.userInfo = [objects firstObject];
-        [self.collectionView setBackgroundColor:self.appColor];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-    }];
-    
-
-    
+    self.userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserInfo"];
+    [self.collectionView setBackgroundColor:self.appColor];
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
     
     PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
     //[faceImageQuery fromLocalDatastore];
@@ -171,21 +163,7 @@
 
     
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        PFObject *userInfo = [PFObject objectWithClassName:@"UserInfo"];
-        [userInfo setObject:[result objectForKey:@"firstName"] forKey:@"first_name"];
-        [userInfo setObject:[result objectForKey:@"lastName"] forKey:@"last_name"];
-        [userInfo setObject:[result objectForKey:@"gender"] forKey:@"gender"];
-        [userInfo setObject:[result objectForKey:@"name"] forKey:@"name"];
-        [userInfo setObject:[result objectForKey:@"id"] forKey:@"facebookId"];
-        [userInfo setObject:[PFUser currentUser] forKey:@"User"];
-        NSString *birthday = [result objectForKey:@"birthday"];
-        if (birthday) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-            [userInfo setObject:@"age" forKey:[self age:[dateFormatter dateFromString:birthday]]];
-        }
-        [userInfo pinInBackground];
-        [userInfo saveInBackground];
+        [[NSUserDefaults standardUserDefaults] setObject:result forKey:@"UserInfo"];
         [self.collectionView setBackgroundColor:self.appColor];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
@@ -370,7 +348,7 @@
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 40);
             header.backgroundColor = self.appColor;
-            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.userInfo objectForKey:@"firstName"]];
+            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.userInfo objectForKey:@"first_name"]];
             if (indexPath.section == 1) {
                 [headerText appendString:@"Lookalikes"];
             } else {

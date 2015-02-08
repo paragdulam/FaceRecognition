@@ -16,7 +16,7 @@
 
 
 @property (nonatomic,weak) id<TFUserProfileViewDelegate> delegate;
--(void) setUserInfo:(PFObject *) userInfo;
+-(void) setUserInfo:(NSDictionary *) userInfo;
 
 @end
 
