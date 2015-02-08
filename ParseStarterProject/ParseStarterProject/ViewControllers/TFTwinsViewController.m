@@ -245,26 +245,53 @@
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int)indx
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
-    PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-    [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:indx]];
-    [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-    [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        PFObject *faceImage = nil;
-        if ([objects count]) {
-            faceImage = [objects firstObject];
-        }else {
-            faceImage = [PFObject objectWithClassName:@"FaceImage"];
+    
+    UIImage *anImage = [UIImage imageWithData:imageData];
+    CIImage* image = [CIImage imageWithCGImage:anImage.CGImage];
+    
+    CIFilter *filter = [CIFilter filterWithName:@"CINoiseReduction"
+                                  keysAndValues: kCIInputImageKey, image,
+                        @"inputSharpness", @0.8, nil];
+    image = [filter outputImage];
+    
+    CIDetector* detector = [CIDetector detectorOfType:CIDetectorTypeFace
+                                              context:nil options:[NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy]];
+    NSDictionary* imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:6] forKey:CIDetectorImageOrientation];
+    NSArray* features = [detector featuresInImage:image options:imageOptions];
+    int count = 0;
+    for(CIFaceFeature* faceFeature in features)
+    {
+        if (faceFeature) {
+            count ++;
         }
-        PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
-        [faceImage setObject:imageFile forKey:@"imageFile"];
-        [faceImage setObject:[NSNumber numberWithInt:self.selectedIndexPath.row] forKey:@"imageIndex"];
-        [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
-        [faceImage pinInBackground];
-        [faceImage saveInBackground];
-        
-        [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
-        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indx inSection:0]]];
-    }];
+    }
+    if (count == 1)
+    {
+        //process the image
+        PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+        [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:indx]];
+        [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+        [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            PFObject *faceImage = nil;
+            if ([objects count]) {
+                faceImage = [objects firstObject];
+            }else {
+                faceImage = [PFObject objectWithClassName:@"FaceImage"];
+            }
+            PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
+            [faceImage setObject:imageFile forKey:@"imageFile"];
+            [faceImage setObject:[NSNumber numberWithInt:self.selectedIndexPath.row] forKey:@"imageIndex"];
+            [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
+            [faceImage pinInBackground];
+            [faceImage saveInBackground];
+            
+            [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
+            [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indx inSection:0]]];
+        }];
+    } else {
+        UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The image that you select should have one and only one face in it.Click a selfie, may be." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alrt show];
+    }
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
