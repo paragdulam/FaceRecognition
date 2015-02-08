@@ -20,6 +20,15 @@
 
 @implementation TFCameraViewController
 
+
+-(id) initWithIndex:(int) indx
+{
+    if (self = [super init]) {
+        self.index = indx;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -98,8 +107,8 @@
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         if (imageSampleBuffer != NULL) {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-            if ([self.delegate respondsToSelector:@selector(cameraViewController:didCapturePictureWithData:)]) {
-                [self.delegate cameraViewController:self didCapturePictureWithData:imageData];
+            if ([self.delegate respondsToSelector:@selector(cameraViewController:didCapturePictureWithData:WithIndex:)]) {
+                [self.delegate cameraViewController:self didCapturePictureWithData:imageData WithIndex:self.index];
             }
         }
     }];

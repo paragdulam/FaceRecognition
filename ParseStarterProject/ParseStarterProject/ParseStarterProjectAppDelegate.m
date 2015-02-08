@@ -11,10 +11,10 @@
 // #import <ParseUI/ParseUI.h>
 
 // If you are using Facebook, uncomment this line
-// #import <ParseFacebookUtils/PFFacebookUtils.h>
+ #import <ParseFacebookUtils/PFFacebookUtils.h>
 
 // If you want to use Crash Reporting - uncomment this line
-// #import <ParseCrashReporting/ParseCrashReporting.h>
+ #import <ParseCrashReporting/ParseCrashReporting.h>
 
 #import "ParseStarterProjectAppDelegate.h"
 #import <ParseUI/ParseUI.h>
@@ -32,11 +32,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Enable storing and querying data from Local Datastore. Remove this line if you don't want to
     // use Local Datastore features or want to use cachePolicy.
-    // [Parse enableLocalDatastore];
+    [Parse enableLocalDatastore];
 
     // ****************************************************************************
     // Uncomment this line if you want to enable Crash Reporting
-    // [ParseCrashReporting enable];
+    [ParseCrashReporting enable];
     //
     // Uncomment and fill in with your Parse credentials:
     [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];

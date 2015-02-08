@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+
 
 @protocol TFUserProfileViewDelegate;
 
@@ -14,7 +16,7 @@
 
 
 @property (nonatomic,weak) id<TFUserProfileViewDelegate> delegate;
--(void) setUser:(NSDictionary *) user;
+-(void) setUserInfo:(PFObject *) userInfo;
 
 @end
 

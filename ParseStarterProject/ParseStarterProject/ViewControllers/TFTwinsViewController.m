@@ -25,13 +25,13 @@
 
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
-@property (nonatomic,strong) NSDictionary *profileInfo;
+@property (nonatomic,strong) PFObject *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
 @property (nonatomic,strong,readonly) UIColor *appColor;
 
 
-@property (nonatomic,strong) NSArray *faceImages;
+@property (nonatomic,strong) NSMutableArray *faceImages;
 @property (nonatomic,strong) NSArray *friends;
 
 
@@ -43,12 +43,13 @@
 
 -(UIColor *) appColor
 {
-    if ([[self.profileInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
-        return [UIColor blueColor];
-    } else {
-        return [UIColor magentaColor];
+    UIColor *retVal = [UIColor darkGrayColor];
+    if ([[self.userInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
+        retVal = [UIColor blueColor];
+    } else if ([[self.userInfo objectForKey:@"gender"] isEqualToString:@"female"]) {
+        retVal = [UIColor magentaColor];
     }
-    return [UIColor whiteColor];
+    return retVal;
 }
 
 - (void)viewDidLoad {
@@ -56,6 +57,9 @@
     // Do any additional setup after loading the view.
     [self.collectionView registerClass:[TFAddImageCollectionViewCell class]
             forCellWithReuseIdentifier:@"TFAddImageCollectionViewCell"];
+    [self.collectionView registerClass:[PFCollectionViewCell class]
+            forCellWithReuseIdentifier:@"PFCollectionViewCell"];
+
     [self.collectionView setAlwaysBounceVertical:YES];
     
     // Then register a class to use for the header.
@@ -68,7 +72,9 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"TFFriendsHeaderView"];
     
+    
     [self setNeedsStatusBarAppearanceUpdate];
+    self.faceImages = [[NSMutableArray alloc] initWithObjects:[NSNull null],[NSNull null],[NSNull null], nil];
     if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];
     } else {
@@ -104,18 +110,82 @@
 }
 
 
+-(void) objectsDidLoad:(NSError *)error
+{
+    [super objectsDidLoad:error];
+    [PFObject pinAll:self.objects];
+}
+
 -(PFQuery *) queryForCollection
 {
     PFQuery *userQuery = [PFUser query];
-    [userQuery setCachePolicy:kPFCachePolicyCacheThenNetwork];
     return userQuery;
+}
+
+
+- (NSString *)age:(NSDate *)dateOfBirth {
+    
+    NSInteger years;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSDateComponents *dateComponentsNow = [calendar components:unitFlags fromDate:[NSDate date]];
+    NSDateComponents *dateComponentsBirth = [calendar components:unitFlags fromDate:dateOfBirth];
+    
+    if (([dateComponentsNow month] < [dateComponentsBirth month]) ||
+        (([dateComponentsNow month] == [dateComponentsBirth month]) && ([dateComponentsNow day] < [dateComponentsBirth day]))) {
+        years = [dateComponentsNow year] - [dateComponentsBirth year] - 1;
+    } else {
+        years = [dateComponentsNow year] - [dateComponentsBirth year];
+    }
+    return [NSString stringWithFormat:@"%d",years];
 }
 
 
 -(void) doPostLogin
 {
+    PFQuery *userInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
+    [userInfoQuery fromLocalDatastore];
+    [userInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
+    [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        self.userInfo = [objects firstObject];
+        [self.collectionView setBackgroundColor:self.appColor];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+    }];
+    
+
+    
+    
+    PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+    //[faceImageQuery fromLocalDatastore];
+    [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+    [faceImageQuery orderByAscending:@"imageIndex"];
+    [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (PFObject *obj in objects) {
+            NSNumber *index = [obj objectForKey:@"imageIndex"];
+            [self.faceImages replaceObjectAtIndex:[index intValue] withObject:obj];
+            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        }
+    }];
+
+    
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        self.profileInfo = result;
+        PFObject *userInfo = [PFObject objectWithClassName:@"UserInfo"];
+        [userInfo setObject:[result objectForKey:@"firstName"] forKey:@"first_name"];
+        [userInfo setObject:[result objectForKey:@"lastName"] forKey:@"last_name"];
+        [userInfo setObject:[result objectForKey:@"gender"] forKey:@"gender"];
+        [userInfo setObject:[result objectForKey:@"name"] forKey:@"name"];
+        [userInfo setObject:[result objectForKey:@"id"] forKey:@"facebookId"];
+        [userInfo setObject:[PFUser currentUser] forKey:@"User"];
+        NSString *birthday = [result objectForKey:@"birthday"];
+        if (birthday) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+            [userInfo setObject:@"age" forKey:[self age:[dateFormatter dateFromString:birthday]]];
+        }
+        [userInfo pinInBackground];
+        [userInfo saveInBackground];
         [self.collectionView setBackgroundColor:self.appColor];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
@@ -124,6 +194,10 @@
     [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         self.friends = [result objectForKey:@"data"];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
+    }];
+    
+    [PFCloud callFunctionInBackground:@"getMyFacialImages" withParameters:nil block:^(id object, NSError *error) {
+        
     }];
 }
 
@@ -190,12 +264,29 @@
 
 #pragma mark - TFCameraViewControllerDelegate
 
--(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData
+-(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int)indx
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
-    PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
-    self.selectedImageFile = imageFile;
-    [self.collectionView reloadItemsAtIndexPaths:@[self.selectedIndexPath]];
+    PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+    [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:indx]];
+    [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+    [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFObject *faceImage = nil;
+        if ([objects count]) {
+            faceImage = [objects firstObject];
+        }else {
+            faceImage = [PFObject objectWithClassName:@"FaceImage"];
+        }
+        PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
+        [faceImage setObject:imageFile forKey:@"imageFile"];
+        [faceImage setObject:[NSNumber numberWithInt:self.selectedIndexPath.row] forKey:@"imageIndex"];
+        [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
+        [faceImage pinInBackground];
+        [faceImage saveInBackground];
+        
+        [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
+        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indx inSection:0]]];
+    }];
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
@@ -252,7 +343,7 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     CGFloat ratio = height/width;
-    return CGSizeMake(100, 100 * ratio);
+    return CGSizeMake(94, 94 * ratio);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -266,9 +357,7 @@
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 60);
             header.delegate = self;
             header.backgroundColor = self.appColor;
-            if (self.profileInfo) {
-                [header setUser:self.profileInfo];
-            }
+            [header setUserInfo:self.userInfo];
             return header;
         }
             break;
@@ -281,15 +370,13 @@
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 40);
             header.backgroundColor = self.appColor;
-            if (self.profileInfo) {
-                NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.profileInfo objectForKey:@"first_name"]];
-                if (indexPath.section == 1) {
-                    [headerText appendString:@"Lookalikes"];
-                } else {
-                    [headerText appendString:@"Friends"];
-                }
-                [header setHeaderText:headerText];
+            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.userInfo objectForKey:@"firstName"]];
+            if (indexPath.section == 1) {
+                [headerText appendString:@"Lookalikes"];
+            } else {
+                [headerText appendString:@"Friends"];
             }
+            [header setHeaderText:headerText];
             return header;
         }
             break;
@@ -300,7 +387,7 @@
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(5, 5, 5, 5); // top, left, bottom, right
+    return UIEdgeInsetsMake(10, 10, 10, 10); // top, left, bottom, right
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -309,51 +396,49 @@
 
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 5.0;
+    return 10.0;
 }
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    TFAddImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TFAddImageCollectionViewCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
+    UICollectionViewCell *cell = nil;
     switch (indexPath.section) {
         case 0:
         {
-            if (self.selectedIndexPath) {
-                if (indexPath.section == self.selectedIndexPath.section &&
-                    indexPath.row == self.selectedIndexPath.row) {
-                    [self.selectedImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                        [cell.imageView setImage:[UIImage imageWithData:data]];
-                    }];
-                }
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TFAddImageCollectionViewCell" forIndexPath:indexPath];
+            TFAddImageCollectionViewCell *aCell = (TFAddImageCollectionViewCell *)cell;
+            aCell.backgroundColor = [UIColor clearColor];
+            id obj =  [self.faceImages objectAtIndex:indexPath.row];
+            if (![obj isKindOfClass:[NSNull class]]) {
+                PFObject *faceImage = (PFObject *)obj;
+                PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
+                [aCell.imageView setFile:imageFile];
+                [aCell.imageView loadInBackground];
             }
         }
             break;
-        case 1:
+        default:
         {
+            cell = (PFCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
             cell.backgroundColor = [UIColor whiteColor];
         }
             break;
-            
-        default:
-            break;
     }
-    
     return cell;
 }
 
 
 -(void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedIndexPath = indexPath;
     switch (indexPath.section) {
         case 0:
         {
             if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ])
             {
-                TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] init];
+                TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:indexPath.row];
                 [cameraViewController setDelegate:self];
                 [self presentViewController:cameraViewController animated:YES completion:NULL];
+                self.selectedIndexPath = indexPath;
             } else {
                 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
                 [imagePicker setDelegate:self];

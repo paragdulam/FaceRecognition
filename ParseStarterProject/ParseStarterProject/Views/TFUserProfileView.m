@@ -87,8 +87,6 @@
 - (NSString *)age:(NSDate *)dateOfBirth {
     
     NSInteger years;
-    NSInteger months;
-    NSInteger days;
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
@@ -101,58 +99,7 @@
     } else {
         years = [dateComponentsNow year] - [dateComponentsBirth year];
     }
-    
-    NSLog(@"years:%d", years);
-    
-    if ([dateComponentsNow year] == [dateComponentsBirth year]) {
-        months = [dateComponentsNow month] - [dateComponentsBirth month];
-    } else if ([dateComponentsNow year] > [dateComponentsBirth year] && [dateComponentsNow month] > [dateComponentsBirth month]) {
-        months = [dateComponentsNow month] - [dateComponentsBirth month];
-    } else if ([dateComponentsNow year] > [dateComponentsBirth year] && [dateComponentsNow month] < [dateComponentsBirth month]) {
-        months = [dateComponentsNow month] - [dateComponentsBirth month] + 12;
-    } else if ([dateComponentsNow year] > [dateComponentsBirth year] && [dateComponentsNow month] == [dateComponentsBirth month]) {
-        months = 11;
-    } else {
-        months = [dateComponentsNow month] - [dateComponentsBirth month];
-    }
-    
-    NSLog(@"months:%d", months);
-    
-    if ([dateComponentsNow year] == [dateComponentsBirth year] && [dateComponentsNow month] == [dateComponentsBirth month]) {
-        days = [dateComponentsNow day] - [dateComponentsBirth day];
-    }
-    
-    if (years == 0 && months == 0) {
-        if (days == 1) {
-            return [NSString stringWithFormat:@"%d %@", days, NSLocalizedString(@"day", @"day")];
-        } else {
-            return [NSString stringWithFormat:@"%d %@", days, NSLocalizedString(@"days", @"days")];
-        }
-    } else if (years == 0) {
-        if (months == 1) {
-            return [NSString stringWithFormat:@"%d %@", months, NSLocalizedString(@"month", @"month")];
-        } else {
-            return [NSString stringWithFormat:@"%d %@", months, NSLocalizedString(@"months", @"months")];
-        }
-    } else if ((years != 0) && (months == 0)) {
-        if (years == 1) {
-            return [NSString stringWithFormat:@"%d %@", years, NSLocalizedString(@"year", @"year")];
-        } else {
-            return [NSString stringWithFormat:@"%d %@", years, NSLocalizedString(@"years", @"years")];
-        }
-    } else {
-        if ((years == 1) && (months == 1)) {
-            return [NSString stringWithFormat:@"%d %@ %d %@", years, NSLocalizedString(@"year and", @"year and"), months, NSLocalizedString(@"month", @"month")];
-        } else if (years == 1) {
-            return [NSString stringWithFormat:@"%d %@ %d %@", years, NSLocalizedString(@"year and", @"year and"), months, NSLocalizedString(@"months", @"months")];
-        } else if (months == 1) {
-            return [NSString stringWithFormat:@"%d %@ %d %@", years, NSLocalizedString(@"years and", @"years and"), months, NSLocalizedString(@"month", @"month")];
-        } else {
-            return [NSString stringWithFormat:@"%d %@ %d %@", years, NSLocalizedString(@"years and", @"years and"), months, NSLocalizedString(@"months", @"months")];
-        }
-        
-    }
-    
+    return [NSString stringWithFormat:@"%d",years];
 }
 
 -(void) profileButtonTapped:(UIButton *) btn
@@ -163,19 +110,11 @@
 }
 
 
--(void) setUser:(NSDictionary *) user
+-(void) setUserInfo:(PFObject *) userInfo
 {
-    [nameLabel setText:[user objectForKey:@"name"]];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-    NSString *ageString = [user objectForKey:@"birthday"];
-    if ([ageString length]) {
-        NSString *age = [self age:[dateFormatter dateFromString:ageString]];
-        [ageLabel setText:age];
-    }
-    
-    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user[@"id"]];
+    [nameLabel setText:[userInfo objectForKey:@"name"]];
+    [ageLabel setText:[userInfo objectForKey:@"age"]];
+    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",userInfo[@"facebookId"]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [activityIndicator startAnimating];
