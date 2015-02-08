@@ -24,7 +24,7 @@ Parse.Cloud.afterSave("FaceImage", function(request) {
       'urls':request.object.get('imageFile').url()
     },
     success: function(httpResponse) {
-      console.log(httpResponse.text);
+      console.log('train '+httpResponse.text);
       Parse.Cloud.httpRequest({
         method:'GET',
         url:'https://lambda-face-recognition.p.mashape.com/album_rebuild?album='+album+'&albumkey='+albumkey,

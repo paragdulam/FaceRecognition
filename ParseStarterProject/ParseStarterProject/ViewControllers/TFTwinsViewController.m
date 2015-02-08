@@ -391,7 +391,9 @@
                 PFObject *faceImage = (PFObject *)obj;
                 PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
                 [aCell.imageView setFile:imageFile];
-                [aCell.imageView loadInBackground];
+                [aCell.imageView loadInBackground:^(UIImage *image, NSError *error) {
+                    [aCell.imageView setImage:image];
+                }];
             }
         }
             break;
