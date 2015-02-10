@@ -42,6 +42,7 @@
         [session addInput:deviceInput];
     
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+    self.stillImageOutput.highResolutionStillImageOutputEnabled = YES;
     NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys: AVVideoCodecJPEG, AVVideoCodecKey, nil];
     [self.stillImageOutput setOutputSettings:outputSettings];
     if ([session canAddOutput:self.stillImageOutput]) {
@@ -49,6 +50,7 @@
     }
     
     AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    [previewLayer captureDevicePointOfInterestForPoint:self.view.center];
     [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     
     CALayer *rootLayer = [[self view] layer];
