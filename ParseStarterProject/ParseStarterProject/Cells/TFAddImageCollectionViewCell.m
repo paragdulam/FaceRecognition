@@ -11,6 +11,7 @@
 {
     UIView *overlayView;
     UIButton *addButton;
+    UIView *backgroundView;
 }
 
 @end
@@ -25,8 +26,15 @@
         [self.contentView addSubview:overlayView];
         [overlayView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.3f]];
         
+        
+        backgroundView = [[UIView alloc] initWithFrame:CGRectMake(self.contentView.bounds.origin.x, self.contentView.bounds.size.height * (4.f/5.f), self.contentView.bounds.size.width, self.contentView.bounds.size.height * (1.f/5.f))];
+        backgroundView.backgroundColor = [UIColor whiteColor];
+        backgroundView.alpha = 0.9;
+        [self.contentView addSubview:backgroundView];
+        
         addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        [self.contentView addSubview:addButton];
+        [backgroundView addSubview:addButton];
+        addButton.center = CGPointMake(backgroundView.frame.size.width/2, backgroundView.frame.size.height/2);
         
         self.layer.shadowColor = [UIColor whiteColor].CGColor;
         self.layer.shadowOffset = CGSizeMake(1, 1);
@@ -38,17 +46,6 @@
 -(void) layoutSubviews
 {
     [super layoutSubviews];
-    if (!self.imageView.image) {
-        addButton.center = self.contentView.center;
-    } else {
-        [UIView animateWithDuration:.3f
-                         animations:^{
-                             addButton.frame = CGRectMake(0, 0, addButton.frame.size.width, addButton.frame.size.height);
-                         } completion:^(BOOL finished) {
-                             
-                         }];
-    }
-    self.imageView.frame = self.contentView.bounds;
 }
 
 

@@ -16,6 +16,7 @@
 #import "TFAddImageCollectionViewCell.h"
 #import <CoreImage/CoreImage.h>
 #import <QuartzCore/QuartzCore.h>
+#import "TFEmptyCollectionViewCell.h"
 
 
 
@@ -45,26 +46,29 @@
 {
     UIColor *retVal = [UIColor darkGrayColor];
     if ([[self.userInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
-        retVal = [UIColor blueColor];
+        retVal = [UIColor colorWithRed:31.f/255.f green:75.f/255.f blue:207.f/255.f alpha:1.f];
     } else if ([[self.userInfo objectForKey:@"gender"] isEqualToString:@"female"]) {
-        retVal = [UIColor magentaColor];
+        retVal = [UIColor colorWithRed:243.f/255.f green:80.f/255.f blue:144.f/255.f alpha:1.f];
     }
     return retVal;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    [self.navigationController setNavigationBarHidden:YES];
+    
     // Do any additional setup after loading the view.
     [self.collectionView registerClass:[TFAddImageCollectionViewCell class]
             forCellWithReuseIdentifier:@"TFAddImageCollectionViewCell"];
     [self.collectionView registerClass:[PFCollectionViewCell class]
             forCellWithReuseIdentifier:@"PFCollectionViewCell"];
+    [self.collectionView registerClass:[TFEmptyCollectionViewCell class]
+            forCellWithReuseIdentifier:@"TFEmptyCollectionViewCell"];
 
     [self.collectionView setAlwaysBounceVertical:YES];
     
     // Then register a class to use for the header.
-    [self.collectionView setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
-    [self.collectionView setScrollIndicatorInsets:UIEdgeInsetsMake(20, 0, 0, 0)];
     [self.collectionView registerClass:[TFUserProfileView class]
        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
               withReuseIdentifier:@"TFUserProfileView"];
@@ -116,11 +120,11 @@
     [PFObject pinAll:self.objects];
 }
 
--(PFQuery *) queryForCollection
-{
-    PFQuery *userQuery = [PFUser query];
-    return userQuery;
-}
+//-(PFQuery *) queryForCollection
+//{
+//    PFQuery *userQuery = [PFUser query];
+//    return userQuery;
+//}
 
 
 - (NSString *)age:(NSDate *)dateOfBirth {
@@ -150,7 +154,6 @@
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
     
     PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-    //[faceImageQuery fromLocalDatastore];
     [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
     [faceImageQuery orderByAscending:@"imageIndex"];
     [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -172,10 +175,6 @@
     [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         self.friends = [result objectForKey:@"data"];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
-    }];
-    
-    [PFCloud callFunctionInBackground:@"getMyFacialImages" withParameters:nil block:^(id object, NSError *error) {
-        
     }];
 }
 
@@ -201,6 +200,26 @@
     if (count == 1)
     {
         //process the image
+        PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+        [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:self.selectedIndexPath.row]];
+        [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+        [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            PFObject *faceImage = nil;
+            if ([objects count]) {
+                faceImage = [objects firstObject];
+            }else {
+                faceImage = [PFObject objectWithClassName:@"FaceImage"];
+            }
+            PFFile *imageFile = [PFFile fileWithData:UIImageJPEGRepresentation(pickedImage, 1.0) contentType:@"image/jpeg"];
+            [faceImage setObject:imageFile forKey:@"imageFile"];
+            int indx = self.selectedIndexPath.row;
+            [faceImage setObject:[NSNumber numberWithInt:indx] forKey:@"imageIndex"];
+            [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
+            [faceImage saveInBackground];
+            
+            [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
+            [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indx inSection:0]]];
+        }];
     } else {
         UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The image that you select should have one and only one face in it.Click a selfie, may be." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
         [alrt show];
@@ -282,7 +301,6 @@
             [faceImage setObject:imageFile forKey:@"imageFile"];
             [faceImage setObject:[NSNumber numberWithInt:self.selectedIndexPath.row] forKey:@"imageIndex"];
             [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
-            [faceImage pinInBackground];
             [faceImage saveInBackground];
             
             [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
@@ -314,10 +332,10 @@
             return 3;
             break;
         case 1:
-            return self.objects.count;
+            return self.objects.count ? self.objects.count : 1;
             break;
         case 2:
-            return self.friends.count;
+            return self.friends.count ? self.friends.count : 1;
             break;
         default:
             break;
@@ -345,10 +363,43 @@
 
 -(CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    CGFloat ratio = height/width;
-    return CGSizeMake(94, 94 * ratio);
+    switch (indexPath.section) {
+        case 0:
+        {
+            CGFloat width = [UIScreen mainScreen].bounds.size.width;
+            CGFloat height = [UIScreen mainScreen].bounds.size.height;
+            CGFloat ratio = height/width;
+            return CGSizeMake(94, 94 * ratio);
+        }
+            break;
+        case 1:
+        {
+            if (self.objects.count) {
+                CGFloat width = [UIScreen mainScreen].bounds.size.width;
+                CGFloat height = [UIScreen mainScreen].bounds.size.height;
+                CGFloat ratio = height/width;
+                return CGSizeMake(94, 94 * ratio);
+            } else {
+                return CGSizeMake(300,80);
+            }
+        }
+            break;
+        case 2:
+        {
+            if (self.friends.count) {
+                CGFloat width = [UIScreen mainScreen].bounds.size.width;
+                CGFloat height = [UIScreen mainScreen].bounds.size.height;
+                CGFloat ratio = height/width;
+                return CGSizeMake(94, 94 * ratio);
+            } else {
+                return CGSizeMake(300,80);
+            }
+        }
+            break;
+        default:
+            break;
+    }
+    return CGSizeZero;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)cv viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -420,10 +471,36 @@
                 [aCell.imageView setFile:imageFile];
                 [aCell.imageView loadInBackground:^(UIImage *image, NSError *error) {
                     [aCell.imageView setImage:image];
+                    [aCell setNeedsLayout];
                 }];
             }
         }
             break;
+        case 1:
+        {
+            if (self.objects.count) {
+                cell = (PFCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
+
+            } else {
+                cell = (TFEmptyCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFEmptyCollectionViewCell" forIndexPath:indexPath];
+                TFEmptyCollectionViewCell *aCell = (TFEmptyCollectionViewCell *)cell;
+                [aCell setText:@"We didn't find any lookalikes for you yet, but we will notify you in case someone who looks like you signs up."];
+            }
+        }
+            break;
+        case 2:
+        {
+            if (self.friends.count) {
+                cell = (PFCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
+                
+            } else {
+                cell = (TFEmptyCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFEmptyCollectionViewCell" forIndexPath:indexPath];
+                TFEmptyCollectionViewCell *aCell = (TFEmptyCollectionViewCell *)cell;
+                [aCell setText:@"None of your facebook friends have signed up for TwinFinder yet! :("];
+            }
+        }
+            break;
+
         default:
         {
             cell = (PFCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
@@ -440,12 +517,11 @@
     switch (indexPath.section) {
         case 0:
         {
-            if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront ])
+            self.selectedIndexPath = indexPath;
+            if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront])
             {
                 TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:indexPath.row];
-                [cameraViewController setDelegate:self];
                 [self presentViewController:cameraViewController animated:YES completion:NULL];
-                self.selectedIndexPath = indexPath;
             } else {
                 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
                 [imagePicker setDelegate:self];

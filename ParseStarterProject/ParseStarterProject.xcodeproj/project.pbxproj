@@ -46,6 +46,7 @@
 		D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED1C1A78C610009B8A3E /* TFCameraViewController.m */; };
 		D178ED1F1A78C62D009B8A3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */; };
 		D178ED231A78C903009B8A3E /* TFCameraOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED221A78C903009B8A3E /* TFCameraOverlayView.m */; };
+		D184EA3E1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D184EA3D1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m */; };
 		D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */; };
 		D1BC31AE1A80004000E83268 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31AD1A80004000E83268 /* TFUserProfileView.m */; };
 		D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31B01A80075900E83268 /* CustomCollectionFlowLayout.m */; };
@@ -109,6 +110,8 @@
 		D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D178ED211A78C903009B8A3E /* TFCameraOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCameraOverlayView.h; sourceTree = "<group>"; };
 		D178ED221A78C903009B8A3E /* TFCameraOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFCameraOverlayView.m; sourceTree = "<group>"; };
+		D184EA3C1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyCollectionViewCell.h; sourceTree = "<group>"; };
+		D184EA3D1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFEmptyCollectionViewCell.m; sourceTree = "<group>"; };
 		D1BC31A91A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StretchyHeaderCollectionViewLayout.h; sourceTree = "<group>"; };
 		D1BC31AA1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StretchyHeaderCollectionViewLayout.m; sourceTree = "<group>"; };
 		D1BC31AC1A80004000E83268 /* TFUserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFUserProfileView.h; sourceTree = "<group>"; };
@@ -247,6 +250,8 @@
 			children = (
 				D145B3F71A81577D002204EC /* TFAddImageCollectionViewCell.h */,
 				D145B3F81A81577D002204EC /* TFAddImageCollectionViewCell.m */,
+				D184EA3C1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.h */,
+				D184EA3D1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 			files = (
 				D145B3F51A814688002204EC /* TFFriendsHeaderView.m in Sources */,
 				D145B3F21A808D74002204EC /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
+				D184EA3E1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m in Sources */,
 				D178ED231A78C903009B8A3E /* TFCameraOverlayView.m in Sources */,
 				D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */,
 				D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */,

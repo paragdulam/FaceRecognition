@@ -33,7 +33,7 @@
     // Do any additional setup after loading the view.
     
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
-    [session setSessionPreset:AVCaptureSessionPresetPhoto];
+    [session setSessionPreset:AVCaptureSessionPreset1280x720];
     
     AVCaptureDevice *inputDevice = [self frontCamera];
     NSError *error = nil;
@@ -42,6 +42,9 @@
         [session addInput:deviceInput];
     
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+    if (self.stillImageOutput.isStillImageStabilizationSupported) {
+        self.stillImageOutput.automaticallyEnablesStillImageStabilizationWhenAvailable = YES;
+    }
     self.stillImageOutput.highResolutionStillImageOutputEnabled = YES;
     NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys: AVVideoCodecJPEG, AVVideoCodecKey, nil];
     [self.stillImageOutput setOutputSettings:outputSettings];

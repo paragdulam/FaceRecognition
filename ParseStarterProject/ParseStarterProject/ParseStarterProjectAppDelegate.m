@@ -29,9 +29,10 @@
 #pragma mark UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Enable storing and querying data from Local Datastore. Remove this line if you don't want to
     // use Local Datastore features or want to use cachePolicy.
-    [Parse enableLocalDatastore];
+    //[Parse enableLocalDatastore];
 
     // ****************************************************************************
     // Uncomment this line if you want to enable Crash Reporting
@@ -58,7 +59,8 @@
     CSStickyHeaderFlowLayout *layout = [[CSStickyHeaderFlowLayout alloc] init];
     //UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
-    self.window.rootViewController = twinsViewController;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:twinsViewController];
+    self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
 
     if (application.applicationState != UIApplicationStateBackground) {
