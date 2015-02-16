@@ -17,6 +17,9 @@
 #import <CoreImage/CoreImage.h>
 #import <QuartzCore/QuartzCore.h>
 #import "TFEmptyCollectionViewCell.h"
+#import "ParseStarterProjectAppDelegate.h"
+#import "UserInfo.h"
+#import "FaceImage.h"
 
 
 
@@ -26,7 +29,7 @@
 
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
-@property (nonatomic,strong) NSDictionary *userInfo;
+@property (nonatomic,strong) UserInfo *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
 @property (nonatomic,strong,readonly) UIColor *appColor;
@@ -34,7 +37,6 @@
 
 @property (nonatomic,strong) NSMutableArray *faceImages;
 @property (nonatomic,strong) NSArray *friends;
-
 
 
 @end
@@ -45,12 +47,17 @@
 -(UIColor *) appColor
 {
     UIColor *retVal = [UIColor darkGrayColor];
-    if ([[self.userInfo objectForKey:@"gender"] isEqualToString:@"male"]) {
+    if ([self.userInfo.gender isEqualToString:@"male"]) {
         retVal = [UIColor colorWithRed:31.f/255.f green:75.f/255.f blue:207.f/255.f alpha:1.f];
-    } else if ([[self.userInfo objectForKey:@"gender"] isEqualToString:@"female"]) {
+    } else if ([self.userInfo.gender isEqualToString:@"female"]) {
         retVal = [UIColor colorWithRed:243.f/255.f green:80.f/255.f blue:144.f/255.f alpha:1.f];
     }
     return retVal;
+}
+
+-(ParseStarterProjectAppDelegate *) appDelegate
+{
+    return (ParseStarterProjectAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (void)viewDidLoad {
@@ -96,6 +103,8 @@
 
 -(void) showLoginView:(NSNumber *) animated
 {
+    ParseStarterProjectAppDelegate *appDelegate = (ParseStarterProjectAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate flushDatabase];
     self.loginViewController = [[TFLoginViewController alloc] init];
     [self.loginViewController setFields:PFLogInFieldsFacebook];
     [self.loginViewController setDelegate:self];
@@ -148,33 +157,41 @@
 
 -(void) doPostLogin
 {
-    self.userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserInfo"];
+    NSFetchRequest *userRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
+    NSArray *users = [self.appDelegate.managedObjectContext executeFetchRequest:userRequest error:nil];
+    self.userInfo = [users firstObject];
     [self.collectionView setBackgroundColor:self.appColor];
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-    
-    PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-    [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-    [faceImageQuery orderByAscending:@"imageIndex"];
-    [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        for (PFObject *obj in objects) {
-            NSNumber *index = [obj objectForKey:@"imageIndex"];
-            [self.faceImages replaceObjectAtIndex:[index intValue] withObject:obj];
-            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-        }
-    }];
 
     
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        [[NSUserDefaults standardUserDefaults] setObject:result forKey:@"UserInfo"];
+        NSFetchRequest *userRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"facebookId == %@",[result objectForKey:@"id"]];
+        [userRequest setPredicate:predicate];
+        NSArray *users = [self.appDelegate.managedObjectContext executeFetchRequest:userRequest error:nil];
+        if ([users count]) {
+            self.userInfo = [users firstObject];
+        } else {
+            self.userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:self.appDelegate.managedObjectContext];
+            id facebookId = [result objectForKey:@"id"];
+            [self.userInfo setFacebookId:facebookId];
+        }
+        NSString *birthday = [result objectForKey:@"birthday"];
+        if (birthday) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+            NSDate *date = [dateFormatter dateFromString:birthday];
+            [self.userInfo setAge:[self age:date]];
+        }
+        [self.userInfo setName:[result objectForKey:@"name"]];
+        [self.userInfo setFirstName:[result objectForKey:@"first_name"]];
+        [self.userInfo setLastName:[result objectForKey:@"last_name"]];
+        [self.userInfo setGender:[result objectForKey:@"gender"]];
+        [self.appDelegate.managedObjectContext save:nil];
         [self.collectionView setBackgroundColor:self.appColor];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-    }];
-    
-    [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        self.friends = [result objectForKey:@"data"];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
     }];
 }
 
@@ -274,7 +291,7 @@
     image = [filter outputImage];
     
     CIDetector* detector = [CIDetector detectorOfType:CIDetectorTypeFace
-                                              context:nil options:[NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy]];
+                                              context:nil options:[NSDictionary dictionaryWithObjectsAndKeys:CIDetectorAccuracyHigh,CIDetectorAccuracy,[NSNumber numberWithInt:6],CIDetectorImageOrientation,nil]];
     NSDictionary* imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:6] forKey:CIDetectorImageOrientation];
     NSArray* features = [detector featuresInImage:image options:imageOptions];
     int count = 0;
@@ -286,26 +303,23 @@
     }
     if (count == 1)
     {
-        //process the image
-        PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-        [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:indx]];
-        [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-        [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            PFObject *faceImage = nil;
-            if ([objects count]) {
-                faceImage = [objects firstObject];
-            }else {
-                faceImage = [PFObject objectWithClassName:@"FaceImage"];
-            }
-            PFFile *imageFile = [PFFile fileWithData:imageData contentType:@"image/jpeg"];
-            [faceImage setObject:imageFile forKey:@"imageFile"];
-            [faceImage setObject:[NSNumber numberWithInt:self.selectedIndexPath.row] forKey:@"imageIndex"];
-            [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
-            [faceImage saveInBackground];
-            
-            [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
-            [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indx inSection:0]]];
-        }];
+        NSFetchRequest *imageFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"index == %@ && image_user.facebookId == %@",[NSNumber numberWithInt:indx],self.userInfo.facebookId];
+        [imageFetchRequest setPredicate:predicate];
+        NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:imageFetchRequest error:nil];
+        
+        FaceImage *faceImage = nil;
+        if ([images count]) {
+            faceImage = [images firstObject];
+        } else {
+            faceImage = [NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:self.appDelegate.managedObjectContext];
+        }
+        faceImage.image = imageData;
+        faceImage.image_user = self.userInfo;
+        faceImage.index = [NSNumber numberWithInt:indx];
+        [self.appDelegate.managedObjectContext save:nil];
+        [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     } else {
         UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The image that you select should have one and only one face in it.Click a selfie, may be." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
         [alrt show];
@@ -426,7 +440,7 @@
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 40);
             header.backgroundColor = self.appColor;
-            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[self.userInfo objectForKey:@"first_name"]];
+            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",self.userInfo.firstName];
             if (indexPath.section == 1) {
                 [headerText appendString:@"Lookalikes"];
             } else {
@@ -521,6 +535,7 @@
             if( [UIImagePickerController isCameraDeviceAvailable: UIImagePickerControllerCameraDeviceFront])
             {
                 TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:indexPath.row];
+                [cameraViewController setDelegate:self];
                 [self presentViewController:cameraViewController animated:YES completion:NULL];
             } else {
                 UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];

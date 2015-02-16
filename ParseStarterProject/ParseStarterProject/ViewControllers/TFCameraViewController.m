@@ -10,10 +10,16 @@
 #import <AVFoundation/AVFoundation.h>
 #import "TFCameraOverlayView.h"
 #import <Parse/Parse.h>
+#import "GPUImage.h"
 
 @interface TFCameraViewController ()
+{
+    dispatch_queue_t videoDataOutputQueue;
+}
 
 @property(nonatomic,strong) AVCaptureStillImageOutput *stillImageOutput;
+@property(nonatomic,strong) AVCaptureSession *session;
+@property(nonatomic,strong) AVCaptureVideoDataOutput *videoDataOutput;
 
 @end
 
@@ -28,18 +34,36 @@
     return self;
 }
 
+
+
+//-(void) viewDidLoad
+//{
+//    [super viewDidLoad];
+//    
+//    GPUImageView *imageView = [[GPUImageView alloc] initWithFrame:self.view.bounds];
+//    imageView.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:imageView];
+//    
+//    GPUImageStillCamera *stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetHigh cameraPosition:AVCaptureDevicePositionFront];
+//    stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+//    GPUImageFilter *imageFilter = [[GPUImageFilter alloc] init];
+//    [stillCamera addTarget:imageFilter];
+//    [imageFilter addTarget:imageView];
+//    [stillCamera startCameraCapture];
+//}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    AVCaptureSession *session = [[AVCaptureSession alloc] init];
-    [session setSessionPreset:AVCaptureSessionPreset1280x720];
+    self.session = [[AVCaptureSession alloc] init];
+    [self.session setSessionPreset:AVCaptureSessionPresetHigh];
     
     AVCaptureDevice *inputDevice = [self frontCamera];
     NSError *error = nil;
     AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:&error];
-    if ( [session canAddInput:deviceInput] )
-        [session addInput:deviceInput];
+    if ( [self.session canAddInput:deviceInput] )
+        [self.session addInput:deviceInput];
     
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     if (self.stillImageOutput.isStillImageStabilizationSupported) {
@@ -48,11 +72,26 @@
     self.stillImageOutput.highResolutionStillImageOutputEnabled = YES;
     NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys: AVVideoCodecJPEG, AVVideoCodecKey, nil];
     [self.stillImageOutput setOutputSettings:outputSettings];
-    if ([session canAddOutput:self.stillImageOutput]) {
-        [session addOutput:self.stillImageOutput];
+    if ([self.session canAddOutput:self.stillImageOutput]) {
+        [self.session addOutput:self.stillImageOutput];
     }
     
-    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    self.videoDataOutput = [AVCaptureVideoDataOutput new];
+    
+    // we want BGRA, both CoreGraphics and OpenGL work well with 'BGRA'
+    NSDictionary *rgbOutputSettings = [NSDictionary dictionaryWithObject:
+                                       [NSNumber numberWithInt:kCMPixelFormat_32BGRA] forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+    [self.videoDataOutput setVideoSettings:rgbOutputSettings];
+    [self.videoDataOutput setAlwaysDiscardsLateVideoFrames:YES]; // discard if the data output queue is blocked (as we process the still image)
+    videoDataOutputQueue = dispatch_queue_create("VideoDataOutputQueue", DISPATCH_QUEUE_SERIAL);
+    [self.videoDataOutput setSampleBufferDelegate:self queue:videoDataOutputQueue];
+    
+    if ( [self.session canAddOutput:self.videoDataOutput] )
+        [self.session addOutput:self.videoDataOutput];
+    [[self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:NO];
+
+    
+    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
     [previewLayer captureDevicePointOfInterestForPoint:self.view.center];
     [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     
@@ -61,25 +100,41 @@
     [previewLayer setFrame:CGRectMake(0, 0, rootLayer.bounds.size.width, rootLayer.bounds.size.height)];
     [rootLayer insertSublayer:previewLayer atIndex:0];
     
-    [session startRunning];
+    [self.session startRunning];
 
-    TFCameraOverlayView *overlay = [[TFCameraOverlayView alloc] init];
-    [overlay setFrame:self.view.bounds];
-    [self.view addSubview:overlay];
- 
     
     UIButton *captureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [captureButton setTitle:@"Capture" forState:UIControlStateNormal];
     [captureButton addTarget:self action:@selector(captureButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     captureButton.frame = CGRectMake(0, 0, 80, 30);
-    captureButton.center = CGPointMake(overlay.center.x, overlay.frame.size.height - 50.f);
-    [overlay addSubview:captureButton];
+    captureButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 50.f);
+    [self.view addSubview:captureButton];
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    cancelButton.frame = CGRectMake(10, overlay.frame.size.height - 50.f, 80, 30);
-    [overlay addSubview:cancelButton];
+    cancelButton.frame = CGRectMake(10, self.view.frame.size.height - 50.f, 80, 30);
+    [self.view addSubview:cancelButton];
+    
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)]];
+}
+
+-(void) tapped:(UITapGestureRecognizer *) tap
+{
+    CGPoint thisFocusPoint = [tap locationInView:tap.view];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    double focus_x = thisFocusPoint.x/screenWidth;
+    double focus_y = thisFocusPoint.y/screenHeight;
+    
+    NSError *error = nil;
+    AVCaptureDevice *device = [self frontCamera];
+    [device lockForConfiguration:&error];
+    if ([device isFocusPointOfInterestSupported]) {
+        [device setFocusPointOfInterest:CGPointMake(focus_x,focus_y)];
+    }
+    [device unlockForConfiguration];
 }
 
 
@@ -127,6 +182,71 @@
     }
     return nil;
 }
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+{
+    // got an image
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(NSDictionary *)attachments];
+    if (attachments)
+        CFRelease(attachments);
+    NSDictionary *imageOptions = nil;
+    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
+    int exifOrientation;
+    
+    /* kCGImagePropertyOrientation values
+     The intended display orientation of the image. If present, this key is a CFNumber value with the same value as defined
+     by the TIFF and EXIF specifications -- see enumeration of integer constants.
+     The value specified where the origin (0,0) of the image is located. If not present, a value of 1 is assumed.
+     
+     used when calling featuresInImage: options: The value for this key is an integer NSNumber from 1..8 as found in kCGImagePropertyOrientation.
+     If present, the detection will be done based on that orientation but the coordinates in the returned features will still be based on those of the image. */
+    
+    enum {
+        PHOTOS_EXIF_0ROW_TOP_0COL_LEFT			= 1, //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
+        PHOTOS_EXIF_0ROW_TOP_0COL_RIGHT			= 2, //   2  =  0th row is at the top, and 0th column is on the right.
+        PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT      = 3, //   3  =  0th row is at the bottom, and 0th column is on the right.
+        PHOTOS_EXIF_0ROW_BOTTOM_0COL_LEFT       = 4, //   4  =  0th row is at the bottom, and 0th column is on the left.
+        PHOTOS_EXIF_0ROW_LEFT_0COL_TOP          = 5, //   5  =  0th row is on the left, and 0th column is the top.
+        PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP         = 6, //   6  =  0th row is on the right, and 0th column is the top.
+        PHOTOS_EXIF_0ROW_RIGHT_0COL_BOTTOM      = 7, //   7  =  0th row is on the right, and 0th column is the bottom.
+        PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM       = 8  //   8  =  0th row is on the left, and 0th column is the bottom.
+    };
+    
+    switch (curDeviceOrientation) {
+        case UIDeviceOrientationPortraitUpsideDown:  // Device oriented vertically, home button on the top
+            exifOrientation = PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM;
+            break;
+        case UIDeviceOrientationLandscapeLeft:       // Device oriented horizontally, home button on the right
+            if (isUsingFrontFacingCamera)
+                exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
+            else
+                exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
+            break;
+        case UIDeviceOrientationLandscapeRight:      // Device oriented horizontally, home button on the left
+            if (isUsingFrontFacingCamera)
+                exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
+            else
+                exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
+            break;
+        case UIDeviceOrientationPortrait:            // Device oriented vertically, home button on the bottom
+        default:
+            exifOrientation = PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP;
+            break;
+    }
+    
+    imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:exifOrientation] forKey:CIDetectorImageOrientation];
+    NSArray *features = [faceDetector featuresInImage:ciImage options:imageOptions];
+    [ciImage release];
+    
+    // get the clean aperture
+    // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
+    // that represents image data valid for display.
+    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
+}
+
 
 
 - (void)didReceiveMemoryWarning {

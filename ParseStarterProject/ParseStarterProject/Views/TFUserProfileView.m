@@ -7,6 +7,7 @@
 //
 
 #import "TFUserProfileView.h"
+#import "UserInfo.h"
 
 @interface TFUserProfileView()
 {
@@ -110,17 +111,12 @@
 }
 
 
--(void) setUserInfo:(NSDictionary *) userInfo
+-(void) setUserInfo:(id) userInfo
 {
-    [nameLabel setText:[userInfo objectForKey:@"name"]];
-    
-    NSString *birthday = [userInfo objectForKey:@"birthday"];
-    if (birthday) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-        [ageLabel setText:[self age:[dateFormatter dateFromString:birthday]]];
-    }
-    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",userInfo[@"id"]];
+    UserInfo *user = (UserInfo *)userInfo;
+    [nameLabel setText:user.name];
+    [ageLabel setText:user.age];
+    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user.facebookId];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [activityIndicator startAnimating];

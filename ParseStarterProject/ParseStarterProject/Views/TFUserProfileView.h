@@ -10,13 +10,14 @@
 #import <Parse/Parse.h>
 
 
+
 @protocol TFUserProfileViewDelegate;
 
 @interface TFUserProfileView : UICollectionReusableView
 
 
 @property (nonatomic,weak) id<TFUserProfileViewDelegate> delegate;
--(void) setUserInfo:(NSDictionary *) userInfo;
+-(void) setUserInfo:(id) userInfo;
 
 @end
 

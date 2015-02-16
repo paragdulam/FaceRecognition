@@ -40,7 +40,6 @@
 		D156AAB91A7829F700FD9585 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D156AAB81A7829F700FD9585 /* FacebookSDK.framework */; };
 		D156AABA1A78309B00FD9585 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372FF521613CC3C002132AF /* Accounts.framework */; };
 		D156AABB1A7830C000FD9585 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372FF551613CC42002132AF /* Social.framework */; };
-		D15C22C51A7CFDBA0036159C /* TFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D15C22C41A7CFDBA0036159C /* TFUser.m */; };
 		D178ED171A78B9A8009B8A3E /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */; };
 		D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED191A78BB0F009B8A3E /* TFTwinsViewController.m */; };
 		D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED1C1A78C610009B8A3E /* TFCameraViewController.m */; };
@@ -52,7 +51,32 @@
 		D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BC31B01A80075900E83268 /* CustomCollectionFlowLayout.m */; };
 		DD952FCB16E7F5CF00470144 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E18B1E1624CB5700B17A67 /* CoreLocation.framework */; };
 		F115FEF31A860C5800D00A39 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F115FEF21A860C5800D00A39 /* CoreImage.framework */; };
+		F1837FCD1A91C5F50034E5DE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1837FCC1A91C5F50034E5DE /* CoreData.framework */; };
+		F1837FD01A91C63C0034E5DE /* TwinFinder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F1837FCE1A91C63C0034E5DE /* TwinFinder.xcdatamodeld */; };
+		F1CB59251A920D8400E071E7 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CB59241A920D8400E071E7 /* UserInfo.m */; };
+		F1CB59281A920D8400E071E7 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CB59271A920D8400E071E7 /* FaceImage.m */; };
+		F1CB59341A92354C00E071E7 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB59311A92354000E071E7 /* libGPUImage.a */; };
+		F1CB59371A92369500E071E7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB59361A92369500E071E7 /* OpenGLES.framework */; };
+		F1CB59391A9237AC00E071E7 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB59381A9237AC00E071E7 /* CoreVideo.framework */; };
+		F1CB593B1A9237B300E071E7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB593A1A9237B300E071E7 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F1CB59301A92354000E071E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1CB592A1A92353F00E071E7 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCF1A33414DDB1EC00852800;
+			remoteInfo = GPUImage;
+		};
+		F1CB59321A92354000E071E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1CB592A1A92353F00E071E7 /* GPUImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCE209E51943F20C002FEED8;
+			remoteInfo = GPUImageFramework;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		09144A7213C2997E00388B00 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -99,8 +123,6 @@
 		D145B3F71A81577D002204EC /* TFAddImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAddImageCollectionViewCell.h; sourceTree = "<group>"; };
 		D145B3F81A81577D002204EC /* TFAddImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAddImageCollectionViewCell.m; sourceTree = "<group>"; };
 		D156AAB81A7829F700FD9585 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
-		D15C22C31A7CFDBA0036159C /* TFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFUser.h; sourceTree = "<group>"; };
-		D15C22C41A7CFDBA0036159C /* TFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFUser.m; sourceTree = "<group>"; };
 		D178ED151A78B9A8009B8A3E /* TFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFLoginViewController.h; sourceTree = "<group>"; };
 		D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFLoginViewController.m; sourceTree = "<group>"; };
 		D178ED181A78BB0F009B8A3E /* TFTwinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTwinsViewController.h; sourceTree = "<group>"; };
@@ -119,6 +141,16 @@
 		D1BC31AF1A80075900E83268 /* CustomCollectionFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionFlowLayout.h; sourceTree = "<group>"; };
 		D1BC31B01A80075900E83268 /* CustomCollectionFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionFlowLayout.m; sourceTree = "<group>"; };
 		F115FEF21A860C5800D00A39 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		F1837FCC1A91C5F50034E5DE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		F1837FCF1A91C63C0034E5DE /* TwinFinder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TwinFinder.xcdatamodel; sourceTree = "<group>"; };
+		F1CB59231A920D8400E071E7 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		F1CB59241A920D8400E071E7 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		F1CB59261A920D8400E071E7 /* FaceImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceImage.h; sourceTree = "<group>"; };
+		F1CB59271A920D8400E071E7 /* FaceImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceImage.m; sourceTree = "<group>"; };
+		F1CB592A1A92353F00E071E7 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = gpu/GPUImage.xcodeproj; sourceTree = "<group>"; };
+		F1CB59361A92369500E071E7 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		F1CB59381A9237AC00E071E7 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		F1CB593A1A9237B300E071E7 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +158,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1CB593B1A9237B300E071E7 /* CoreMedia.framework in Frameworks */,
+				F1CB59391A9237AC00E071E7 /* CoreVideo.framework in Frameworks */,
+				F1CB59371A92369500E071E7 /* OpenGLES.framework in Frameworks */,
+				F1CB59341A92354C00E071E7 /* libGPUImage.a in Frameworks */,
+				F1837FCD1A91C5F50034E5DE /* CoreData.framework in Frameworks */,
 				F115FEF31A860C5800D00A39 /* CoreImage.framework in Frameworks */,
 				D178ED1F1A78C62D009B8A3E /* AVFoundation.framework in Frameworks */,
 				D156AABB1A7830C000FD9585 /* Social.framework in Frameworks */,
@@ -176,6 +213,11 @@
 		09ABC07013A1D52D009C3FCF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F1CB593A1A9237B300E071E7 /* CoreMedia.framework */,
+				F1CB59381A9237AC00E071E7 /* CoreVideo.framework */,
+				F1CB59361A92369500E071E7 /* OpenGLES.framework */,
+				F1CB592A1A92353F00E071E7 /* GPUImage.xcodeproj */,
+				F1837FCC1A91C5F50034E5DE /* CoreData.framework */,
 				F115FEF21A860C5800D00A39 /* CoreImage.framework */,
 				D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */,
 				D156AAB81A7829F700FD9585 /* FacebookSDK.framework */,
@@ -259,8 +301,11 @@
 		D15C22C21A7CFD860036159C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D15C22C31A7CFDBA0036159C /* TFUser.h */,
-				D15C22C41A7CFDBA0036159C /* TFUser.m */,
+				F1837FCE1A91C63C0034E5DE /* TwinFinder.xcdatamodeld */,
+				F1CB59261A920D8400E071E7 /* FaceImage.h */,
+				F1CB59271A920D8400E071E7 /* FaceImage.m */,
+				F1CB59231A920D8400E071E7 /* UserInfo.h */,
+				F1CB59241A920D8400E071E7 /* UserInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -306,6 +351,15 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		F1CB592B1A92353F00E071E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F1CB59311A92354000E071E7 /* libGPUImage.a */,
+				F1CB59331A92354000E071E7 /* GPUImage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -345,12 +399,35 @@
 			mainGroup = 09ABC06213A1D52D009C3FCF;
 			productRefGroup = 09ABC06E13A1D52D009C3FCF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F1CB592B1A92353F00E071E7 /* Products */;
+					ProjectRef = F1CB592A1A92353F00E071E7 /* GPUImage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				09ABC06C13A1D52D009C3FCF /* ParseStarterProject */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F1CB59311A92354000E071E7 /* libGPUImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGPUImage.a;
+			remoteRef = F1CB59301A92354000E071E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F1CB59331A92354000E071E7 /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = F1CB59321A92354000E071E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		09ABC06B13A1D52D009C3FCF /* Resources */ = {
@@ -390,6 +467,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1CB59281A920D8400E071E7 /* FaceImage.m in Sources */,
+				F1CB59251A920D8400E071E7 /* UserInfo.m in Sources */,
 				D145B3F51A814688002204EC /* TFFriendsHeaderView.m in Sources */,
 				D145B3F21A808D74002204EC /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
 				D184EA3E1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m in Sources */,
@@ -398,7 +477,7 @@
 				D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				D145B3F11A808D74002204EC /* CSStickyHeaderFlowLayout.m in Sources */,
 				D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */,
-				D15C22C51A7CFDBA0036159C /* TFUser.m in Sources */,
+				F1837FD01A91C63C0034E5DE /* TwinFinder.xcdatamodeld in Sources */,
 				D145B3F91A81577D002204EC /* TFAddImageCollectionViewCell.m in Sources */,
 				D178ED171A78B9A8009B8A3E /* TFLoginViewController.m in Sources */,
 				D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */,
@@ -459,7 +538,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.parag.twinfinder";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -471,6 +550,8 @@
 				GCC_PREFIX_HEADER = "ParseStarterProject/ParseStarterProject-Prefix.pch";
 				INFOPLIST_FILE = ParseStarterProject/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "645e8935-7a8f-4534-84b7-0920019abc63";
+				USER_HEADER_SEARCH_PATHS = "/Users/paragdulam/Projects/FaceRecognition/ParseStarterProject/gpu/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -479,7 +560,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.parag.twinfinder";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -490,6 +571,8 @@
 				GCC_PREFIX_HEADER = "ParseStarterProject/ParseStarterProject-Prefix.pch";
 				INFOPLIST_FILE = ParseStarterProject/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "645e8935-7a8f-4534-84b7-0920019abc63";
+				USER_HEADER_SEARCH_PATHS = "/Users/paragdulam/Projects/FaceRecognition/ParseStarterProject/gpu/**";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -517,6 +600,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F1837FCE1A91C63C0034E5DE /* TwinFinder.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F1837FCF1A91C63C0034E5DE /* TwinFinder.xcdatamodel */,
+			);
+			currentVersion = F1837FCF1A91C63C0034E5DE /* TwinFinder.xcdatamodel */;
+			path = TwinFinder.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 09ABC06413A1D52D009C3FCF /* Project object */;
 }

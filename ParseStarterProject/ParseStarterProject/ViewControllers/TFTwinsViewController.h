@@ -7,7 +7,10 @@
 //
 
 #import <ParseUI/ParseUI.h>
+#import "ParseStarterProjectAppDelegate.h"
 
 @interface TFTwinsViewController : PFQueryCollectionViewController
+
+@property (nonatomic,readonly) ParseStarterProjectAppDelegate *appDelegate;
 
 @end
