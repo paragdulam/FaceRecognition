@@ -160,6 +160,14 @@
     NSFetchRequest *userRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
     NSArray *users = [self.appDelegate.managedObjectContext executeFetchRequest:userRequest error:nil];
     self.userInfo = [users firstObject];
+    
+    NSFetchRequest *faceImagesRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"image_user.facebookId == %@",self.userInfo.facebookId];
+    [faceImagesRequest setPredicate:predicate];
+    NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:faceImagesRequest error:nil];
+    for (FaceImage *faceimage in images) {
+        [self.faceImages replaceObjectAtIndex:[faceimage.index intValue] withObject:faceimage];
+    }
     [self.collectionView setBackgroundColor:self.appColor];
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
