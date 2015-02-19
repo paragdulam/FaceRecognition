@@ -282,48 +282,24 @@
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
     
-    UIImage *anImage = [UIImage imageWithData:imageData];
-    CIImage* image = [CIImage imageWithCGImage:anImage.CGImage];
+    NSFetchRequest *imageFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"index == %@ && image_user.facebookId == %@",[NSNumber numberWithInt:indx],self.userInfo.facebookId];
+    [imageFetchRequest setPredicate:predicate];
+    NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:imageFetchRequest error:nil];
     
-    CIFilter *filter = [CIFilter filterWithName:@"CINoiseReduction"
-                                  keysAndValues: kCIInputImageKey, image,
-                        @"inputSharpness", @0.8, nil];
-    image = [filter outputImage];
-    
-    CIDetector* detector = [CIDetector detectorOfType:CIDetectorTypeFace
-                                              context:nil options:[NSDictionary dictionaryWithObjectsAndKeys:CIDetectorAccuracyHigh,CIDetectorAccuracy,[NSNumber numberWithInt:6],CIDetectorImageOrientation,nil]];
-    NSDictionary* imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:6] forKey:CIDetectorImageOrientation];
-    NSArray* features = [detector featuresInImage:image options:imageOptions];
-    int count = 0;
-    for(CIFaceFeature* faceFeature in features)
-    {
-        if (faceFeature) {
-            count ++;
-        }
-    }
-    if (count == 1)
-    {
-        NSFetchRequest *imageFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"index == %@ && image_user.facebookId == %@",[NSNumber numberWithInt:indx],self.userInfo.facebookId];
-        [imageFetchRequest setPredicate:predicate];
-        NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:imageFetchRequest error:nil];
-        
-        FaceImage *faceImage = nil;
-        if ([images count]) {
-            faceImage = [images firstObject];
-        } else {
-            faceImage = [NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:self.appDelegate.managedObjectContext];
-        }
-        faceImage.image = imageData;
-        faceImage.image_user = self.userInfo;
-        faceImage.index = [NSNumber numberWithInt:indx];
-        [self.appDelegate.managedObjectContext save:nil];
-        [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    FaceImage *faceImage = nil;
+    if ([images count]) {
+        faceImage = [images firstObject];
     } else {
-        UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The image that you select should have one and only one face in it.Click a selfie, may be." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-        [alrt show];
+        faceImage = [NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:self.appDelegate.managedObjectContext];
     }
+    faceImage.image = imageData;
+    faceImage.image_user = self.userInfo;
+    faceImage.index = [NSNumber numberWithInt:indx];
+    [self.appDelegate.managedObjectContext save:nil];
+    [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
+    
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
@@ -480,13 +456,10 @@
             aCell.backgroundColor = [UIColor clearColor];
             id obj =  [self.faceImages objectAtIndex:indexPath.row];
             if (![obj isKindOfClass:[NSNull class]]) {
-                PFObject *faceImage = (PFObject *)obj;
-                PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
-                [aCell.imageView setFile:imageFile];
-                [aCell.imageView loadInBackground:^(UIImage *image, NSError *error) {
-                    [aCell.imageView setImage:image];
-                    [aCell setNeedsLayout];
-                }];
+                FaceImage *faceImage = (FaceImage *)obj;
+                [aCell.addButton setTintColor:self.appColor];
+                UIImage *image = [UIImage imageWithData:faceImage.image];
+                [aCell.imageView setImage:image];
             }
         }
             break;

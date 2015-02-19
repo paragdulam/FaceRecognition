@@ -12,14 +12,16 @@
 #import <Parse/Parse.h>
 #import "GPUImage.h"
 
-@interface TFCameraViewController ()
+@interface TFCameraViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
 {
     dispatch_queue_t videoDataOutputQueue;
+    BOOL isUsingFrontFacingCamera;
 }
 
 @property(nonatomic,strong) AVCaptureStillImageOutput *stillImageOutput;
 @property(nonatomic,strong) AVCaptureSession *session;
 @property(nonatomic,strong) AVCaptureVideoDataOutput *videoDataOutput;
+@property(nonatomic,strong) CIDetector *faceDetector;
 
 @end
 
@@ -30,6 +32,7 @@
 {
     if (self = [super init]) {
         self.index = indx;
+        isUsingFrontFacingCamera = YES;
     }
     return self;
 }
@@ -78,6 +81,9 @@
     
     self.videoDataOutput = [AVCaptureVideoDataOutput new];
     
+    NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
+    self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
+    
     // we want BGRA, both CoreGraphics and OpenGL work well with 'BGRA'
     NSDictionary *rgbOutputSettings = [NSDictionary dictionaryWithObject:
                                        [NSNumber numberWithInt:kCMPixelFormat_32BGRA] forKey:(id)kCVPixelBufferPixelFormatTypeKey];
@@ -88,7 +94,7 @@
     
     if ( [self.session canAddOutput:self.videoDataOutput] )
         [self.session addOutput:self.videoDataOutput];
-    [[self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:NO];
+    [[self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
 
     
     AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
@@ -167,6 +173,7 @@
         if (imageSampleBuffer != NULL) {
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
             if ([self.delegate respondsToSelector:@selector(cameraViewController:didCapturePictureWithData:WithIndex:)]) {
+                [self.session stopRunning];
                 [self.delegate cameraViewController:self didCapturePictureWithData:imageData WithIndex:self.index];
             }
         }
@@ -188,7 +195,7 @@
     // got an image
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
-    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(NSDictionary *)attachments];
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(__bridge NSDictionary *)attachments];
     if (attachments)
         CFRelease(attachments);
     NSDictionary *imageOptions = nil;
@@ -237,14 +244,15 @@
     }
     
     imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:exifOrientation] forKey:CIDetectorImageOrientation];
-    NSArray *features = [faceDetector featuresInImage:ciImage options:imageOptions];
-    [ciImage release];
-    
-    // get the clean aperture
-    // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
-    // that represents image data valid for display.
-    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
-    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
+    NSArray *features = [self.faceDetector featuresInImage:ciImage options:imageOptions];
+    NSLog(@"features %@",features);
+    int count = 0;
+    for (CIFaceFeature* faceFeature in features) {
+        count ++;
+    }
+    if (count == 1) {
+        [self captureButtonTapped:nil];
+    }
 }
 
 

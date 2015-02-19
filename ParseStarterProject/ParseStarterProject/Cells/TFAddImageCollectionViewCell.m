@@ -10,7 +10,6 @@
 @interface TFAddImageCollectionViewCell()
 {
     UIView *overlayView;
-    UIButton *addButton;
     UIView *backgroundView;
 }
 
@@ -21,6 +20,9 @@
 -(id) initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        self.imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
+        [self.contentView addSubview:self.imageView];
+
         self.imageView.contentMode = UIViewContentModeScaleToFill;
         overlayView = [[UIView alloc] initWithFrame:self.contentView.bounds];
         [self.contentView addSubview:overlayView];
@@ -32,9 +34,9 @@
         backgroundView.alpha = 0.9;
         [self.contentView addSubview:backgroundView];
         
-        addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        [backgroundView addSubview:addButton];
-        addButton.center = CGPointMake(backgroundView.frame.size.width/2, backgroundView.frame.size.height/2);
+        self.addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        [backgroundView addSubview:self.addButton];
+        self.addButton.center = CGPointMake(backgroundView.frame.size.width/2, backgroundView.frame.size.height/2);
         
         self.layer.shadowColor = [UIColor whiteColor].CGColor;
         self.layer.shadowOffset = CGSizeMake(1, 1);

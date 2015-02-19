@@ -7,7 +7,13 @@
 //
 
 #import <ParseUI/ParseUI.h>
+#import <UIKit/UIKit.h>
 
-@interface TFAddImageCollectionViewCell : PFCollectionViewCell
+@interface TFAddImageCollectionViewCell : UICollectionViewCell
+
+
+@property(nonatomic,strong) UIButton *addButton;
+@property(nonatomic,strong) UIImageView *imageView;
+
 
 @end
