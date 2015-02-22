@@ -307,6 +307,36 @@
     [self.appDelegate.managedObjectContext save:nil];
     [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
     
+    PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+    [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+    [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:indx]];
+    [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFObject *faceImage = nil;
+        if (objects.count) {
+            faceImage = [objects firstObject];
+        } else {
+            faceImage = [PFObject objectWithClassName:@"FaceImage"];
+        }
+        PFFile *imageFile = [PFFile fileWithData:imageData];
+        [faceImage setObject:[NSNumber numberWithInt:indx] forKey:@"imageIndex"];
+        [faceImage setObject:imageFile forKey:@"imageFile"];
+        [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
+        [faceImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [PFCloud callFunctionInBackground:@"detectFace" withParameters:@{@"faceImageId":faceImage.objectId}
+                                        block:^(id object, NSError *error) {
+                                            NSArray *photos = [object objectForKey:@"photos"];
+                                            NSDictionary *photo = [photos firstObject];
+                                            NSArray *tags = [photo objectForKey:@"tags"];
+                                            NSDictionary *tag = [tags firstObject];
+                                            NSString *tid = [tag objectForKey:@"tid"];
+                                            NSString *uid = [NSString stringWithFormat:@"%@@TwinFinder",faceImage.objectId];
+                                            [PFCloud callFunctionInBackground:@"saveTag" withParameters:@{@"uid":uid,@"tid":tid} block:^(id object, NSError *error) {
+                                                
+                                            }];
+                                        }];
+        }];
+    }];
+    
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 

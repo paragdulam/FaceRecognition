@@ -251,7 +251,8 @@
         count ++;
     }
     if (count == 1) {
-        [self captureButtonTapped:nil];
+        NSLog(@"one face found");
+//        [self captureButtonTapped:nil];
     }
 }
 
