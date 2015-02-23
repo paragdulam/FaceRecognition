@@ -16,6 +16,7 @@
 {
     dispatch_queue_t videoDataOutputQueue;
     BOOL isUsingFrontFacingCamera;
+    UIButton *captureButton;
 }
 
 @property(nonatomic,strong) AVCaptureStillImageOutput *stillImageOutput;
@@ -109,7 +110,7 @@
     [self.session startRunning];
 
     
-    UIButton *captureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    captureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [captureButton setTitle:@"Capture" forState:UIControlStateNormal];
     [captureButton addTarget:self action:@selector(captureButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     captureButton.frame = CGRectMake(0, 0, 80, 30);
@@ -250,10 +251,7 @@
     for (CIFaceFeature* faceFeature in features) {
         count ++;
     }
-    if (count == 1) {
-        NSLog(@"one face found");
-//        [self captureButtonTapped:nil];
-    }
+    captureButton.enabled = count == 1;
 }
 
 

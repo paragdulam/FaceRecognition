@@ -65,6 +65,11 @@
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController setNavigationBarHidden:YES];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"user.did.login" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        [self.loginViewController dismissViewControllerAnimated:YES completion:NULL];
+        [self doPostLogin];
+    }];
+    
     // Do any additional setup after loading the view.
     [self.collectionView registerClass:[TFAddImageCollectionViewCell class]
             forCellWithReuseIdentifier:@"TFAddImageCollectionViewCell"];
@@ -123,6 +128,11 @@
 }
 
 
+-(void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void) objectsDidLoad:(NSError *)error
 {
     [super objectsDidLoad:error];
@@ -162,7 +172,7 @@
     self.userInfo = [users firstObject];
     
     NSFetchRequest *faceImagesRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"image_user.facebookId == %@",self.userInfo.facebookId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createdBy.facebookId == %@",self.userInfo.facebookId];
     [faceImagesRequest setPredicate:predicate];
     NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:faceImagesRequest error:nil];
     for (FaceImage *faceimage in images) {
@@ -171,7 +181,11 @@
     [self.collectionView setBackgroundColor:self.appColor];
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
+    
+    [PFCloud callFunctionInBackground:@"getFaceImages" withParameters:@{} block:^(id object, NSError *error) {
+        
+    }];
     
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSFetchRequest *userRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
@@ -291,7 +305,7 @@
     [vc dismissViewControllerAnimated:YES completion:NULL];
     
     NSFetchRequest *imageFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"index == %@ && image_user.facebookId == %@",[NSNumber numberWithInt:indx],self.userInfo.facebookId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"index == %@ && createdBy.facebookId == %@",[NSNumber numberWithInt:indx],self.userInfo.facebookId];
     [imageFetchRequest setPredicate:predicate];
     NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:imageFetchRequest error:nil];
     
@@ -302,7 +316,7 @@
         faceImage = [NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:self.appDelegate.managedObjectContext];
     }
     faceImage.image = imageData;
-    faceImage.image_user = self.userInfo;
+    faceImage.createdBy = self.userInfo;
     faceImage.index = [NSNumber numberWithInt:indx];
     [self.appDelegate.managedObjectContext save:nil];
     [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
@@ -579,7 +593,8 @@ shouldBeginLogInWithUsername:(NSString *)username
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
 {
-    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+    [alertView show];
 }
 
 - (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController

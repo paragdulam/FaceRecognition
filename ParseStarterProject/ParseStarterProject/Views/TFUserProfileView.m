@@ -8,6 +8,7 @@
 
 #import "TFUserProfileView.h"
 #import "UserInfo.h"
+#import "ParseStarterProjectAppDelegate.h"
 
 @interface TFUserProfileView()
 {
@@ -116,14 +117,29 @@
     UserInfo *user = (UserInfo *)userInfo;
     [nameLabel setText:user.name];
     [ageLabel setText:user.age];
-    NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user.facebookId];
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [activityIndicator startAnimating];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        [activityIndicator stopAnimating];
-        [profileButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-    }];
+    
+    ParseStarterProjectAppDelegate *appDelegate = (ParseStarterProjectAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@",[appDelegate applicationDocumentsDirectory].path,user.facebookId];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:NO]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *data = [NSData dataWithContentsOfFile:filePath];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [profileButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+            });
+        });
+    } else {
+        NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user.facebookId];
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        [activityIndicator startAnimating];
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [data writeToFile:filePath atomically:YES];
+            });
+            [activityIndicator stopAnimating];
+            [profileButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+        }];
+    }
 }
 
 @end

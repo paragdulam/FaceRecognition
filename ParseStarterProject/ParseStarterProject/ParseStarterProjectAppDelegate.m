@@ -63,6 +63,7 @@
     CSStickyHeaderFlowLayout *layout = [[CSStickyHeaderFlowLayout alloc] init];
     //UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
+    twinsViewController.loadingViewEnabled = NO;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:twinsViewController];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
@@ -150,7 +151,11 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[FBSession activeSession]];
+    BOOL retVal = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[FBSession activeSession]];
+    if (retVal) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"user.did.login" object:nil];
+    }
+    return retVal;
 }
 
 
