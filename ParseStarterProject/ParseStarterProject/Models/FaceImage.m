@@ -7,18 +7,14 @@
 //
 
 #import "FaceImage.h"
-#import "FaceAttribute.h"
 #import "UserInfo.h"
 
 
 @implementation FaceImage
 
 @dynamic image;
+@dynamic image_url;
 @dynamic index;
 @dynamic createdBy;
-@dynamic eye_left;
-@dynamic eye_right;
-@dynamic mouth;
-@dynamic nose;
 
 @end

@@ -111,16 +111,18 @@
 
     
     captureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [captureButton setTitle:@"Capture" forState:UIControlStateNormal];
     [captureButton addTarget:self action:@selector(captureButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    captureButton.frame = CGRectMake(0, 0, 80, 30);
+    UIImage *captureImage = [UIImage imageNamed:@"capture.png"];
+    captureButton.frame = CGRectMake(0, 0, captureImage.size.width, captureImage.size.height);
+    [captureButton setImage:captureImage forState:UIControlStateNormal];
     captureButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 50.f);
     [self.view addSubview:captureButton];
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    UIImage *cancelImage = [UIImage imageNamed:@"cancel.png"];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    cancelButton.frame = CGRectMake(10, self.view.frame.size.height - 50.f, 80, 30);
+    cancelButton.frame = CGRectMake(10, self.view.frame.size.height - 50.f, cancelImage.size.width, cancelImage.size.height);
+    [cancelButton setImage:cancelImage forState:UIControlStateNormal];
     [self.view addSubview:cancelButton];
     
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)]];

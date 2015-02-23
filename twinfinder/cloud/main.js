@@ -5,21 +5,32 @@
 var apiKey = "e44271416fb544759ca1b88e4a337034";
 var apiSecretKey = "4a1e752996404ace987b52d6d22a4a34";
 var baseURL = "http://api.skybiometry.com/fc/";
-var appNamespace;
 
 
 Parse.Cloud.define("getFaceImages", function(request,response) {
-  var query = new Parse.Query("FaceImage");
-  query.equalTo("createdBy",request.user);
-
-  query.find({
-    success: function(results) {
-      // results is an array of Parse.Object.
-      response.success(results);
+  var uid = request.params.uid;
+  var userInfo = Parse.Object.extend("UserInfo");
+  var userQuery = new Parse.Query(userInfo);
+  userQuery.equalTo("facebookId", uid);  
+    userQuery.find({
+      success: function(users) {
+      var user = users[0];
+      console.log("name "+user.name);
+      var faceImage = Parse.Object.extend("FaceImage");
+      var query = new Parse.Query(faceImage);
+        query.equalTo("createdBy",user.get("User"));
+        query.find({
+          success: function(results) {
+          // results is an array of Parse.Object.
+          response.success(results);
+        },
+          error: function(error) {
+          // error is an instance of Parse.Error.
+          response.error(error);
+        }
+      });
     },
-
-    error: function(error) {
-      // error is an instance of Parse.Error.
+    error :function(error) {
       response.error(error);
     }
   });
@@ -38,7 +49,6 @@ Parse.Cloud.define("getAppNamespace", function(request,response) {
     success: function(httpResponse) {
       console.log(httpResponse.text);
       response.success(httpResponse.data);
-      appNamespace = httpResponse.data.namespaces[0];
     },
     error: function(httpResponse) {
       console.log(httpResponse.text);
@@ -49,7 +59,8 @@ Parse.Cloud.define("getAppNamespace", function(request,response) {
 
 
 Parse.Cloud.define("matchWithAllUsers", function(request,response) {
-  var usersURL = baseURL + "account/users.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&namespaces=" + appNamespace;  
+  var namespace = request.params.namepsace;
+  var usersURL = baseURL + "account/users.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&namespaces=" + namepsace;  
     Parse.Cloud.httpRequest({
       method: 'GET', 
       url: namespaceURL,
@@ -59,7 +70,7 @@ Parse.Cloud.define("matchWithAllUsers", function(request,response) {
       success: function(httpResponse) {
         console.log(httpResponse.text);
         var users = httpResponse.data["users"];
-        var appUsers = users[appNamespace];
+        var appUsers = users[namespace];
         var uids = appUsers.join();
         var recognizeURL = baseURL + "faces/recognize.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&uids=" + uids;
         Parse.Cloud.httpRequest({

@@ -20,10 +20,11 @@
 #import "ParseStarterProjectAppDelegate.h"
 #import "UserInfo.h"
 #import "FaceImage.h"
+#import "TFAppManager.h"
 
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate,NSFetchedResultsSectionInfo>
 {
 }
 
@@ -44,16 +45,19 @@
 @implementation TFTwinsViewController
 
 
+
 -(UIColor *) appColor
 {
     UIColor *retVal = [UIColor darkGrayColor];
-    if ([self.userInfo.gender isEqualToString:@"male"]) {
+    UserInfo *uInfo = self.userInfo;
+    if ([uInfo.gender isEqualToString:@"male"]) {
         retVal = [UIColor colorWithRed:31.f/255.f green:75.f/255.f blue:207.f/255.f alpha:1.f];
-    } else if ([self.userInfo.gender isEqualToString:@"female"]) {
+    } else if ([uInfo.gender isEqualToString:@"female"]) {
         retVal = [UIColor colorWithRed:243.f/255.f green:80.f/255.f blue:144.f/255.f alpha:1.f];
     }
     return retVal;
 }
+
 
 -(ParseStarterProjectAppDelegate *) appDelegate
 {
@@ -167,54 +171,46 @@
 
 -(void) doPostLogin
 {
-    NSFetchRequest *userRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
-    NSArray *users = [self.appDelegate.managedObjectContext executeFetchRequest:userRequest error:nil];
-    self.userInfo = [users firstObject];
-    
-    NSFetchRequest *faceImagesRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createdBy.facebookId == %@",self.userInfo.facebookId];
-    [faceImagesRequest setPredicate:predicate];
-    NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:faceImagesRequest error:nil];
-    for (FaceImage *faceimage in images) {
-        [self.faceImages replaceObjectAtIndex:[faceimage.index intValue] withObject:faceimage];
-    }
-    [self.collectionView setBackgroundColor:self.appColor];
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
-    
-    [PFCloud callFunctionInBackground:@"getFaceImages" withParameters:@{} block:^(id object, NSError *error) {
-        
-    }];
-    
-    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSFetchRequest *userRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"facebookId == %@",[result objectForKey:@"id"]];
-        [userRequest setPredicate:predicate];
-        NSArray *users = [self.appDelegate.managedObjectContext executeFetchRequest:userRequest error:nil];
-        if ([users count]) {
-            self.userInfo = [users firstObject];
-        } else {
-            self.userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:self.appDelegate.managedObjectContext];
-            id facebookId = [result objectForKey:@"id"];
-            [self.userInfo setFacebookId:facebookId];
-        }
-        NSString *birthday = [result objectForKey:@"birthday"];
-        if (birthday) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-            NSDate *date = [dateFormatter dateFromString:birthday];
-            [self.userInfo setAge:[self age:date]];
-        }
-        [self.userInfo setName:[result objectForKey:@"name"]];
-        [self.userInfo setFirstName:[result objectForKey:@"first_name"]];
-        [self.userInfo setLastName:[result objectForKey:@"last_name"]];
-        [self.userInfo setGender:[result objectForKey:@"gender"]];
-        [self.appDelegate.managedObjectContext save:nil];
+    [TFAppManager saveCurrentUserWithCompletionBlock:^(id object, NSError *error) {
+        self.userInfo = object;
         [self.collectionView setBackgroundColor:self.appColor];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+        [self.collectionView reloadData];
+
+        
+        [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
+                             completionBlock:^(id object, NSError *error) {
+                                 FaceImage *face = (FaceImage *)object;
+                                 [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
+                                 [self.collectionView reloadData];
+                             }];
     }];
+    
+}
+
+
+
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    [self.collectionView reloadItemsAtIndexPaths:@[indexPath,newIndexPath]];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    
 }
 
 
@@ -304,54 +300,14 @@
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
     
-    NSFetchRequest *imageFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"index == %@ && createdBy.facebookId == %@",[NSNumber numberWithInt:indx],self.userInfo.facebookId];
-    [imageFetchRequest setPredicate:predicate];
-    NSArray *images = [self.appDelegate.managedObjectContext executeFetchRequest:imageFetchRequest error:nil];
-    
-    FaceImage *faceImage = nil;
-    if ([images count]) {
-        faceImage = [images firstObject];
-    } else {
-        faceImage = [NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:self.appDelegate.managedObjectContext];
-    }
-    faceImage.image = imageData;
-    faceImage.createdBy = self.userInfo;
-    faceImage.index = [NSNumber numberWithInt:indx];
-    [self.appDelegate.managedObjectContext save:nil];
-    [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
-    
-    PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-    [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-    [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:indx]];
-    [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        PFObject *faceImage = nil;
-        if (objects.count) {
-            faceImage = [objects firstObject];
-        } else {
-            faceImage = [PFObject objectWithClassName:@"FaceImage"];
-        }
-        PFFile *imageFile = [PFFile fileWithData:imageData];
-        [faceImage setObject:[NSNumber numberWithInt:indx] forKey:@"imageIndex"];
-        [faceImage setObject:imageFile forKey:@"imageFile"];
-        [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
-        [faceImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [PFCloud callFunctionInBackground:@"detectFace" withParameters:@{@"faceImageId":faceImage.objectId}
-                                        block:^(id object, NSError *error) {
-                                            NSArray *photos = [object objectForKey:@"photos"];
-                                            NSDictionary *photo = [photos firstObject];
-                                            NSArray *tags = [photo objectForKey:@"tags"];
-                                            NSDictionary *tag = [tags firstObject];
-                                            NSString *tid = [tag objectForKey:@"tid"];
-                                            NSString *uid = [NSString stringWithFormat:@"%@@TwinFinder",faceImage.objectId];
-                                            [PFCloud callFunctionInBackground:@"saveTag" withParameters:@{@"uid":uid,@"tid":tid} block:^(id object, NSError *error) {
-                                                
-                                            }];
-                                        }];
-        }];
-    }];
-    
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    [TFAppManager saveFaceImageData:imageData
+                            AtIndex:indx
+                          ForUserId:[TFAppManager currentUserId]
+                WithCompletionBlock:^(id object, NSError *error) {
+                    FaceImage *fImage = (FaceImage *)object;
+                    [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
+                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                }];
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
@@ -468,7 +424,7 @@
                                                    forIndexPath:indexPath];
             header.bounds = CGRectMake(0, 0, cv.frame.size.width, 40);
             header.backgroundColor = self.appColor;
-            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",self.userInfo.firstName];
+            NSMutableString *headerText = [NSMutableString stringWithFormat:@"%@'s ",[[self userInfo] firstName]];
             if (indexPath.section == 1) {
                 [headerText appendString:@"Lookalikes"];
             } else {

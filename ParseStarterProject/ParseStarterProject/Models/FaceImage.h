@@ -9,16 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class FaceAttribute, UserInfo;
+@class UserInfo;
 
 @interface FaceImage : NSManagedObject
 
 @property (nonatomic, retain) NSData * image;
+@property (nonatomic, retain) NSString * image_url;
 @property (nonatomic, retain) NSNumber * index;
 @property (nonatomic, retain) UserInfo *createdBy;
-@property (nonatomic, retain) FaceAttribute *eye_left;
-@property (nonatomic, retain) FaceAttribute *eye_right;
-@property (nonatomic, retain) FaceAttribute *mouth;
-@property (nonatomic, retain) FaceAttribute *nose;
 
 @end
