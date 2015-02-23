@@ -20,7 +20,6 @@
 #import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
 #import "TFTwinsViewController.h"
-#import "TFLoginViewController.h"
 #import "CSStickyHeaderFlowLayout.h"
 
 @implementation ParseStarterProjectAppDelegate
@@ -31,6 +30,13 @@
 
 #pragma mark -
 #pragma mark UIApplicationDelegate
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -152,12 +158,13 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
     BOOL retVal = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[FBSession activeSession]];
-    if (retVal) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"user.did.login" object:nil];
-    }
     return retVal;
 }
 
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [FBSession.activeSession handleOpenURL:url];
+}
 
 #pragma mark - Core Data stack
 

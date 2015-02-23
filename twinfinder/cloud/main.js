@@ -14,21 +14,25 @@ Parse.Cloud.define("getFaceImages", function(request,response) {
   userQuery.equalTo("facebookId", uid);  
     userQuery.find({
       success: function(users) {
-      var user = users[0];
-      console.log("name "+user.name);
-      var faceImage = Parse.Object.extend("FaceImage");
-      var query = new Parse.Query(faceImage);
-        query.equalTo("createdBy",user.get("User"));
-        query.find({
-          success: function(results) {
-          // results is an array of Parse.Object.
-          response.success(results);
-        },
-          error: function(error) {
-          // error is an instance of Parse.Error.
-          response.error(error);
-        }
-      });
+        if (users.length) {
+          var user = users[0];
+          console.log("name "+user.name);
+          var faceImage = Parse.Object.extend("FaceImage");
+          var query = new Parse.Query(faceImage);
+            query.equalTo("createdBy",user.get("User"));
+            query.find({
+              success: function(results) {
+              // results is an array of Parse.Object.
+              response.success(results);
+            },
+              error: function(error) {
+              // error is an instance of Parse.Error.
+              response.error(error);
+          }
+        });
+      } else {
+        response.success([]);
+      }
     },
     error :function(error) {
       response.error(error);
@@ -58,12 +62,34 @@ Parse.Cloud.define("getAppNamespace", function(request,response) {
 });
 
 
+Parse.Cloud.define("trainFaceImage", function(request,response) {
+  var uids = request.params.uids;
+  var trainURL = baseURL + "faces/train.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&uids=" + uids;  
+  Parse.Cloud.httpRequest({
+    method: 'GET', 
+    url: trainURL,
+    headers:{
+      "Content-Type":"application/json"
+    },
+    success: function(httpResponse) {
+      response.success(httpResponse.data);
+    },
+    error: function(httpResponse) {
+      console.log(httpResponse.text);
+      response.error(httpResponse.error);
+    }
+  });
+});
+
+
+
 Parse.Cloud.define("matchWithAllUsers", function(request,response) {
-  var namespace = request.params.namepsace;
-  var usersURL = baseURL + "account/users.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&namespaces=" + namepsace;  
+  var namespace = request.params.namespace;
+  var urls = request.params.urls;
+  var usersURL = baseURL + "account/users.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&namespaces=" + namespace;  
     Parse.Cloud.httpRequest({
       method: 'GET', 
-      url: namespaceURL,
+      url: usersURL,
       headers:{
         "Content-Type":"application/json"
       },
@@ -72,10 +98,10 @@ Parse.Cloud.define("matchWithAllUsers", function(request,response) {
         var users = httpResponse.data["users"];
         var appUsers = users[namespace];
         var uids = appUsers.join();
-        var recognizeURL = baseURL + "faces/recognize.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&uids=" + uids;
+        var recognizeURL = baseURL + "faces/recognize.json?api_key=" + apiKey + "&api_secret=" + apiSecretKey + "&uids=" + uids + "&urls=" + urls;
         Parse.Cloud.httpRequest({
           method: 'GET', 
-          url: namespaceURL,
+          url: recognizeURL,
           headers:{
             "Content-Type":"application/json"
           },

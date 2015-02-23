@@ -7,8 +7,8 @@
 //
 
 #import "TFTwinsViewController.h"
-#import "TFLoginViewController.h"
 #import "TFCameraViewController.h"
+#import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "TFUserProfileView.h"
@@ -24,12 +24,12 @@
 
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate,NSFetchedResultsSectionInfo>
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate>
 {
 }
 
 
-@property (nonatomic,strong) TFLoginViewController *loginViewController;
+@property (nonatomic,strong) PFLogInViewController *loginViewController;
 @property (nonatomic,strong) UserInfo *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
@@ -114,7 +114,7 @@
 {
     ParseStarterProjectAppDelegate *appDelegate = (ParseStarterProjectAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate flushDatabase];
-    self.loginViewController = [[TFLoginViewController alloc] init];
+    self.loginViewController = [[PFLogInViewController alloc] init];
     [self.loginViewController setFields:PFLogInFieldsFacebook];
     [self.loginViewController setDelegate:self];
     [self presentViewController:self.loginViewController animated:[animated boolValue] completion:NULL];
@@ -176,7 +176,6 @@
         [self.collectionView setBackgroundColor:self.appColor];
         [self.collectionView reloadData];
 
-        
         [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
                              completionBlock:^(id object, NSError *error) {
                                  FaceImage *face = (FaceImage *)object;
@@ -532,13 +531,6 @@
 }
 
 #pragma mark - PFLogInViewControllerDelegate
-
-- (BOOL)logInViewController:(PFLogInViewController *)logInController
-shouldBeginLogInWithUsername:(NSString *)username
-                   password:(NSString *)password
-{
-    return YES;
-}
 
 
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user

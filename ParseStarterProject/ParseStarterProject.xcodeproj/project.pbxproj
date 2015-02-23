@@ -40,7 +40,6 @@
 		D156AAB91A7829F700FD9585 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D156AAB81A7829F700FD9585 /* FacebookSDK.framework */; };
 		D156AABA1A78309B00FD9585 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372FF521613CC3C002132AF /* Accounts.framework */; };
 		D156AABB1A7830C000FD9585 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6372FF551613CC42002132AF /* Social.framework */; };
-		D178ED171A78B9A8009B8A3E /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */; };
 		D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED191A78BB0F009B8A3E /* TFTwinsViewController.m */; };
 		D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D178ED1C1A78C610009B8A3E /* TFCameraViewController.m */; };
 		D178ED1F1A78C62D009B8A3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D178ED1E1A78C62D009B8A3E /* AVFoundation.framework */; };
@@ -127,8 +126,6 @@
 		D145B3F71A81577D002204EC /* TFAddImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAddImageCollectionViewCell.h; sourceTree = "<group>"; };
 		D145B3F81A81577D002204EC /* TFAddImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAddImageCollectionViewCell.m; sourceTree = "<group>"; };
 		D156AAB81A7829F700FD9585 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
-		D178ED151A78B9A8009B8A3E /* TFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFLoginViewController.h; sourceTree = "<group>"; };
-		D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFLoginViewController.m; sourceTree = "<group>"; };
 		D178ED181A78BB0F009B8A3E /* TFTwinsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTwinsViewController.h; sourceTree = "<group>"; };
 		D178ED191A78BB0F009B8A3E /* TFTwinsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFTwinsViewController.m; sourceTree = "<group>"; };
 		D178ED1B1A78C610009B8A3E /* TFCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCameraViewController.h; sourceTree = "<group>"; };
@@ -323,8 +320,6 @@
 		D178ED141A78B98B009B8A3E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D178ED151A78B9A8009B8A3E /* TFLoginViewController.h */,
-				D178ED161A78B9A8009B8A3E /* TFLoginViewController.m */,
 				D178ED181A78BB0F009B8A3E /* TFTwinsViewController.h */,
 				D178ED191A78BB0F009B8A3E /* TFTwinsViewController.m */,
 				D178ED1B1A78C610009B8A3E /* TFCameraViewController.h */,
@@ -506,7 +501,6 @@
 				D178ED1A1A78BB0F009B8A3E /* TFTwinsViewController.m in Sources */,
 				F1837FD01A91C63C0034E5DE /* TwinFinder.xcdatamodeld in Sources */,
 				D145B3F91A81577D002204EC /* TFAddImageCollectionViewCell.m in Sources */,
-				D178ED171A78B9A8009B8A3E /* TFLoginViewController.m in Sources */,
 				D1BC31B11A80075900E83268 /* CustomCollectionFlowLayout.m in Sources */,
 				D1BC31AE1A80004000E83268 /* TFUserProfileView.m in Sources */,
 				09ABC07F13A1D52D009C3FCF /* main.m in Sources */,

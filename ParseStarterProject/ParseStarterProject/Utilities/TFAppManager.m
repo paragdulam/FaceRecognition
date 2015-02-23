@@ -109,21 +109,30 @@
         [userInfo setLastName:[result objectForKey:@"last_name"]];
         [userInfo setGender:[result objectForKey:@"gender"]];
         
-        PFObject *uInfo = [PFObject objectWithClassName:@"UserInfo"];
-        [uInfo setObject:userInfo.name forKey:@"name"];
-        [uInfo setObject:userInfo.firstName forKey:@"firstName"];
-        [uInfo setObject:userInfo.lastName forKey:@"lastName"];
-        [uInfo setObject:userInfo.age forKey:@"age"];
-        [uInfo setObject:userInfo.gender forKey:@"gender"];
-        [uInfo setObject:[PFUser currentUser] forKey:@"User"];
-        [uInfo setObject:facebookId forKey:@"facebookId"];
-        [uInfo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
-        }];
-        
         completionBlock(userInfo,error);
         if (!error) {
             [[TFAppManager appDelegate].managedObjectContext save:nil];
+            
+            PFQuery *uInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
+            [uInfoQuery whereKey:@"facebookId" equalTo:facebookId];
+            [uInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                PFObject *uInfo = nil;
+                if ([objects count]) {
+                    uInfo = [objects firstObject];
+                } else {
+                    uInfo = [PFObject objectWithClassName:@"UserInfo"];
+                }
+                [uInfo setObject:userInfo.name forKey:@"name"];
+                [uInfo setObject:userInfo.firstName forKey:@"firstName"];
+                [uInfo setObject:userInfo.lastName forKey:@"lastName"];
+                [uInfo setObject:userInfo.age forKey:@"age"];
+                [uInfo setObject:userInfo.gender forKey:@"gender"];
+                [uInfo setObject:[PFUser currentUser] forKey:@"User"];
+                [uInfo setObject:facebookId forKey:@"facebookId"];
+                [uInfo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    
+                }];
+            }];
         }
     }];
 
@@ -214,11 +223,39 @@
                     NSDictionary *tag = [tags firstObject];
                     NSString *tid = tag[@"tid"];
                     [PFCloud callFunctionInBackground:@"getAppNamespace" withParameters:@{} block:^(id object, NSError *error) {
-                        NSString *namespace = object;
+                        NSDictionary *response = (NSDictionary *)object;
+                        NSArray *namespaces = [response objectForKey:@"namespaces"] ;
+                        NSString *namespace = [[namespaces firstObject] objectForKey:@"name"];
                         NSString *uid = [NSString stringWithFormat:@"%@@%@",parseImage.objectId,namespace];
                         [PFCloud callFunctionInBackground:@"saveTag" withParameters:@{@"tid":tid,@"uid":uid} block:^(id object, NSError *error) {
-                            [PFCloud callFunctionInBackground:@"matchWithAllUsers" withParameters:@{@"namespace":namespace} block:^(id object, NSError *error) {
-                                
+                            [PFCloud callFunctionInBackground:@"trainFaceImage" withParameters:@{@"uids":uid} block:^(id object, NSError *error) {
+                                [PFCloud callFunctionInBackground:@"matchWithAllUsers" withParameters:@{@"namespace":namespace,@"urls":uploadedFile.url} block:^(id object, NSError *error) {
+                                    NSDictionary *response = (NSDictionary *)object;
+                                    NSArray *photos = [response objectForKey:@"photos"];
+                                    NSDictionary *photo = [photos firstObject];
+                                    NSArray *tags = [photo objectForKey:@"tags"];
+                                    NSDictionary *tag = [tags firstObject];
+                                    NSArray *uids = [tag objectForKey:@"uids"];
+                                    for (NSDictionary *uid in uids) {
+                                        if ([[uid objectForKey:@"confidence"] intValue] > 70) {
+                                            //found similar face
+                                            NSString *uidString = [uid objectForKey:@"uid"];
+                                            NSString *faceImageId = [[uidString componentsSeparatedByString:@"@"] firstObject];
+                                            PFQuery *imageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+                                            [imageQuery whereKey:@"objectId" equalTo:faceImageId];
+                                            [imageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                                                PFObject *faceImage = [objects firstObject];
+                                                FaceImage *fImage = (FaceImage *)[NSEntityDescription entityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+                                                
+                                                PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
+                                                [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                                    fImage.image = data
+                                                    ;                                                    completionBlock(fImage,error);
+                                                }];
+                                            }];
+                                        }
+                                    }
+                                }];
                             }];
                         }];
                     }];

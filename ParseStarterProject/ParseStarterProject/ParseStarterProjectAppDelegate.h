@@ -5,7 +5,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GPUImage.h"
 
 
 @interface ParseStarterProjectAppDelegate : NSObject <UIApplicationDelegate>
@@ -18,6 +17,6 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
--(void) flushDatabase;
+- (void) flushDatabase;
 
 @end

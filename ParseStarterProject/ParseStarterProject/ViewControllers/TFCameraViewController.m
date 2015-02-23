@@ -10,7 +10,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "TFCameraOverlayView.h"
 #import <Parse/Parse.h>
-#import "GPUImage.h"
 
 @interface TFCameraViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
 {
