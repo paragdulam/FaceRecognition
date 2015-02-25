@@ -302,12 +302,16 @@
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int)indx
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
-    
-    self.progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    });
     [TFAppManager saveFaceImageData:imageData
                             AtIndex:indx
                           ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString) {
-                              [self.progressHUD setLabelText:progressString];
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  [self.progressHUD setLabelText:progressString];
+                              });
                           }
                 WithCompletionBlock:^(id object, int type ,NSError *error) {
                     [self.progressHUD hide:YES];
