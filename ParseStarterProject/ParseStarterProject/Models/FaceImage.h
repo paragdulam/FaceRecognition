@@ -2,7 +2,7 @@
 //  FaceImage.h
 //  ParseStarterProject
 //
-//  Created by Parag Dulam on 23/02/15.
+//  Created by Parag Dulam on 25/02/15.
 //
 //
 
@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSString * image_url;
 @property (nonatomic, retain) NSNumber * index;
+@property (nonatomic, retain) NSString * parse_id;
 @property (nonatomic, retain) UserInfo *createdBy;
 
 @end

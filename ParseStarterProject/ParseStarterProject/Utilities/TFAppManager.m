@@ -72,6 +72,7 @@
                     fImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
                 }
                 fImage.index = [NSNumber numberWithInt:index];
+                fImage.parse_id = faceImage.objectId;
                 
                 PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
                 fImage.image_url = imageFile.url;
@@ -82,6 +83,15 @@
                 }];
             }];
         }
+    }];
+}
+
+
+
++(void) getUserFriendsWithCompletionBlock:(void(^)(id object,NSError *error))completionBlock
+{
+    [FBRequestConnection startForMyFriendsWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        completionBlock(result,error);
     }];
 }
 
@@ -186,9 +196,10 @@
     completionBlock([faceImages firstObject],error);
 }
 
-+(void) saveFaceImageData:(NSData *)imData AtIndex:(int)index ForUserId:(NSString *)fbId WithCompletionBlock:(void(^)(id object,NSError *error))completionBlock
++(void) saveFaceImageData:(NSData *)imData AtIndex:(int)index ForUserId:(NSString *)fbId withProgressBlock:(void(^)(NSString *))progressBlock WithCompletionBlock:(void(^)(id object, int type ,NSError *error))completionBlock
 {
     [TFAppManager getFaceImageForUserId:fbId andIndex:index withCompletionBlock:^(id object, NSError *error) {
+        progressBlock(@"Uploading...");
         FaceImage *faceImage = (FaceImage *)object;
         if (!faceImage) {
             faceImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
@@ -213,8 +224,10 @@
             [parseImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 PFFile *uploadedFile = [parseImage objectForKey:@"imageFile"];
                 faceImage.image_url = uploadedFile.url;
+                faceImage.parse_id = parseImage.objectId;
                 [[TFAppManager appDelegate].managedObjectContext save:nil];
                 
+                progressBlock(@"Detecting Face...");
                 [PFCloud callFunctionInBackground:@"detectFace" withParameters:@{@"faceImageId":parseImage.objectId} block:^(id object, NSError *error) {
                     NSDictionary *faceFeatures = (NSDictionary *)object;
                     NSArray *photos = [faceFeatures objectForKey:@"photos"];
@@ -228,7 +241,9 @@
                         NSString *namespace = [[namespaces firstObject] objectForKey:@"name"];
                         NSString *uid = [NSString stringWithFormat:@"%@@%@",parseImage.objectId,namespace];
                         [PFCloud callFunctionInBackground:@"saveTag" withParameters:@{@"tid":tid,@"uid":uid} block:^(id object, NSError *error) {
+                            progressBlock(@"Training the Image...");
                             [PFCloud callFunctionInBackground:@"trainFaceImage" withParameters:@{@"uids":uid} block:^(id object, NSError *error) {
+                                progressBlock(@"Matching with other images...");
                                 [PFCloud callFunctionInBackground:@"matchWithAllUsers" withParameters:@{@"namespace":namespace,@"urls":uploadedFile.url} block:^(id object, NSError *error) {
                                     NSDictionary *response = (NSDictionary *)object;
                                     NSArray *photos = [response objectForKey:@"photos"];
@@ -245,13 +260,27 @@
                                             [imageQuery whereKey:@"objectId" equalTo:faceImageId];
                                             [imageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                                                 PFObject *faceImage = [objects firstObject];
-                                                FaceImage *fImage = (FaceImage *)[NSEntityDescription entityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
                                                 
+                                                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
+                                                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parse_id == %@",faceImage.objectId];
+                                                [fetchRequest setPredicate:predicate];
+                                                NSArray *fImages = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+                                                FaceImage *fImage = nil;
+                                                if ([fImages count]) {
+                                                    fImage = [fImages firstObject];
+                                                } else {
+                                                    fImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+                                                }
                                                 PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
-                                                [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                                                    fImage.image = data
-                                                    ;                                                    completionBlock(fImage,error);
-                                                }];
+                                                PFUser *createdBy = [faceImage objectForKey:@"createdBy"];
+                                                if (![createdBy.objectId isEqualToString:[PFUser currentUser].objectId]) {
+                                                    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                                        fImage.image = data
+                                                        ;
+                                                        [[TFAppManager appDelegate].managedObjectContext save:nil];
+                                                        completionBlock(fImage,1,error);
+                                                    }];
+                                                }
                                             }];
                                         }
                                     }
@@ -262,7 +291,7 @@
                 }];
             }];
         }];
-        completionBlock(faceImage,error);
+        completionBlock(faceImage,0,error);
     }];
 }
 

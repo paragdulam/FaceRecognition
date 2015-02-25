@@ -51,13 +51,15 @@
 		DD952FCB16E7F5CF00470144 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97E18B1E1624CB5700B17A67 /* CoreLocation.framework */; };
 		F10FA1E71A9B45D70090FF7F /* TFAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F10FA1E61A9B45D70090FF7F /* TFAppManager.m */; };
 		F115FEF31A860C5800D00A39 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F115FEF21A860C5800D00A39 /* CoreImage.framework */; };
+		F157CFF41A9D9E2100B14EDC /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F157CFF31A9D9E2100B14EDC /* UserInfo.m */; };
+		F157CFF71A9D9E2200B14EDC /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F157CFF61A9D9E2200B14EDC /* FaceImage.m */; };
+		F157CFFA1A9DC0A000B14EDC /* TFFriendCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F157CFF91A9DC0A000B14EDC /* TFFriendCollectionViewCell.m */; };
+		F17F68301A9E3065000E70EC /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F17F682F1A9E3065000E70EC /* MBProgressHUD.m */; };
 		F1837FCD1A91C5F50034E5DE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1837FCC1A91C5F50034E5DE /* CoreData.framework */; };
 		F1837FD01A91C63C0034E5DE /* TwinFinder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F1837FCE1A91C63C0034E5DE /* TwinFinder.xcdatamodeld */; };
-		F1CB59251A920D8400E071E7 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CB59241A920D8400E071E7 /* UserInfo.m */; };
 		F1CB59371A92369500E071E7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB59361A92369500E071E7 /* OpenGLES.framework */; };
 		F1CB59391A9237AC00E071E7 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB59381A9237AC00E071E7 /* CoreVideo.framework */; };
 		F1CB593B1A9237B300E071E7 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1CB593A1A9237B300E071E7 /* CoreMedia.framework */; };
-		F1D01E3A1A9B89D4000EE213 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D01E391A9B89D4000EE213 /* FaceImage.m */; };
 		F1D01E3D1A9B9E4E000EE213 /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D01E3C1A9B9E4E000EE213 /* cancel.png */; };
 		F1D01E3F1A9B9E6E000EE213 /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D01E3E1A9B9E6E000EE213 /* cancel@2x.png */; };
 		F1D01E411A9B9E7E000EE213 /* capture.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D01E401A9B9E7E000EE213 /* capture.png */; };
@@ -144,16 +146,20 @@
 		F10FA1E51A9B45D70090FF7F /* TFAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAppManager.h; sourceTree = "<group>"; };
 		F10FA1E61A9B45D70090FF7F /* TFAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAppManager.m; sourceTree = "<group>"; };
 		F115FEF21A860C5800D00A39 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		F157CFF21A9D9E2100B14EDC /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		F157CFF31A9D9E2100B14EDC /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		F157CFF51A9D9E2200B14EDC /* FaceImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceImage.h; sourceTree = "<group>"; };
+		F157CFF61A9D9E2200B14EDC /* FaceImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceImage.m; sourceTree = "<group>"; };
+		F157CFF81A9DC0A000B14EDC /* TFFriendCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFriendCollectionViewCell.h; sourceTree = "<group>"; };
+		F157CFF91A9DC0A000B14EDC /* TFFriendCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFriendCollectionViewCell.m; sourceTree = "<group>"; };
+		F17F682E1A9E3065000E70EC /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		F17F682F1A9E3065000E70EC /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		F1837FCC1A91C5F50034E5DE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F1837FCF1A91C63C0034E5DE /* TwinFinder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TwinFinder.xcdatamodel; sourceTree = "<group>"; };
-		F1CB59231A920D8400E071E7 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
-		F1CB59241A920D8400E071E7 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		F1CB592A1A92353F00E071E7 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = gpu/GPUImage.xcodeproj; sourceTree = "<group>"; };
 		F1CB59361A92369500E071E7 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		F1CB59381A9237AC00E071E7 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		F1CB593A1A9237B300E071E7 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		F1D01E381A9B89D4000EE213 /* FaceImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceImage.h; sourceTree = "<group>"; };
-		F1D01E391A9B89D4000EE213 /* FaceImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceImage.m; sourceTree = "<group>"; };
 		F1D01E3C1A9B9E4E000EE213 /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
 		F1D01E3E1A9B9E6E000EE213 /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 		F1D01E401A9B9E7E000EE213 /* capture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = capture.png; sourceTree = "<group>"; };
@@ -301,6 +307,8 @@
 				D145B3F81A81577D002204EC /* TFAddImageCollectionViewCell.m */,
 				D184EA3C1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.h */,
 				D184EA3D1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m */,
+				F157CFF81A9DC0A000B14EDC /* TFFriendCollectionViewCell.h */,
+				F157CFF91A9DC0A000B14EDC /* TFFriendCollectionViewCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -309,10 +317,10 @@
 			isa = PBXGroup;
 			children = (
 				F1837FCE1A91C63C0034E5DE /* TwinFinder.xcdatamodeld */,
-				F1CB59231A920D8400E071E7 /* UserInfo.h */,
-				F1CB59241A920D8400E071E7 /* UserInfo.m */,
-				F1D01E381A9B89D4000EE213 /* FaceImage.h */,
-				F1D01E391A9B89D4000EE213 /* FaceImage.m */,
+				F157CFF51A9D9E2200B14EDC /* FaceImage.h */,
+				F157CFF61A9D9E2200B14EDC /* FaceImage.m */,
+				F157CFF21A9D9E2100B14EDC /* UserInfo.h */,
+				F157CFF31A9D9E2100B14EDC /* UserInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -346,6 +354,7 @@
 		D1BC31A81A7FF7BF00E83268 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F17F682D1A9E3065000E70EC /* MBProgressHUD */,
 				D145B3ED1A808D74002204EC /* CSStickyHeaderFlowLayout.h */,
 				D145B3EE1A808D74002204EC /* CSStickyHeaderFlowLayout.m */,
 				D145B3EF1A808D74002204EC /* CSStickyHeaderFlowLayoutAttributes.h */,
@@ -356,6 +365,15 @@
 				F10FA1E61A9B45D70090FF7F /* TFAppManager.m */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F17F682D1A9E3065000E70EC /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				F17F682E1A9E3065000E70EC /* MBProgressHUD.h */,
+				F17F682F1A9E3065000E70EC /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		F1CB592B1A92353F00E071E7 /* Products */ = {
@@ -489,12 +507,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1CB59251A920D8400E071E7 /* UserInfo.m in Sources */,
+				F157CFF71A9D9E2200B14EDC /* FaceImage.m in Sources */,
+				F157CFF41A9D9E2100B14EDC /* UserInfo.m in Sources */,
 				D145B3F51A814688002204EC /* TFFriendsHeaderView.m in Sources */,
 				D145B3F21A808D74002204EC /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
+				F157CFFA1A9DC0A000B14EDC /* TFFriendCollectionViewCell.m in Sources */,
 				D184EA3E1A87D94D0061F2E5 /* TFEmptyCollectionViewCell.m in Sources */,
-				F1D01E3A1A9B89D4000EE213 /* FaceImage.m in Sources */,
 				D178ED231A78C903009B8A3E /* TFCameraOverlayView.m in Sources */,
+				F17F68301A9E3065000E70EC /* MBProgressHUD.m in Sources */,
 				D178ED1D1A78C610009B8A3E /* TFCameraViewController.m in Sources */,
 				D1BC31AB1A7FF7E700E83268 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				D145B3F11A808D74002204EC /* CSStickyHeaderFlowLayout.m in Sources */,

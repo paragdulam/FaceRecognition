@@ -21,6 +21,8 @@
 #import "UserInfo.h"
 #import "FaceImage.h"
 #import "TFAppManager.h"
+#import "TFFriendCollectionViewCell.h"
+#import "MBProgressHUD.h"
 
 
 
@@ -37,7 +39,10 @@
 
 
 @property (nonatomic,strong) NSMutableArray *faceImages;
+@property (nonatomic,strong) NSArray *lookalikes;
 @property (nonatomic,strong) NSArray *friends;
+
+@property (nonatomic,strong) MBProgressHUD *progressHUD;
 
 
 @end
@@ -69,6 +74,7 @@
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController setNavigationBarHidden:YES];
     
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"user.did.login" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         [self.loginViewController dismissViewControllerAnimated:YES completion:NULL];
         [self doPostLogin];
@@ -81,6 +87,9 @@
             forCellWithReuseIdentifier:@"PFCollectionViewCell"];
     [self.collectionView registerClass:[TFEmptyCollectionViewCell class]
             forCellWithReuseIdentifier:@"TFEmptyCollectionViewCell"];
+    [self.collectionView registerClass:[TFFriendCollectionViewCell class]
+            forCellWithReuseIdentifier:@"TFFriendCollectionViewCell"];
+
 
     [self.collectionView setAlwaysBounceVertical:YES];
     
@@ -95,6 +104,7 @@
     
     [self setNeedsStatusBarAppearanceUpdate];
     self.faceImages = [[NSMutableArray alloc] initWithObjects:[NSNull null],[NSNull null],[NSNull null], nil];
+    self.lookalikes = [[NSArray alloc] init];
     if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];
     } else {
@@ -137,17 +147,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void) objectsDidLoad:(NSError *)error
-{
-    [super objectsDidLoad:error];
-    [PFObject pinAll:self.objects];
-}
-
-//-(PFQuery *) queryForCollection
-//{
-//    PFQuery *userQuery = [PFUser query];
-//    return userQuery;
-//}
 
 
 - (NSString *)age:(NSDate *)dateOfBirth {
@@ -182,6 +181,11 @@
                                  [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                  [self.collectionView reloadData];
                              }];
+    }];
+    
+    [TFAppManager getUserFriendsWithCompletionBlock:^(id object, NSError *error) {
+        self.friends = [object objectForKey:@"data"];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
     }];
     
 }
@@ -299,13 +303,34 @@
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
     
+    self.progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [TFAppManager saveFaceImageData:imageData
                             AtIndex:indx
-                          ForUserId:[TFAppManager currentUserId]
-                WithCompletionBlock:^(id object, NSError *error) {
+                          ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString) {
+                              [self.progressHUD setLabelText:progressString];
+                          }
+                WithCompletionBlock:^(id object, int type ,NSError *error) {
+                    [self.progressHUD hide:YES];
                     FaceImage *fImage = (FaceImage *)object;
-                    [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
-                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                    switch (type) {
+                        case 0:
+                        {
+                            [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
+                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                        }
+                            break;
+                        case 1:
+                        {
+                            NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
+                            [objects addObject:fImage];
+                            self.lookalikes = objects;
+                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                        }
+                            break;
+                            
+                        default:
+                            break;
+                    }
                 }];
 }
 
@@ -329,7 +354,7 @@
             return 3;
             break;
         case 1:
-            return self.objects.count ? self.objects.count : 1;
+            return self.lookalikes.count ? self.lookalikes.count : 1;
             break;
         case 2:
             return self.friends.count ? self.friends.count : 1;
@@ -371,7 +396,7 @@
             break;
         case 1:
         {
-            if (self.objects.count) {
+            if (self.lookalikes.count) {
                 CGFloat width = [UIScreen mainScreen].bounds.size.width;
                 CGFloat height = [UIScreen mainScreen].bounds.size.height;
                 CGFloat ratio = height/width;
@@ -384,10 +409,7 @@
         case 2:
         {
             if (self.friends.count) {
-                CGFloat width = [UIScreen mainScreen].bounds.size.width;
-                CGFloat height = [UIScreen mainScreen].bounds.size.height;
-                CGFloat ratio = height/width;
-                return CGSizeMake(94, 94 * ratio);
+                return CGSizeMake(94, 94);
             } else {
                 return CGSizeMake(300,80);
             }
@@ -472,8 +494,17 @@
             break;
         case 1:
         {
-            if (self.objects.count) {
-                cell = (PFCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
+            if (self.lookalikes.count) {
+                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TFAddImageCollectionViewCell" forIndexPath:indexPath];
+                TFAddImageCollectionViewCell *aCell = (TFAddImageCollectionViewCell *)cell;
+                aCell.backgroundColor = [UIColor clearColor];
+                id obj =  [self.lookalikes objectAtIndex:indexPath.row];
+                if (![obj isKindOfClass:[NSNull class]]) {
+                    FaceImage *faceImage = (FaceImage *)obj;
+                    [aCell.addButton setTintColor:self.appColor];
+                    UIImage *image = [UIImage imageWithData:faceImage.image];
+                    [aCell.imageView setImage:image];
+                }
 
             } else {
                 cell = (TFEmptyCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFEmptyCollectionViewCell" forIndexPath:indexPath];
@@ -485,8 +516,9 @@
         case 2:
         {
             if (self.friends.count) {
-                cell = (PFCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PFCollectionViewCell" forIndexPath:indexPath];
-                
+                cell = (TFFriendCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFFriendCollectionViewCell" forIndexPath:indexPath];
+                TFFriendCollectionViewCell *aCell = (TFFriendCollectionViewCell *)cell;
+                [aCell setFriend:[self.friends objectAtIndex:indexPath.row]];
             } else {
                 cell = (TFEmptyCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFEmptyCollectionViewCell" forIndexPath:indexPath];
                 TFEmptyCollectionViewCell *aCell = (TFEmptyCollectionViewCell *)cell;

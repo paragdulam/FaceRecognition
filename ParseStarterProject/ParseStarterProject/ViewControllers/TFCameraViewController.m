@@ -116,6 +116,7 @@
     [captureButton setImage:captureImage forState:UIControlStateNormal];
     captureButton.center = CGPointMake(self.view.center.x, self.view.frame.size.height - 50.f);
     [self.view addSubview:captureButton];
+    captureButton.alpha = 0.6;
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *cancelImage = [UIImage imageNamed:@"cancel.png"];
@@ -252,7 +253,10 @@
     for (CIFaceFeature* faceFeature in features) {
         count ++;
     }
-    captureButton.enabled = count == 1;
+    if (count == 1) {
+        captureButton.enabled = YES;
+        captureButton.alpha = 1.0;
+    }
 }
 
 

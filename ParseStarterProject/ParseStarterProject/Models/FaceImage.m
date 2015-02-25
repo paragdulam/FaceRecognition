@@ -2,7 +2,7 @@
 //  FaceImage.m
 //  ParseStarterProject
 //
-//  Created by Parag Dulam on 23/02/15.
+//  Created by Parag Dulam on 25/02/15.
 //
 //
 
@@ -15,6 +15,7 @@
 @dynamic image;
 @dynamic image_url;
 @dynamic index;
+@dynamic parse_id;
 @dynamic createdBy;
 
 @end
