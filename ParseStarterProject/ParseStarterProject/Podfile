@@ -1,5 +1,0 @@
-pod 'Parse-iOS-SDK', '~> 1.2.19'
-pod 'Bolts', '~> 1.1'
-pod 'Facebook-iOS-SDK', '~> 3.23'
-pod 'ParseUI', '~> 1.1'
-pod 'MBProgressHUD', '~> 0.9'
