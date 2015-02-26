@@ -314,27 +314,29 @@
                               });
                           }
                 WithCompletionBlock:^(id object, int type ,NSError *error) {
-                    [self.progressHUD hide:YES];
-                    FaceImage *fImage = (FaceImage *)object;
-                    switch (type) {
-                        case 0:
-                        {
-                            [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.progressHUD hide:YES];
+                        FaceImage *fImage = (FaceImage *)object;
+                        switch (type) {
+                            case 0:
+                            {
+                                [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
+                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                            }
+                                break;
+                            case 1:
+                            {
+                                NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
+                                [objects addObject:fImage];
+                                self.lookalikes = objects;
+                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                            }
+                                break;
+                                
+                            default:
+                                break;
                         }
-                            break;
-                        case 1:
-                        {
-                            NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
-                            [objects addObject:fImage];
-                            self.lookalikes = objects;
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-                        }
-                            break;
-                            
-                        default:
-                            break;
-                    }
+                    });
                 }];
 }
 

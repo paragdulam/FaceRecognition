@@ -4,18 +4,7 @@
 //  Copyright 2011-present Parse Inc. All rights reserved.
 //
 
-#import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
-
-// If you want to use any of the UI components, uncomment this line
-// #import <ParseUI/ParseUI.h>
-
-// If you are using Facebook, uncomment this line
- #import <ParseFacebookUtils/PFFacebookUtils.h>
-
-// If you want to use Crash Reporting - uncomment this line
- #import <ParseCrashReporting/ParseCrashReporting.h>
-
 #import "ParseStarterProjectAppDelegate.h"
 #import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
@@ -44,10 +33,6 @@
     // use Local Datastore features or want to use cachePolicy.
     //[Parse enableLocalDatastore];
 
-    // ****************************************************************************
-    // Uncomment this line if you want to enable Crash Reporting
-    [ParseCrashReporting enable];
-    //
     // Uncomment and fill in with your Parse credentials:
     [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];
     //
