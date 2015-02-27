@@ -45,6 +45,11 @@
 }
 
 
+-(void) setHideFooterView:(BOOL) hidden
+{
+    backgroundView.hidden = hidden;
+}
+
 -(void) layoutSubviews
 {
     [super layoutSubviews];

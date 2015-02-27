@@ -15,5 +15,6 @@
 @property(nonatomic,strong) UIButton *addButton;
 @property(nonatomic,strong) UIImageView *imageView;
 
+-(void) setHideFooterView:(BOOL) hidden;
 
 @end

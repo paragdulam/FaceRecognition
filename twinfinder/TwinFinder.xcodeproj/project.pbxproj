@@ -29,6 +29,7 @@
 		D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
 		D1ABA19A1A9FAEBD00364F11 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1981A9FAEBD00364F11 /* LaunchScreen.xib */; };
 		D1ABA1A61A9FAEBD00364F11 /* TwinFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */; };
+		F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		D1ABA19F1A9FAEBD00364F11 /* TwinFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwinFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1ABA1A41A9FAEBD00364F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwinFinderTests.m; sourceTree = "<group>"; };
+		F18C71191AA04397007497A1 /* CollectionBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBackgroundView.h; sourceTree = "<group>"; };
+		F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBackgroundView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +180,8 @@
 				D14E3E691A9FBB1100ABE348 /* TFFriendsHeaderView.m */,
 				D14E3E6A1A9FBB1100ABE348 /* TFUserProfileView.h */,
 				D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */,
+				F18C71191AA04397007497A1 /* CollectionBackgroundView.h */,
+				F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				D14E3E781A9FBB1100ABE348 /* CustomCollectionFlowLayout.m in Sources */,
 				D14E3E741A9FBB1100ABE348 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				D14E3E791A9FBB1100ABE348 /* TFCameraOverlayView.m in Sources */,
+				F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */,
 				D14E3E7B1A9FBB1100ABE348 /* TFUserProfileView.m in Sources */,
 				D1ABA1891A9FAEBD00364F11 /* main.m in Sources */,
 				D14E3E6D1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m in Sources */,

@@ -23,6 +23,7 @@
 #import "TFAppManager.h"
 #import "TFFriendCollectionViewCell.h"
 #import "MBProgressHUD.h"
+#import "CollectionBackgroundView.h"
 
 
 
@@ -35,6 +36,7 @@
 @property (nonatomic,strong) UserInfo *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
+@property (nonatomic,strong) CollectionBackgroundView *backgroundView;
 @property (nonatomic,strong,readonly) UIColor *appColor;
 
 
@@ -56,9 +58,13 @@
     UIColor *retVal = [UIColor darkGrayColor];
     UserInfo *uInfo = self.userInfo;
     if ([uInfo.gender isEqualToString:@"male"]) {
-        retVal = [UIColor colorWithRed:31.f/255.f green:75.f/255.f blue:207.f/255.f alpha:1.f];
+        retVal = [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f];
+//        [self.backgroundView setColors:@[(id)[UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f].CGColor,
+//                                         (id)[UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f].CGColor]];
     } else if ([uInfo.gender isEqualToString:@"female"]) {
-        retVal = [UIColor colorWithRed:243.f/255.f green:80.f/255.f blue:144.f/255.f alpha:1.f];
+        retVal = [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f];
+//        [self.backgroundView setColors:@[(id)[UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f].CGColor,
+//                                         (id)[UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f].CGColor]];
     }
     return retVal;
 }
@@ -71,6 +77,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    
+//    self.backgroundView = [[CollectionBackgroundView alloc] initWithFrame:self.collectionView.bounds];
+//    [self.collectionView setBackgroundView:self.backgroundView];
+    
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController setNavigationBarHidden:YES];
     
@@ -180,6 +191,21 @@
                                  FaceImage *face = (FaceImage *)object;
                                  [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                  [self.collectionView reloadData];
+                                 
+                                 for (int i = 0; i < [self.faceImages count] ; i++) {
+                                     id obj = [self.faceImages objectAtIndex:i];
+                                     if ([obj isKindOfClass:[FaceImage class]]) {
+                                         [TFAppManager matchImageWithOtherUsers:obj
+                                                            withCompletionBlock:^(id obj, NSError *error) {
+                                                                if (![self.lookalikes containsObject:obj]) {
+                                                                    NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
+                                                                    [faces addObject:obj];
+                                                                    self.lookalikes = faces;
+                                                                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                                                }
+                                                            }];
+                                     }
+                                 }
                              }];
     }];
     
@@ -492,6 +518,7 @@
             id obj =  [self.faceImages objectAtIndex:indexPath.row];
             if (![obj isKindOfClass:[NSNull class]]) {
                 FaceImage *faceImage = (FaceImage *)obj;
+                [aCell setHideFooterView:NO];
                 [aCell.addButton setTintColor:self.appColor];
                 UIImage *image = [UIImage imageWithData:faceImage.image];
                 [aCell.imageView setImage:image];
@@ -507,11 +534,11 @@
                 id obj =  [self.lookalikes objectAtIndex:indexPath.row];
                 if (![obj isKindOfClass:[NSNull class]]) {
                     FaceImage *faceImage = (FaceImage *)obj;
+                    [aCell setHideFooterView:YES];
                     [aCell.addButton setTintColor:self.appColor];
                     UIImage *image = [UIImage imageWithData:faceImage.image];
                     [aCell.imageView setImage:image];
                 }
-
             } else {
                 cell = (TFEmptyCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFEmptyCollectionViewCell" forIndexPath:indexPath];
                 TFEmptyCollectionViewCell *aCell = (TFEmptyCollectionViewCell *)cell;
