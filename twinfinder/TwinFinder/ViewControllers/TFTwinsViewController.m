@@ -22,12 +22,12 @@
 #import "FaceImage.h"
 #import "TFAppManager.h"
 #import "TFFriendCollectionViewCell.h"
-#import "MBProgressHUD.h"
 #import "CollectionBackgroundView.h"
+#import "AFDropdownNotification.h"
 
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate>
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate,AFDropdownNotificationDelegate>
 {
 }
 
@@ -44,7 +44,6 @@
 @property (nonatomic,strong) NSArray *lookalikes;
 @property (nonatomic,strong) NSArray *friends;
 
-@property (nonatomic,strong) MBProgressHUD *progressHUD;
 
 
 @end
@@ -185,6 +184,10 @@
         self.userInfo = object;
         [self.collectionView setBackgroundColor:self.appColor];
         [self.collectionView reloadData];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
+
 
         [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
                              completionBlock:^(id object, NSError *error) {
@@ -327,21 +330,23 @@
 
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int)indx
 {
-    [vc dismissViewControllerAnimated:YES completion:NULL];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    });
-    [TFAppManager saveFaceImageData:imageData
-                            AtIndex:indx
-                          ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString) {
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                  [self.progressHUD setLabelText:progressString];
-                              });
-                          }
-                WithCompletionBlock:^(id object, int type ,NSError *error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.progressHUD hide:YES];
+    [vc dismissViewControllerAnimated:YES completion:^{
+        
+        __block AFDropdownNotification *notification = [[AFDropdownNotification alloc] init];
+        notification.notificationDelegate = self;
+        notification.titleText = @"Saving...";
+        [notification presentInView:self.view withGravityAnimation:YES];
+        
+        [TFAppManager saveFaceImageData:imageData
+                                AtIndex:indx
+                              ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString) {
+                                  [notification dismissWithGravityAnimation:NO];
+                                  notification = [[AFDropdownNotification alloc] init];
+                                  notification.notificationDelegate = self;
+                                  notification.titleText = progressString;
+                                  [notification presentInView:self.view withGravityAnimation:YES];
+                              }
+                    WithCompletionBlock:^(id object, int type ,NSError *error) {
                         FaceImage *fImage = (FaceImage *)object;
                         switch (type) {
                             case 0:
@@ -352,6 +357,7 @@
                                 break;
                             case 1:
                             {
+                                [notification dismissWithGravityAnimation:YES];
                                 NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
                                 [objects addObject:fImage];
                                 self.lookalikes = objects;
@@ -362,8 +368,8 @@
                             default:
                                 break;
                         }
-                    });
-                }];
+                    }];
+    }];
 }
 
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc

@@ -281,6 +281,8 @@
                                                         [[TFAppManager appDelegate].managedObjectContext save:nil];
                                                         completionBlock(fImage,1,error);
                                                     }];
+                                                } else {
+                                                     completionBlock(nil,1,error);
                                                 }
                                             }];
                                         }
