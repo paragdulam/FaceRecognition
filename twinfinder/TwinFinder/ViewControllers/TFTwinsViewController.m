@@ -368,10 +368,14 @@
                                     break;
                                 case 1:
                                 {
-                                    NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
-                                    [objects addObject:fImage];
-                                    self.lookalikes = objects;
-                                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                    if (fImage) {
+                                        if (![self.lookalikes containsObject:fImage]) {
+                                            NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
+                                            [objects addObject:fImage];
+                                            self.lookalikes = objects;
+                                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                        }
+                                    }
                                     [self.progressHUD hide:YES];
                                 }
                                     break;
