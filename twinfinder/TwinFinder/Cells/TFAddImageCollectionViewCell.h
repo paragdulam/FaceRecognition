@@ -16,5 +16,7 @@
 @property(nonatomic,strong) UIImageView *imageView;
 
 -(void) setHideFooterView:(BOOL) hidden;
+-(void) setProgressString:(NSString *) string;
+-(void) setProgress:(int) progress;
 
 @end

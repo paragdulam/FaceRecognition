@@ -25,6 +25,8 @@
 #import "CollectionBackgroundView.h"
 #import "AFDropdownNotification.h"
 
+#define BOY_COLOR [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f]
+#define GIRL_COLOR [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f]
 
 
 @interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate,AFDropdownNotificationDelegate>
@@ -43,6 +45,7 @@
 @property (nonatomic,strong) NSMutableArray *faceImages;
 @property (nonatomic,strong) NSArray *lookalikes;
 @property (nonatomic,strong) NSArray *friends;
+@property (nonatomic,strong) AFDropdownNotification *notification;
 
 
 
@@ -57,13 +60,9 @@
     UIColor *retVal = [UIColor darkGrayColor];
     UserInfo *uInfo = self.userInfo;
     if ([uInfo.gender isEqualToString:@"male"]) {
-        retVal = [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f];
-//        [self.backgroundView setColors:@[(id)[UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f].CGColor,
-//                                         (id)[UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f].CGColor]];
+        retVal = BOY_COLOR;
     } else if ([uInfo.gender isEqualToString:@"female"]) {
-        retVal = [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f];
-//        [self.backgroundView setColors:@[(id)[UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f].CGColor,
-//                                         (id)[UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f].CGColor]];
+        retVal = GIRL_COLOR;
     }
     return retVal;
 }
@@ -80,6 +79,8 @@
     
 //    self.backgroundView = [[CollectionBackgroundView alloc] initWithFrame:self.collectionView.bounds];
 //    [self.collectionView setBackgroundView:self.backgroundView];
+    
+    self.notification = [AFDropdownNotification new];
     
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController setNavigationBarHidden:YES];
@@ -332,41 +333,34 @@
 {
     [vc dismissViewControllerAnimated:YES completion:^{
         
-        __block AFDropdownNotification *notification = [[AFDropdownNotification alloc] init];
-        notification.notificationDelegate = self;
-        notification.titleText = @"Saving...";
-        [notification presentInView:self.view withGravityAnimation:YES];
-        
         [TFAppManager saveFaceImageData:imageData
                                 AtIndex:indx
-                              ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString) {
-                                  [notification dismissWithGravityAnimation:NO];
-                                  notification = [[AFDropdownNotification alloc] init];
-                                  notification.notificationDelegate = self;
-                                  notification.titleText = progressString;
-                                  [notification presentInView:self.view withGravityAnimation:YES];
+                              ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString,int percentDone) {
+                                  [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
                               }
                     WithCompletionBlock:^(id object, int type ,NSError *error) {
-                        FaceImage *fImage = (FaceImage *)object;
-                        switch (type) {
-                            case 0:
-                            {
-                                [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
-                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                        if (error) {
+                        } else {
+                            FaceImage *fImage = (FaceImage *)object;
+                            switch (type) {
+                                case 0:
+                                {
+                                    [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
+                                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                                }
+                                    break;
+                                case 1:
+                                {
+                                    NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
+                                    [objects addObject:fImage];
+                                    self.lookalikes = objects;
+                                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                }
+                                    break;
+                                    
+                                default:
+                                    break;
                             }
-                                break;
-                            case 1:
-                            {
-                                [notification dismissWithGravityAnimation:YES];
-                                NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
-                                [objects addObject:fImage];
-                                self.lookalikes = objects;
-                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-                            }
-                                break;
-                                
-                            default:
-                                break;
                         }
                     }];
     }];
@@ -528,6 +522,7 @@
                 [aCell.addButton setTintColor:self.appColor];
                 UIImage *image = [UIImage imageWithData:faceImage.image];
                 [aCell.imageView setImage:image];
+                
             }
         }
             break;

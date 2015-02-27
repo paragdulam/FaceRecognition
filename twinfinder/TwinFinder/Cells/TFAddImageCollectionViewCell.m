@@ -50,6 +50,17 @@
     backgroundView.hidden = hidden;
 }
 
+-(void) setProgressString:(NSString *) string
+{
+    
+}
+
+-(void) setProgress:(int) progress
+{
+    
+}
+
+
 -(void) layoutSubviews
 {
     [super layoutSubviews];
