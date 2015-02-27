@@ -7,6 +7,7 @@
 //
 
 #import "TFAddImageCollectionViewCell.h"
+
 @interface TFAddImageCollectionViewCell()
 {
     UIView *overlayView;
@@ -48,16 +49,6 @@
 -(void) setHideFooterView:(BOOL) hidden
 {
     backgroundView.hidden = hidden;
-}
-
--(void) setProgressString:(NSString *) string
-{
-    
-}
-
--(void) setProgress:(int) progress
-{
-    
 }
 
 

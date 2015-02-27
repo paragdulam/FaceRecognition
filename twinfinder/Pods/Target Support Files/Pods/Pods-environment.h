@@ -6,12 +6,6 @@
 // project.
 
 
-// AFDropdownNotification
-#define COCOAPODS_POD_AVAILABLE_AFDropdownNotification
-#define COCOAPODS_VERSION_MAJOR_AFDropdownNotification 1
-#define COCOAPODS_VERSION_MINOR_AFDropdownNotification 1
-#define COCOAPODS_VERSION_PATCH_AFDropdownNotification 0
-
 // Bolts
 #define COCOAPODS_POD_AVAILABLE_Bolts
 #define COCOAPODS_VERSION_MAJOR_Bolts 1
@@ -23,6 +17,12 @@
 #define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK 3
 #define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK 23
 #define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK 0
+
+// MBProgressHUD
+#define COCOAPODS_POD_AVAILABLE_MBProgressHUD
+#define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
+#define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
+#define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
 
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse

@@ -250,6 +250,7 @@
                 }
             }
         } else {
+            
             completionBlock(nil,0,error);
         }
     }];
@@ -354,11 +355,21 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                       withProgressBlock:progressBlock
                   WithCompletionHandler:completionBlock];
             } else {
-                completionBlock(nil,1,error);
+                NSError *uploadError = nil;
+                NSMutableDictionary* details = [NSMutableDictionary dictionary];
+                [details setValue:@"There was a problem uploading your face image. Please retry!" forKey:NSLocalizedDescriptionKey];
+                uploadError = [NSError errorWithDomain:@"Upload Image Error" code:200 userInfo:details];
+                completionBlock(nil,1,uploadError);
             }
         }
            progressBlock:^(int percentDone) {
-               progressBlock(@"Uploading",percentDone);
+               NSMutableString *text = [[NSMutableString alloc] init];
+               [text appendString:@"Uploading"];
+               if (percentDone) {
+                   [text appendFormat:@"(%d%%)",percentDone];
+               }
+               [text appendString:@"..."];
+               progressBlock(text,percentDone);
            }];
     }];
 }

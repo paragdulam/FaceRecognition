@@ -23,13 +23,13 @@
 #import "TFAppManager.h"
 #import "TFFriendCollectionViewCell.h"
 #import "CollectionBackgroundView.h"
-#import "AFDropdownNotification.h"
+#import "MBProgressHUD.h"
 
 #define BOY_COLOR [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f]
 #define GIRL_COLOR [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f]
 
 
-@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate,AFDropdownNotificationDelegate>
+@interface TFTwinsViewController ()<PFLogInViewControllerDelegate,TFCameraViewControllerDelegate,UIActionSheetDelegate,TFUserProfileViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFetchedResultsControllerDelegate>
 {
 }
 
@@ -45,7 +45,8 @@
 @property (nonatomic,strong) NSMutableArray *faceImages;
 @property (nonatomic,strong) NSArray *lookalikes;
 @property (nonatomic,strong) NSArray *friends;
-@property (nonatomic,strong) AFDropdownNotification *notification;
+@property (nonatomic,strong) MBProgressHUD *progressHUD;
+
 
 
 
@@ -76,11 +77,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
-//    self.backgroundView = [[CollectionBackgroundView alloc] initWithFrame:self.collectionView.bounds];
-//    [self.collectionView setBackgroundView:self.backgroundView];
-    
-    self.notification = [AFDropdownNotification new];
     
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController setNavigationBarHidden:YES];
@@ -333,13 +329,23 @@
 {
     [vc dismissViewControllerAnimated:YES completion:^{
         
+        self.progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
         [TFAppManager saveFaceImageData:imageData
                                 AtIndex:indx
                               ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString,int percentDone) {
-                                  [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                                  [self.progressHUD setLabelText:progressString];
                               }
                     WithCompletionBlock:^(id object, int type ,NSError *error) {
                         if (error) {
+                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                message:[error localizedDescription]
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:@"Ok"
+                                                                      otherButtonTitles:nil];
+                            alertView.tintColor = GIRL_COLOR;
+                            [alertView show];
+                            [self.progressHUD hide:YES];
                         } else {
                             FaceImage *fImage = (FaceImage *)object;
                             switch (type) {
@@ -355,6 +361,7 @@
                                     [objects addObject:fImage];
                                     self.lookalikes = objects;
                                     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                    [self.progressHUD hide:YES];
                                 }
                                     break;
                                     
@@ -522,7 +529,6 @@
                 [aCell.addButton setTintColor:self.appColor];
                 UIImage *image = [UIImage imageWithData:faceImage.image];
                 [aCell.imageView setImage:image];
-                
             }
         }
             break;
