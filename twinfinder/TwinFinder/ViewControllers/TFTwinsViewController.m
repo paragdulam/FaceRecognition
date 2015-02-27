@@ -177,6 +177,8 @@
 
 -(void) doPostLogin
 {
+    self.progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.progressHUD setLabelText:@"Getting User Info..."];
     [TFAppManager saveCurrentUserWithCompletionBlock:^(id object, NSError *error) {
         self.userInfo = object;
         [self.collectionView setBackgroundColor:self.appColor];
@@ -185,30 +187,41 @@
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
 
-
+        [self.progressHUD setLabelText:@"Getting User Images..."];
         [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
                              completionBlock:^(id object, NSError *error) {
-                                 FaceImage *face = (FaceImage *)object;
-                                 [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
-                                 [self.collectionView reloadData];
-                                 
-                                 for (int i = 0; i < [self.faceImages count] ; i++) {
-                                     id obj = [self.faceImages objectAtIndex:i];
-                                     if ([obj isKindOfClass:[FaceImage class]]) {
-                                         [TFAppManager matchImageWithOtherUsers:obj
-                                                            withCompletionBlock:^(id obj, NSError *error) {
-                                                                if (![self.lookalikes containsObject:obj]) {
-                                                                    NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
-                                                                    [faces addObject:obj];
-                                                                    self.lookalikes = faces;
-                                                                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-                                                                }
-                                                            }];
+                                 [self.progressHUD hide:YES];
+                                 if (!error) {
+                                     FaceImage *face = (FaceImage *)object;
+                                     [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
+                                     [self.collectionView reloadData];
+                                     
+                                     for (int i = 0; i < [self.faceImages count] ; i++) {
+                                         id obj = [self.faceImages objectAtIndex:i];
+                                         if ([obj isKindOfClass:[FaceImage class]]) {
+                                             [TFAppManager matchImageWithOtherUsers:obj
+                                                                withCompletionBlock:^(id obj, NSError *error) {
+                                                                    if (![self.lookalikes containsObject:obj]) {
+                                                                        NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
+                                                                        [faces addObject:obj];
+                                                                        self.lookalikes = faces;
+                                                                        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                                                    }
+                                                                }];
+                                         }
                                      }
+                                 } else {
+                                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                         message:[error localizedDescription]
+                                                                                        delegate:nil
+                                                                               cancelButtonTitle:@"Ok"
+                                                                               otherButtonTitles:nil];
+                                     [alertView show];
                                  }
                              }];
     }];
     
+    [self.progressHUD setLabelText:@"Getting User Friends..."];
     [TFAppManager getUserFriendsWithCompletionBlock:^(id object, NSError *error) {
         self.friends = [object objectForKey:@"data"];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
@@ -343,7 +356,6 @@
                                                                                delegate:nil
                                                                       cancelButtonTitle:@"Ok"
                                                                       otherButtonTitles:nil];
-                            alertView.tintColor = GIRL_COLOR;
                             [alertView show];
                             [self.progressHUD hide:YES];
                         } else {
