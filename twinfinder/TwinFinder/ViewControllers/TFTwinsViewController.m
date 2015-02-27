@@ -221,7 +221,6 @@
                              }];
     }];
     
-    [self.progressHUD setLabelText:@"Getting User Friends..."];
     [TFAppManager getUserFriendsWithCompletionBlock:^(id object, NSError *error) {
         self.friends = [object objectForKey:@"data"];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
