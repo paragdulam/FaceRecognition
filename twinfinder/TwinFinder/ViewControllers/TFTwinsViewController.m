@@ -190,17 +190,17 @@
         [self.progressHUD setLabelText:@"Getting User Images..."];
         [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
                              completionBlock:^(id object, NSError *error) {
-                                 [self.progressHUD hide:YES];
                                  if (!error) {
                                      FaceImage *face = (FaceImage *)object;
                                      [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                      [self.collectionView reloadData];
-                                     
+                                     [self.progressHUD setLabelText:@"Looking for lookalikes..."];
                                      for (int i = 0; i < [self.faceImages count] ; i++) {
                                          id obj = [self.faceImages objectAtIndex:i];
                                          if ([obj isKindOfClass:[FaceImage class]]) {
                                              [TFAppManager matchImageWithOtherUsers:obj
                                                                 withCompletionBlock:^(id obj, NSError *error) {
+                                                                    [self.progressHUD hide:YES];
                                                                     if (![self.lookalikes containsObject:obj]) {
                                                                         NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
                                                                         [faces addObject:obj];

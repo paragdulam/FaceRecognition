@@ -80,8 +80,8 @@
                     fImage.image_url = imageFile.url;
                     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                         fImage.image = data;
-                        completionBlock(fImage,error);
                         [[TFAppManager appDelegate].managedObjectContext save:nil];
+                        completionBlock(fImage,error);
                     }];
                 }];
             }
@@ -123,13 +123,12 @@
         [userInfo setFirstName:[result objectForKey:@"first_name"]];
         [userInfo setLastName:[result objectForKey:@"last_name"]];
         [userInfo setGender:[result objectForKey:@"gender"]];
-        
-        completionBlock(userInfo,error);
         if (!error) {
             [[TFAppManager appDelegate].managedObjectContext save:nil];
             
             PFQuery *uInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
             [uInfoQuery whereKey:@"facebookId" equalTo:facebookId];
+            [uInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
             [uInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 PFObject *uInfo = nil;
                 if ([objects count]) {
@@ -149,6 +148,7 @@
                 }];
             }];
         }
+        completionBlock(userInfo,error);
     }];
 
 }
@@ -403,37 +403,45 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
             NSDictionary *tag = [tags firstObject];
             NSArray *uids = [tag objectForKey:@"uids"];
             for (NSDictionary *uid in uids) {
-                if ([[uid objectForKey:@"confidence"] intValue] > 70) {
+//                if ([[uid objectForKey:@"confidence"] intValue] > 70) {
                     //found similar face
                     NSString *uidString = [uid objectForKey:@"uid"];
                     NSString *faceImageId = [[uidString componentsSeparatedByString:@"@"] firstObject];
                     PFQuery *imageQuery = [PFQuery queryWithClassName:@"FaceImage"];
                     [imageQuery whereKey:@"objectId" equalTo:faceImageId];
                     [imageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                        PFObject *faceImage = [objects firstObject];
-                        
-                        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
-                        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parse_id == %@",faceImage.objectId];
-                        [fetchRequest setPredicate:predicate];
-                        NSArray *fImages = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-                        FaceImage *fImage = nil;
-                        if ([fImages count]) {
-                            fImage = [fImages firstObject];
+                        if ([objects count]) {
+                            PFObject *parseFaceImage = [objects objectAtIndex:0];
+                            
+                            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
+                            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parse_id == %@",parseFaceImage.objectId];
+                            [fetchRequest setPredicate:predicate];
+                            NSArray *fImages = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+                            FaceImage *fImage = nil;
+                            if ([fImages count]) {
+                                fImage = [fImages firstObject];
+                            } else {
+                                fImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage"
+                                                                                    inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+                            }
+                            PFFile *imageFile = [parseFaceImage objectForKey:@"imageFile"];
+                            PFUser *createdBy = [parseFaceImage objectForKey:@"createdBy"];
+                            if (![createdBy.objectId isEqualToString:[PFUser currentUser].objectId]) {
+                                if (imageFile.isDataAvailable) {
+                                    completionBlock(fImage,error);
+                                } else {
+                                    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                        fImage.image = data;
+                                        [[TFAppManager appDelegate].managedObjectContext save:nil];
+                                        completionBlock(fImage,error);
+                                    }];
+                                }
+                            }
                         } else {
-                            fImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
-                        }
-                        PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
-                        PFUser *createdBy = [faceImage objectForKey:@"createdBy"];
-                        if (![createdBy.objectId isEqualToString:[PFUser currentUser].objectId]) {
-                            [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                                fImage.image = data
-                                ;
-                                [[TFAppManager appDelegate].managedObjectContext save:nil];
-                                completionBlock(fImage,error);
-                            }];
+                            completionBlock(nil,nil);
                         }
                     }];
-                }
+//                }
             }
         }];
     }];
