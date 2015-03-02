@@ -248,7 +248,6 @@
     
     imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:exifOrientation] forKey:CIDetectorImageOrientation];
     NSArray *features = [self.faceDetector featuresInImage:ciImage options:imageOptions];
-    NSLog(@"features %@",features);
     int count = 0;
     for (CIFaceFeature* faceFeature in features) {
         count ++;

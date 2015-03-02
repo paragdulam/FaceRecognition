@@ -109,8 +109,18 @@
         [[NSUserDefaults standardUserDefaults] setObject:facebookId forKey:TF_CURRENT_USER_ID];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        UserInfo *userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo"
-                                                                       inManagedObjectContext:self.appDelegate.managedObjectContext];
+        UserInfo *userInfo = nil;
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"facebookId == %@",facebookId]];
+        NSArray *userInfos = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        
+        if ([userInfos count]) {
+            userInfo = [userInfos firstObject];
+        } else {
+            userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo"
+                                                                 inManagedObjectContext:self.appDelegate.managedObjectContext];
+        }
         [userInfo setFacebookId:facebookId];
         NSString *birthday = [result objectForKey:@"birthday"];
         if (birthday) {
@@ -139,7 +149,9 @@
                 [uInfo setObject:userInfo.name forKey:@"name"];
                 [uInfo setObject:userInfo.firstName forKey:@"firstName"];
                 [uInfo setObject:userInfo.lastName forKey:@"lastName"];
-                [uInfo setObject:userInfo.age forKey:@"age"];
+                if (birthday) {
+                    [uInfo setObject:userInfo.age forKey:@"age"];
+                }
                 [uInfo setObject:userInfo.gender forKey:@"gender"];
                 [uInfo setObject:[PFUser currentUser] forKey:@"User"];
                 [uInfo setObject:facebookId forKey:@"facebookId"];
@@ -219,6 +231,7 @@
             NSDictionary *tag = [tags firstObject];
             NSArray *uids = [tag objectForKey:@"uids"];
             if ([uids count]) {
+                NSLog(@"uids %@",uids);
                 for (NSDictionary *uid in uids) {
                     if ([[uid objectForKey:@"confidence"] intValue] > 70) {
                         //found similar face
@@ -281,6 +294,8 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     faceImage.image_url = imageFile.url;
     [[TFAppManager appDelegate].managedObjectContext save:nil];
     
+    
+    
     PFQuery *imageQuery = [PFQuery queryWithClassName:@"FaceImage"];
     [imageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
     [imageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:index]];
@@ -299,6 +314,8 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                 {
                     faceImage.parse_id = parseImage.objectId;
                     [[TFAppManager appDelegate].managedObjectContext save:nil];
+                    
+                    [PFCloud callFunctionInBackground:@"get" withParameters:<#(NSDictionary *)#> block:<#^(id object, NSError *error)block#>]
                     
                     progressBlock(@"Detecting Face...",0);
                     [PFCloud callFunctionInBackground:@"detectFace"
@@ -403,7 +420,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
             NSDictionary *tag = [tags firstObject];
             NSArray *uids = [tag objectForKey:@"uids"];
             for (NSDictionary *uid in uids) {
-//                if ([[uid objectForKey:@"confidence"] intValue] > 70) {
+                if ([[uid objectForKey:@"confidence"] intValue] > 70) {
                     //found similar face
                     NSString *uidString = [uid objectForKey:@"uid"];
                     NSString *faceImageId = [[uidString componentsSeparatedByString:@"@"] firstObject];
@@ -441,7 +458,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                             completionBlock(nil,nil);
                         }
                     }];
-//                }
+                }
             }
         }];
     }];

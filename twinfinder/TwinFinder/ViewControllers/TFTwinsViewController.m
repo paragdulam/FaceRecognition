@@ -40,6 +40,8 @@
 @property (nonatomic,strong) PFFile *selectedImageFile;
 @property (nonatomic,strong) CollectionBackgroundView *backgroundView;
 @property (nonatomic,strong,readonly) UIColor *appColor;
+@property (nonatomic,strong) FaceImage *selectedFaceImage;
+
 
 
 @property (nonatomic,strong) NSMutableArray *faceImages;
@@ -55,6 +57,14 @@
 @implementation TFTwinsViewController
 
 
+
+-(id) initWithFaceImage:(FaceImage *) faceImage
+{
+    if (self = [super init]) {
+        self.selectedFaceImage = faceImage;
+    }
+    return self;
+}
 
 -(UIColor *) appColor
 {
@@ -77,15 +87,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController setNavigationBarHidden:YES];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"user.did.login" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [self.loginViewController dismissViewControllerAnimated:YES completion:NULL];
-        [self doPostLogin];
-    }];
     
     // Do any additional setup after loading the view.
     [self.collectionView registerClass:[TFAddImageCollectionViewCell class]
@@ -112,7 +115,9 @@
     [self setNeedsStatusBarAppearanceUpdate];
     self.faceImages = [[NSMutableArray alloc] initWithObjects:[NSNull null],[NSNull null],[NSNull null], nil];
     self.lookalikes = [[NSArray alloc] init];
-    if ([[PFUser currentUser] sessionToken]) {
+    if (self.selectedFaceImage) {
+        
+    } else if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];
     } else {
         [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
@@ -190,7 +195,7 @@
         [self.progressHUD setLabelText:@"Getting User Images..."];
         [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
                              completionBlock:^(id object, NSError *error) {
-                                 if (!error) {
+                                 if (object) {
                                      FaceImage *face = (FaceImage *)object;
                                      [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                      [self.collectionView reloadData];
@@ -200,7 +205,6 @@
                                          if ([obj isKindOfClass:[FaceImage class]]) {
                                              [TFAppManager matchImageWithOtherUsers:obj
                                                                 withCompletionBlock:^(id obj, NSError *error) {
-                                                                    [self.progressHUD hide:YES];
                                                                     if (![self.lookalikes containsObject:obj]) {
                                                                         NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
                                                                         [faces addObject:obj];
@@ -209,7 +213,12 @@
                                                                     }
                                                                 }];
                                          }
+                                         if ([self.faceImages lastObject] == obj) {
+                                             [self.progressHUD hide:YES];
+                                         }
                                      }
+                                 } else if (!object) {
+                                     [self.progressHUD hide:YES];
                                  } else {
                                      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                                          message:[error localizedDescription]
@@ -609,6 +618,14 @@
                 [imagePicker setDelegate:self];
                 [self presentViewController:imagePicker animated:YES completion:NULL];
             }
+        }
+            break;
+            
+        case 1:
+        {
+            FaceImage *faceImage = [self.lookalikes objectAtIndex:indexPath.row];
+            TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithFaceImage:faceImage];
+            [self.navigationController pushViewController:twinsViewController animated:YES];
         }
             break;
             

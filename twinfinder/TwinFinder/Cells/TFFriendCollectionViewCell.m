@@ -27,6 +27,9 @@
         
         self.layer.cornerRadius = frame.size.width/2;
         self.clipsToBounds = YES;
+        self.layer.borderWidth = 2.f;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+
         
         imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
         [self.contentView addSubview:imageView];
