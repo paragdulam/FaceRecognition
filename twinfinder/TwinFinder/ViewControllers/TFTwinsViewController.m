@@ -197,24 +197,23 @@
                              completionBlock:^(id object, NSError *error) {
                                  if (object) {
                                      FaceImage *face = (FaceImage *)object;
-                                     [PFCloud callFunctionInBackground:@"getLookalikes" withParameters:@{@"faceImageId":face.parse_id} block:^(id object, NSError *error) {
-                                         
-                                     }];
                                      [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                      [self.collectionView reloadData];
                                      [self.progressHUD setLabelText:@"Looking for lookalikes..."];
                                      for (int i = 0; i < [self.faceImages count] ; i++) {
                                          id obj = [self.faceImages objectAtIndex:i];
                                          if ([obj isKindOfClass:[FaceImage class]]) {
-                                             [TFAppManager matchImageWithOtherUsers:obj
-                                                                withCompletionBlock:^(id obj, NSError *error) {
-                                                                    if (![self.lookalikes containsObject:obj]) {
-                                                                        NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
-                                                                        [faces addObject:obj];
-                                                                        self.lookalikes = faces;
-                                                                        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-                                                                    }
-                                                                }];
+                                             [TFAppManager getLookalikesForFaceImage:obj
+                                                                 withCompletionBlock:^(id object, NSError *error) {
+                                                                     if (object) {
+                                                                         if (![self.lookalikes containsObject:obj]) {
+                                                                             NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
+                                                                             [faces addObject:obj];
+                                                                             self.lookalikes = faces;
+                                                                             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
+                                                                         }
+                                                                     }
+                                                                 }];
                                          }
                                          if ([self.faceImages lastObject] == obj) {
                                              [self.progressHUD hide:YES];

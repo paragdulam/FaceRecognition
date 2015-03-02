@@ -214,8 +214,12 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
                         success:function(matchResponse){
                           var faceImages = [];
                           var uids = matchResponse.photos[0].tags[0].uids;
+                          response.success({"lookalikes":uids});
+                          /*
                           console.log("uids "+ uids);
                           var index = 0;
+                          var promises = [];
+
                           for (var i = 0; i < uids.length; i++) {
                           var uidDict = uids[i];
                           if (uidDict.confidence >= 70) 
@@ -230,20 +234,21 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
                             query.find().then(function(results) {
                             // Collect one promise for each addition into an array.
                               console.log("results "+ results);
-                              var promises = [];
                               var result = results[0];
-                              
+
                               faceImages[index] = result;
                               index++;
 
                               promises.push(result.save());
                             // Return a new promise that is resolved when all of the deletes are finished.
-                            return Parse.Promise.when(promises);
+                              return Parse.Promise.when(promises);
                             }).then(function() {
-                              response.success({"lookalikes":faceImages});
+                              if () {
+
+                              };
                             });
                           }
-                          }
+                          }*/
                       },
                         error:function(error){
                           response.error(httpResponse.error); 

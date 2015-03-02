@@ -25,5 +25,7 @@
 +(NSString *) currentUserId;
 +(void) getUserFriendsWithCompletionBlock:(void(^)(id object,NSError *error))completionBlock;
 +(void) matchImageWithOtherUsers:(FaceImage *) faceImage withCompletionBlock:(void(^)(id obj,NSError *error))completionBlock;
++(void) getLookalikesForFaceImage:(FaceImage *) fImage withCompletionBlock:(void(^)(id object,NSError *error)) completionBlock;
+
 
 @end
