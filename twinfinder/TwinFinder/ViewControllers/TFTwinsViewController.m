@@ -197,6 +197,9 @@
                              completionBlock:^(id object, NSError *error) {
                                  if (object) {
                                      FaceImage *face = (FaceImage *)object;
+                                     [PFCloud callFunctionInBackground:@"getLookalikes" withParameters:@{@"faceImageId":face.parse_id} block:^(id object, NSError *error) {
+                                         
+                                     }];
                                      [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                      [self.collectionView reloadData];
                                      [self.progressHUD setLabelText:@"Looking for lookalikes..."];

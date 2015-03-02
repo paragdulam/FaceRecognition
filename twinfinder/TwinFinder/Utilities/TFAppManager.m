@@ -315,8 +315,6 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                     faceImage.parse_id = parseImage.objectId;
                     [[TFAppManager appDelegate].managedObjectContext save:nil];
                     
-                    [PFCloud callFunctionInBackground:@"get" withParameters:<#(NSDictionary *)#> block:<#^(id object, NSError *error)block#>]
-                    
                     progressBlock(@"Detecting Face...",0);
                     [PFCloud callFunctionInBackground:@"detectFace"
                                        withParameters:@{@"faceImageId":parseImage.objectId}

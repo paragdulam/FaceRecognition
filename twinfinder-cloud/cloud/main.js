@@ -214,11 +214,13 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
                         success:function(matchResponse){
                           var faceImages = [];
                           var uids = matchResponse.photos[0].tags[0].uids;
+                          console.log("uids "+ uids);
                           var index = 0;
                           for (var i = 0; i < uids.length; i++) {
                           var uidDict = uids[i];
                           if (uidDict.confidence >= 70) 
                           {
+                            console.log('Found Lookalike '+uidDict.uid);
                             var uid = uidDict.uid;
                             var lookalikeId = uid.split('@')[0];
                             var faceImage = Parse.Object.extend("FaceImage");
@@ -228,7 +230,9 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
                               success: function(results) {
                                 // results is an array of Parse.Object.
                                 if (results.length) {
-                                  faceImages[index] = results[0];
+                                  var similarFace = results[0];
+                                  console.log("similarFace " + similarFace.objectId);
+                                  faceImages[index] = similarFace;
                                   index ++;
                                 } else {
                                   console.log('image not found for ' + lookalikeId);
