@@ -39,22 +39,6 @@
 
 
 
-//-(void) viewDidLoad
-//{
-//    [super viewDidLoad];
-//    
-//    GPUImageView *imageView = [[GPUImageView alloc] initWithFrame:self.view.bounds];
-//    imageView.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:imageView];
-//    
-//    GPUImageStillCamera *stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetHigh cameraPosition:AVCaptureDevicePositionFront];
-//    stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-//    GPUImageFilter *imageFilter = [[GPUImageFilter alloc] init];
-//    [stillCamera addTarget:imageFilter];
-//    [imageFilter addTarget:imageView];
-//    [stillCamera startCameraCapture];
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
