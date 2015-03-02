@@ -223,29 +223,27 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
                             console.log('Found Lookalike '+uidDict.uid);
                             var uid = uidDict.uid;
                             var lookalikeId = uid.split('@')[0];
+                            console.log("lookalikeId "+lookalikeId);
                             var faceImage = Parse.Object.extend("FaceImage");
                             var query = new Parse.Query(faceImage);
                             query.equalTo("objectId",lookalikeId);
-                            query.find({
-                              success: function(results) {
-                                // results is an array of Parse.Object.
-                                if (results.length) {
-                                  var similarFace = results[0];
-                                  console.log("similarFace " + similarFace.objectId);
-                                  faceImages[index] = similarFace;
-                                  index ++;
-                                } else {
-                                  console.log('image not found for ' + lookalikeId);
-                                }
-                              },
-                              error: function(error) {
-                                // error is an instance of Parse.Error.
-                                console.log('image not found for ' + lookalikeId);
-                              }
+                            query.find().then(function(results) {
+                            // Collect one promise for each addition into an array.
+                              console.log("results "+ results);
+                              var promises = [];
+                              var result = results[0];
+                              
+                              faceImages[index] = result;
+                              index++;
+
+                              promises.push(result.save());
+                            // Return a new promise that is resolved when all of the deletes are finished.
+                            return Parse.Promise.when(promises);
+                            }).then(function() {
+                              response.success({"lookalikes":faceImages});
                             });
                           }
                           }
-                        response.success({"lookalikes":faceImages});
                       },
                         error:function(error){
                           response.error(httpResponse.error); 
