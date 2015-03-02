@@ -378,7 +378,6 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                         NSArray *fetchedLookalikes = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRq error:nil];
                         if ([fetchedLookalikes count]) {
                             facImage = [fetchedLookalikes firstObject];
-                            completionBlock(facImage,error);
                         } else {
                             facImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
                         }
@@ -462,7 +461,6 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                                             NSArray *fetchedLookalikes = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRq error:nil];
                                             if ([fetchedLookalikes count]) {
                                                 facImage = [fetchedLookalikes firstObject];
-                                                completionBlock(facImage,1,error);
                                             } else {
                                                 facImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
                                             }

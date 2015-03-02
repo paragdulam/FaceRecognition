@@ -15,7 +15,6 @@
 @interface TFTwinsViewController : PFQueryCollectionViewController
 
 @property (nonatomic,readonly) AppDelegate *appDelegate;
-
--(id) initWithFaceImage:(FaceImage *) faceImage;
+@property (nonatomic,strong) FaceImage *selectedFaceImage;
 
 @end

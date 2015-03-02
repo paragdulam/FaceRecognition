@@ -24,6 +24,7 @@
 #import "TFFriendCollectionViewCell.h"
 #import "CollectionBackgroundView.h"
 #import "MBProgressHUD.h"
+#import "CSStickyHeaderFlowLayout.h"
 
 #define BOY_COLOR [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f]
 #define GIRL_COLOR [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f]
@@ -40,7 +41,6 @@
 @property (nonatomic,strong) PFFile *selectedImageFile;
 @property (nonatomic,strong) CollectionBackgroundView *backgroundView;
 @property (nonatomic,strong,readonly) UIColor *appColor;
-@property (nonatomic,strong) FaceImage *selectedFaceImage;
 
 
 
@@ -57,14 +57,6 @@
 @implementation TFTwinsViewController
 
 
-
--(id) initWithFaceImage:(FaceImage *) faceImage
-{
-    if (self = [super init]) {
-        self.selectedFaceImage = faceImage;
-    }
-    return self;
-}
 
 -(UIColor *) appColor
 {
@@ -187,6 +179,7 @@
     [TFAppManager saveCurrentUserWithCompletionBlock:^(id object, NSError *error) {
         self.userInfo = object;
         [self.collectionView setBackgroundColor:self.appColor];
+        [self.navigationController.navigationBar setBarTintColor:self.appColor];
         [self.collectionView reloadData];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
@@ -198,7 +191,7 @@
                                  if (object) {
                                      FaceImage *face = (FaceImage *)object;
                                      [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
-                                     [self.collectionView reloadData];
+                                     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
                                      [self.progressHUD setLabelText:@"Looking for lookalikes..."];
                                      for (int i = 0; i < [self.faceImages count] ; i++) {
                                          id obj = [self.faceImages objectAtIndex:i];
@@ -554,6 +547,7 @@
                 [aCell setHideFooterView:NO];
                 [aCell.addButton setTintColor:self.appColor];
                 UIImage *image = [UIImage imageWithData:faceImage.image];
+                [aCell.imageView setImage:nil];
                 [aCell.imageView setImage:image];
             }
         }
@@ -626,8 +620,11 @@
         case 1:
         {
             FaceImage *faceImage = [self.lookalikes objectAtIndex:indexPath.row];
-            TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithFaceImage:faceImage];
-            [self.navigationController pushViewController:twinsViewController animated:YES];
+            CSStickyHeaderFlowLayout *layout = [[CSStickyHeaderFlowLayout alloc] init];
+            TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
+            twinsViewController.selectedFaceImage = faceImage;
+            twinsViewController.loadingViewEnabled = NO;
+            [self presentViewController:twinsViewController animated:YES completion:NULL];
         }
             break;
             
