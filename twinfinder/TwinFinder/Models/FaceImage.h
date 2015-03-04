@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSString * image_url;
 @property (nonatomic, retain) NSNumber * index;
+@property (nonatomic, retain) NSNumber * confidence;
 @property (nonatomic, retain) NSString * parse_id;
 @property (nonatomic, retain) UserInfo *createdBy;
 

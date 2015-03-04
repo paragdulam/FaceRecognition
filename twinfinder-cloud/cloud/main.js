@@ -213,8 +213,16 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
                       Parse.Cloud.run("matchWithAllUsers",{"namespace":namespace,"urls":imageFile.url()},{
                         success:function(matchResponse){
                           var faceImages = [];
+                          var faceIndex = 0;
                           var uids = matchResponse.photos[0].tags[0].uids;
-                          response.success({"lookalikes":uids});
+                          for (var i = 0; i < uids.length; i++) {
+                            var uDict = uids[i];
+                            if (uDict.uid != tobeSavedUid) {
+                              faceImages[faceIndex] = uDict;
+                              faceIndex ++;
+                            }
+                          };
+                          response.success({"lookalikes":faceImages});
                           /*
                           console.log("uids "+ uids);
                           var index = 0;

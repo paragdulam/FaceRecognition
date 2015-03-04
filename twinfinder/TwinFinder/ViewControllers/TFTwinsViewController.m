@@ -25,6 +25,7 @@
 #import "CollectionBackgroundView.h"
 #import "MBProgressHUD.h"
 #import "CSStickyHeaderFlowLayout.h"
+#import "WYPopOverController.h"
 
 #define BOY_COLOR [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f]
 #define GIRL_COLOR [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f]
@@ -36,6 +37,8 @@
 
 
 @property (nonatomic,strong) PFLogInViewController *loginViewController;
+@property (nonatomic,strong) UIViewController *profileViewController;
+@property (nonatomic,strong) WYPopoverController *popOverController;
 @property (nonatomic,strong) UserInfo *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
@@ -44,8 +47,8 @@
 
 
 
-@property (nonatomic,strong) NSMutableArray *faceImages;
-@property (nonatomic,strong) NSArray *lookalikes;
+@property (nonatomic,strong,readonly) NSArray *faceImages;
+@property (nonatomic,strong,readonly) NSArray *lookalikes;
 @property (nonatomic,strong) NSArray *friends;
 @property (nonatomic,strong) MBProgressHUD *progressHUD;
 
@@ -56,6 +59,19 @@
 
 @implementation TFTwinsViewController
 
+
+-(NSArray *) faceImages{
+    if (self.userInfo) {
+        return [TFAppManager faceImagesForUserid:self.userInfo.facebookId];
+    }
+    return nil;
+}
+
+
+-(NSArray *) lookalikes
+{
+    return [TFAppManager lookalikesForUserid:self.userInfo.facebookId];
+}
 
 
 -(UIColor *) appColor
@@ -105,11 +121,7 @@
     
     
     [self setNeedsStatusBarAppearanceUpdate];
-    self.faceImages = [[NSMutableArray alloc] initWithObjects:[NSNull null],[NSNull null],[NSNull null], nil];
-    self.lookalikes = [[NSArray alloc] init];
-    if (self.selectedFaceImage) {
-        
-    } else if ([[PFUser currentUser] sessionToken]) {
+    if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];
     } else {
         [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
@@ -180,7 +192,6 @@
         self.userInfo = object;
         [self.collectionView setBackgroundColor:self.appColor];
         [self.navigationController.navigationBar setBarTintColor:self.appColor];
-        [self.collectionView reloadData];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
@@ -189,25 +200,19 @@
         [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
                              completionBlock:^(id object, NSError *error) {
                                  if (object) {
-                                     FaceImage *face = (FaceImage *)object;
-                                     [self.faceImages replaceObjectAtIndex:face.index.intValue withObject:face];
                                      [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
                                      [self.progressHUD setLabelText:@"Looking for lookalikes..."];
+                                     
                                      for (int i = 0; i < [self.faceImages count] ; i++) {
                                          id obj = [self.faceImages objectAtIndex:i];
                                          if ([obj isKindOfClass:[FaceImage class]]) {
                                              [TFAppManager getLookalikesForFaceImage:obj
                                                                  withCompletionBlock:^(id object, NSError *error) {
-                                                                     if (object) {
-                                                                         if (![self.lookalikes containsObject:obj]) {
-                                                                             NSMutableArray *faces = [NSMutableArray arrayWithArray:self.lookalikes];
-                                                                             [faces addObject:obj];
-                                                                             self.lookalikes = faces;
-                                                                             [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-                                                                         }
+                                                                     if(object) {
+                                                                         
+                                                                         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
                                                                      }
-                                                                 }];
-                                         }
+                                                                     }];                                                                                                              }
                                          if ([self.faceImages lastObject] == obj) {
                                              [self.progressHUD hide:YES];
                                          }
@@ -260,59 +265,6 @@
 
 
 
-#pragma mark - UIImagePickerControllerDelegate
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-    UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    CIImage* image = [CIImage imageWithCGImage:pickedImage.CGImage];
-    CIDetector* detector = [CIDetector detectorOfType:CIDetectorTypeFace
-                                              context:nil options:[NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy]];
-    NSArray* features = [detector featuresInImage:image];
-    int count = 0;
-    for(CIFaceFeature* faceFeature in features)
-    {
-        if (faceFeature) {
-            count ++;
-        }
-    }
-    if (count == 1)
-    {
-        //process the image
-        PFQuery *faceImageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-        [faceImageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:self.selectedIndexPath.row]];
-        [faceImageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-        [faceImageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            PFObject *faceImage = nil;
-            if ([objects count]) {
-                faceImage = [objects firstObject];
-            }else {
-                faceImage = [PFObject objectWithClassName:@"FaceImage"];
-            }
-            PFFile *imageFile = [PFFile fileWithData:UIImageJPEGRepresentation(pickedImage, 1.0) contentType:@"image/jpeg"];
-            [faceImage setObject:imageFile forKey:@"imageFile"];
-            int indx = self.selectedIndexPath.row;
-            [faceImage setObject:[NSNumber numberWithInt:indx] forKey:@"imageIndex"];
-            [faceImage setObject:[PFUser currentUser] forKey:@"createdBy"];
-            [faceImage saveInBackground];
-            
-            [self.faceImages replaceObjectAtIndex:indx withObject:faceImage];
-            [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indx inSection:0]]];
-        }];
-    } else {
-        UIAlertView *alrt = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The image that you select should have one and only one face in it.Click a selfie, may be." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
-        [alrt show];
-    }
-}
-
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-}
-
-
 #pragma mark - UIActionSheetDelegate
 
 
@@ -349,7 +301,8 @@
         
         [TFAppManager saveFaceImageData:imageData
                                 AtIndex:indx
-                              ForUserId:[TFAppManager currentUserId] withProgressBlock:^(NSString *progressString,int percentDone) {
+                            ForUserInfo:self.userInfo
+                      withProgressBlock:^(NSString *progressString,int percentDone) {
                                   [self.progressHUD setLabelText:progressString];
                               }
                     WithCompletionBlock:^(id object, int type ,NSError *error) {
@@ -366,19 +319,13 @@
                             switch (type) {
                                 case 0:
                                 {
-                                    [self.faceImages replaceObjectAtIndex:fImage.index.intValue withObject:fImage];
                                     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
                                 }
                                     break;
                                 case 1:
                                 {
                                     if (fImage) {
-                                        if (![self.lookalikes containsObject:fImage]) {
-                                            NSMutableArray *objects = [NSMutableArray arrayWithArray:self.lookalikes];
-                                            [objects addObject:fImage];
-                                            self.lookalikes = objects;
-                                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-                                        }
+                                        [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
                                     }
                                     [self.progressHUD hide:YES];
                                 }
@@ -409,7 +356,7 @@
 - (NSInteger)collectionView:(UICollectionView *)cv numberOfItemsInSection:(NSInteger)section {
     switch (section) {
         case 0:
-            return 3;
+            return 3; //hard coded purposely
             break;
         case 1:
             return self.lookalikes.count ? self.lookalikes.count : 1;
@@ -541,9 +488,8 @@
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TFAddImageCollectionViewCell" forIndexPath:indexPath];
             TFAddImageCollectionViewCell *aCell = (TFAddImageCollectionViewCell *)cell;
             aCell.backgroundColor = [UIColor clearColor];
-            id obj =  [self.faceImages objectAtIndex:indexPath.row];
-            if (![obj isKindOfClass:[NSNull class]]) {
-                FaceImage *faceImage = (FaceImage *)obj;
+            if (indexPath.row < [self.faceImages count]) {
+                FaceImage *faceImage = [self.faceImages objectAtIndex:indexPath.row];
                 [aCell setHideFooterView:NO];
                 [aCell.addButton setTintColor:self.appColor];
                 UIImage *image = [UIImage imageWithData:faceImage.image];
@@ -559,13 +505,11 @@
                 TFAddImageCollectionViewCell *aCell = (TFAddImageCollectionViewCell *)cell;
                 aCell.backgroundColor = [UIColor clearColor];
                 id obj =  [self.lookalikes objectAtIndex:indexPath.row];
-                if (![obj isKindOfClass:[NSNull class]]) {
-                    FaceImage *faceImage = (FaceImage *)obj;
-                    [aCell setHideFooterView:YES];
-                    [aCell.addButton setTintColor:self.appColor];
-                    UIImage *image = [UIImage imageWithData:faceImage.image];
-                    [aCell.imageView setImage:image];
-                }
+                FaceImage *faceImage = (FaceImage *)obj;
+                [aCell setHideFooterView:YES];
+                [aCell.addButton setTintColor:self.appColor];
+                UIImage *image = [UIImage imageWithData:faceImage.image];
+                [aCell.imageView setImage:image];
             } else {
                 cell = (TFEmptyCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TFEmptyCollectionViewCell" forIndexPath:indexPath];
                 TFEmptyCollectionViewCell *aCell = (TFEmptyCollectionViewCell *)cell;
@@ -619,12 +563,38 @@
             
         case 1:
         {
+            WYPopoverBackgroundView *popoverAppearance = [WYPopoverBackgroundView appearance];
+            
+            [popoverAppearance setOuterCornerRadius:4];
+            [popoverAppearance setOuterShadowBlurRadius:0];
+            [popoverAppearance setOuterShadowColor:[UIColor clearColor]];
+            [popoverAppearance setOuterShadowOffset:CGSizeMake(0, 0)];
+            
+            [popoverAppearance setGlossShadowColor:[UIColor clearColor]];
+            [popoverAppearance setGlossShadowOffset:CGSizeMake(0, 0)];
+            
+            [popoverAppearance setBorderWidth:8];
+            [popoverAppearance setArrowHeight:10];
+            [popoverAppearance setArrowBase:20];
+            
+            [popoverAppearance setInnerCornerRadius:4];
+            [popoverAppearance setInnerShadowBlurRadius:0];
+            [popoverAppearance setInnerShadowColor:[UIColor clearColor]];
+            [popoverAppearance setInnerShadowOffset:CGSizeMake(0, 0)];
+            
+            [popoverAppearance setFillTopColor:self.appColor];
+            [popoverAppearance setOuterStrokeColor:self.appColor];
+
             FaceImage *faceImage = [self.lookalikes objectAtIndex:indexPath.row];
-            CSStickyHeaderFlowLayout *layout = [[CSStickyHeaderFlowLayout alloc] init];
-            TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
-            twinsViewController.selectedFaceImage = faceImage;
-            twinsViewController.loadingViewEnabled = NO;
-            [self presentViewController:twinsViewController animated:YES completion:NULL];
+            self.profileViewController = [[UIViewController alloc] init];
+            TFUserProfileView *userProfileView = [[TFUserProfileView alloc] initWithFrame:CGRectMake(0, 0, 280, 60)];
+            [userProfileView setUserInfo:faceImage.createdBy];
+            [userProfileView setAgeText:[NSString stringWithFormat:@"%@%% match",faceImage.confidence]];
+            self.profileViewController.view = userProfileView;
+            [self.profileViewController setPreferredContentSize:CGSizeMake(280, 60)];
+            self.popOverController = [[WYPopoverController alloc] initWithContentViewController:self.profileViewController];
+            TFAddImageCollectionViewCell *cell = (TFAddImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+            [self.popOverController presentPopoverFromRect:cell.frame inView:cell.superview permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
         }
             break;
             

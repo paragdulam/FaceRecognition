@@ -112,6 +112,11 @@
 }
 
 
+-(void) setAgeText:(NSString *) text
+{
+    [ageLabel setText:text];
+}
+
 -(void) setUserInfo:(id) userInfo
 {
     UserInfo *user = (UserInfo *)userInfo;

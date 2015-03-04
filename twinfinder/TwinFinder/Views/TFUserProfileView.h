@@ -18,7 +18,7 @@
 
 @property (nonatomic,weak) id<TFUserProfileViewDelegate> delegate;
 -(void) setUserInfo:(id) userInfo;
-
+-(void) setAgeText:(NSString *) text;
 @end
 
 

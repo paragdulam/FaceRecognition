@@ -17,17 +17,9 @@
 @dynamic index;
 @dynamic parse_id;
 @dynamic createdBy;
+@dynamic confidence;
 
 
--(BOOL) isEqual:(id)object
-{
-    FaceImage *image = (FaceImage *)object;
-    return [self.parse_id isEqualToString:image.parse_id];
-}
 
 @end
 
-
-//Dayanand Aadam
-//1506, Daaji Peth,
-//Solapur
