@@ -140,6 +140,7 @@
 {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate flushDatabase];
+    [self.collectionView reloadData];
     self.loginViewController = [[PFLogInViewController alloc] init];
     [self.loginViewController setFields:PFLogInFieldsFacebook];
     [self.loginViewController setDelegate:self];
@@ -563,38 +564,42 @@
             
         case 1:
         {
-            WYPopoverBackgroundView *popoverAppearance = [WYPopoverBackgroundView appearance];
             
-            [popoverAppearance setOuterCornerRadius:4];
-            [popoverAppearance setOuterShadowBlurRadius:0];
-            [popoverAppearance setOuterShadowColor:[UIColor clearColor]];
-            [popoverAppearance setOuterShadowOffset:CGSizeMake(0, 0)];
-            
-            [popoverAppearance setGlossShadowColor:[UIColor clearColor]];
-            [popoverAppearance setGlossShadowOffset:CGSizeMake(0, 0)];
-            
-            [popoverAppearance setBorderWidth:8];
-            [popoverAppearance setArrowHeight:10];
-            [popoverAppearance setArrowBase:20];
-            
-            [popoverAppearance setInnerCornerRadius:4];
-            [popoverAppearance setInnerShadowBlurRadius:0];
-            [popoverAppearance setInnerShadowColor:[UIColor clearColor]];
-            [popoverAppearance setInnerShadowOffset:CGSizeMake(0, 0)];
-            
-            [popoverAppearance setFillTopColor:self.appColor];
-            [popoverAppearance setOuterStrokeColor:self.appColor];
-
-            FaceImage *faceImage = [self.lookalikes objectAtIndex:indexPath.row];
-            self.profileViewController = [[UIViewController alloc] init];
-            TFUserProfileView *userProfileView = [[TFUserProfileView alloc] initWithFrame:CGRectMake(0, 0, 280, 60)];
-            [userProfileView setUserInfo:faceImage.createdBy];
-            [userProfileView setAgeText:[NSString stringWithFormat:@"%@%% match",faceImage.confidence]];
-            self.profileViewController.view = userProfileView;
-            [self.profileViewController setPreferredContentSize:CGSizeMake(280, 60)];
-            self.popOverController = [[WYPopoverController alloc] initWithContentViewController:self.profileViewController];
             TFAddImageCollectionViewCell *cell = (TFAddImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-            [self.popOverController presentPopoverFromRect:cell.frame inView:cell.superview permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+            if ([cell isKindOfClass:[TFAddImageCollectionViewCell class]]) {
+                WYPopoverBackgroundView *popoverAppearance = [WYPopoverBackgroundView appearance];
+                
+                [popoverAppearance setOuterCornerRadius:4];
+                [popoverAppearance setOuterShadowBlurRadius:0];
+                [popoverAppearance setOuterShadowColor:[UIColor clearColor]];
+                [popoverAppearance setOuterShadowOffset:CGSizeMake(0, 0)];
+                
+                [popoverAppearance setGlossShadowColor:[UIColor clearColor]];
+                [popoverAppearance setGlossShadowOffset:CGSizeMake(0, 0)];
+                
+                [popoverAppearance setBorderWidth:8];
+                [popoverAppearance setArrowHeight:10];
+                [popoverAppearance setArrowBase:20];
+                
+                [popoverAppearance setInnerCornerRadius:4];
+                [popoverAppearance setInnerShadowBlurRadius:0];
+                [popoverAppearance setInnerShadowColor:[UIColor clearColor]];
+                [popoverAppearance setInnerShadowOffset:CGSizeMake(0, 0)];
+                
+                [popoverAppearance setFillTopColor:self.appColor];
+                [popoverAppearance setOuterStrokeColor:self.appColor];
+                
+                FaceImage *faceImage = [self.lookalikes objectAtIndex:indexPath.row];
+                self.profileViewController = [[UIViewController alloc] init];
+                TFUserProfileView *userProfileView = [[TFUserProfileView alloc] initWithFrame:CGRectMake(0, 0, 280, 60)];
+                [userProfileView setUserInfo:faceImage.createdBy];
+                [userProfileView setAgeText:[NSString stringWithFormat:@"%@%% match",faceImage.confidence]];
+                self.profileViewController.view = userProfileView;
+                [self.profileViewController setPreferredContentSize:CGSizeMake(280, 60)];
+                self.popOverController = [[WYPopoverController alloc] initWithContentViewController:self.profileViewController];
+                [self.popOverController presentPopoverFromRect:cell.frame inView:cell.superview permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+            }
+
         }
             break;
             
