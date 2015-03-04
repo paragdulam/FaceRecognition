@@ -8,9 +8,15 @@
 // var baseURL = "http://api.skybiometry.com/fc/";
 
 //paragdulam@yahoo.co.in
-var apiKey = "99b77d7e55d24bb5bf6cb5c6d9ee9b1a";
-var apiSecretKey = "a9f78fd1d5654c92a3ed4d57d28c8ef0";
+// var apiKey = "99b77d7e55d24bb5bf6cb5c6d9ee9b1a";
+// var apiSecretKey = "a9f78fd1d5654c92a3ed4d57d28c8ef0";
+// var baseURL = "http://api.skybiometry.com/fc/";
+
+
+var apiKey = "5a68bc49a68f4d87a73f551d0ab92d15";
+var apiSecretKey = "4d1eb443c921424c89620fabb7c86b4e";
 var baseURL = "http://api.skybiometry.com/fc/";
+
 
 
 
