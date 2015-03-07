@@ -29,6 +29,7 @@
 		D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
 		D1ABA19A1A9FAEBD00364F11 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1981A9FAEBD00364F11 /* LaunchScreen.xib */; };
 		D1ABA1A61A9FAEBD00364F11 /* TwinFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */; };
+		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
 		F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,8 @@
 		D1ABA19F1A9FAEBD00364F11 /* TwinFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwinFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1ABA1A41A9FAEBD00364F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwinFinderTests.m; sourceTree = "<group>"; };
+		F186E84B1AAAF19400197AAB /* TFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFLoginViewController.h; sourceTree = "<group>"; };
+		F186E84C1AAAF19400197AAB /* TFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFLoginViewController.m; sourceTree = "<group>"; };
 		F18C71191AA04397007497A1 /* CollectionBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBackgroundView.h; sourceTree = "<group>"; };
 		F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBackgroundView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +168,8 @@
 				D14E3E601A9FBB1100ABE348 /* TFCameraViewController.m */,
 				D14E3E611A9FBB1100ABE348 /* TFTwinsViewController.h */,
 				D14E3E621A9FBB1100ABE348 /* TFTwinsViewController.m */,
+				F186E84B1AAAF19400197AAB /* TFLoginViewController.h */,
+				F186E84C1AAAF19400197AAB /* TFLoginViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -392,6 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */,
 				D14E3E751A9FBB1100ABE348 /* TFAppManager.m in Sources */,
 				D14E3E761A9FBB1100ABE348 /* TFCameraViewController.m in Sources */,
 				D1ABA18C1A9FAEBD00364F11 /* AppDelegate.m in Sources */,

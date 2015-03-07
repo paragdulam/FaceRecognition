@@ -25,6 +25,7 @@
 #import "CollectionBackgroundView.h"
 #import "MBProgressHUD.h"
 #import "CSStickyHeaderFlowLayout.h"
+#import "TFLoginViewController.h"
 
 #define BOY_COLOR [UIColor colorWithRed:33.f/255.f green:133.f/255.f blue:190.f/255.f alpha:1.f]
 #define GIRL_COLOR [UIColor colorWithRed:238.f/255.f green:86.f/255.f blue:122.f/255.f alpha:1.f]
@@ -35,7 +36,7 @@
 }
 
 
-@property (nonatomic,strong) PFLogInViewController *loginViewController;
+@property (nonatomic,strong) TFLoginViewController *loginViewController;
 @property (nonatomic,strong) UserInfo *userInfo;
 @property (nonatomic,strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong) PFFile *selectedImageFile;
@@ -128,8 +129,8 @@
 {
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate flushDatabase];
-    self.loginViewController = [[PFLogInViewController alloc] init];
-    [self.loginViewController setFields:PFLogInFieldsFacebook];
+    self.loginViewController = [[TFLoginViewController alloc] init];
+    [self.loginViewController setFields:PFLogInFieldsFacebook | PFLogInFieldsTwitter | PFLogInFieldsLogInButton | PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsSignUpButton];
     [self.loginViewController setDelegate:self];
     [self presentViewController:self.loginViewController animated:[animated boolValue] completion:NULL];
 }
