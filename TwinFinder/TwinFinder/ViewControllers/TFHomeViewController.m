@@ -8,12 +8,15 @@
 
 #import "TFHomeViewController.h"
 #import "TFBaseContentView.h"
+#import "TFPhotoContentView.h"
 #import <Parse/Parse.h>
 #import "TFLoginViewController.h"
 #import "AppDelegate.h"
 #import "TFAppManager.h"
+#import "TFCameraViewController.h"
+#import "MAImageView.h"
 
-@interface TFHomeViewController ()<PFLogInViewControllerDelegate>
+@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
     UIImageView *backgroundImageView;
     UILabel *appNameLabel;
@@ -22,10 +25,17 @@
 }
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
+@property (nonatomic,weak) AppDelegate *appDelegate;
 
 @end
 
 @implementation TFHomeViewController
+
+
+-(AppDelegate *)appDelegate
+{
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,6 +58,8 @@
     [self.view addSubview:homeViewBackground];
     
     dataBackgroundView = [[TFBaseContentView alloc] initWithFrame:CGRectZero];
+    dataBackgroundView.delegate = self;
+    dataBackgroundView.contentView.delegate = self;
     dataBackgroundView.backgroundColor = [UIColor blackColor];
     [homeViewBackground addSubview:dataBackgroundView];
     
@@ -56,7 +68,6 @@
     } else {
         [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
     }
-
 }
 
 
@@ -74,6 +85,17 @@
 {
     [TFAppManager saveCurrentUserWithCompletionBlock:^(id object, NSError *error) {
         [dataBackgroundView setUserInfo:object];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate clickedPicturePath]]) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
+                });
+            });
+        } else {
+            [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageNamed:@"singleface"]];
+            [dataBackgroundView.contentView.imageView2 setImage:[UIImage imageNamed:@"twofaces"]];
+        }
     }];
 }
 
@@ -94,6 +116,67 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+#pragma mark -  TFCameraViewControllerDelegate
+
+-(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int) indx
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [imageData writeToFile:[appDelegate clickedPicturePath] atomically:YES];
+    [vc dismissViewControllerAnimated:YES completion:NULL];
+    [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
+}
+
+-(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
+{
+    [vc dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+#pragma mark - TFBaseContentViewDelegate,TFPhotoContentViewDelegate
+
+-(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn
+{
+    switch (btn.tag) {
+        case 1:
+        {
+            //Profile View Controller
+        }
+            break;
+        case 2:
+        {
+            TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:0];
+            [cameraViewController setDelegate:self];
+            [self presentViewController:cameraViewController animated:YES completion:NULL];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+-(void) photoContentView:(TFPhotoContentView *)view buttonTapped:(UIButton *)btn
+{
+    switch (btn.tag) {
+        case 1:
+        {
+            //upload image to parse.
+        }
+            break;
+        case 2:
+        {
+            //face recognition.
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 
 #pragma mark - PFLogInViewControllerDelegate
 

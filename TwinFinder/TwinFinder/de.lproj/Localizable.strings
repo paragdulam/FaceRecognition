@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  TwinFinder
+
+  Created by Parag Dulam on 08/03/15.
+  Copyright (c) 2015 Parag Dulam. All rights reserved.
+*/
+"Add Photo" = "Foto hinzufügen";
+"Start Search" = "Suche Starten";
+"Create a profile" = "Profil erstellen";
+"Camera" = "Kamera";

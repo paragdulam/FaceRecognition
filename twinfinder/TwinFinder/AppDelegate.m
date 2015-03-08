@@ -243,4 +243,10 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+
+- (NSString *)clickedPicturePath
+{
+    return [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory].path,CLICKED_FACE_PICTURE];
+}
+
 @end

@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 
+@class MAImageView;
 @protocol TFPhotoContentViewDelegate;
 
 @interface TFPhotoContentView : UIView
 
 @property(nonatomic,weak) id<TFPhotoContentViewDelegate> delegate;
+@property(nonatomic) MAImageView *imageView1;
+@property(nonatomic) MAImageView *imageView2;
+
 
 @end
 

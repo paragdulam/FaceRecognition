@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class TFPhotoContentView;
+
 @protocol TFBaseContentViewDelegate;
 
 @interface TFBaseContentView : UIView
 
 @property (nonatomic,weak) id<TFBaseContentViewDelegate>delegate;
+@property (nonatomic) TFPhotoContentView *contentView;
 
 -(void) setUserInfo:(id) userInfo;
 

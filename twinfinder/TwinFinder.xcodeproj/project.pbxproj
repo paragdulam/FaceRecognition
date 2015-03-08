@@ -29,6 +29,8 @@
 		D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
 		D1ABA19A1A9FAEBD00364F11 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1981A9FAEBD00364F11 /* LaunchScreen.xib */; };
 		D1ABA1A61A9FAEBD00364F11 /* TwinFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */; };
+		D1B8098D1AAC6DB300EAE5A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1B8098F1AAC6DB300EAE5A8 /* Localizable.strings */; };
+		D1B809931AAC7F3500EAE5A8 /* TFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */; };
 		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
 		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
 		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
@@ -92,6 +94,11 @@
 		D1ABA19F1A9FAEBD00364F11 /* TwinFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwinFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1ABA1A41A9FAEBD00364F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwinFinderTests.m; sourceTree = "<group>"; };
+		D1B8098C1AAC6D5D00EAE5A8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D1B8098E1AAC6DB300EAE5A8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D1B809901AAC6DB700EAE5A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D1B809911AAC7F3500EAE5A8 /* TFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFProfileViewController.h; sourceTree = "<group>"; };
+		D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFProfileViewController.m; sourceTree = "<group>"; };
 		F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPhotoContentView.h; sourceTree = "<group>"; };
 		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
 		F15E2DE51AAC1A410040BBCB /* MAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAImageView.h; sourceTree = "<group>"; };
@@ -186,6 +193,8 @@
 				F186E84C1AAAF19400197AAB /* TFLoginViewController.m */,
 				F186E84E1AAB75D700197AAB /* TFHomeViewController.h */,
 				F186E84F1AAB75D700197AAB /* TFHomeViewController.m */,
+				D1B809911AAC7F3500EAE5A8 /* TFProfileViewController.h */,
+				D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -253,6 +262,7 @@
 			children = (
 				D1ABA1871A9FAEBD00364F11 /* Info.plist */,
 				D1ABA1881A9FAEBD00364F11 /* main.m */,
+				D1B8098F1AAC6DB300EAE5A8 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -366,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1ABA19A1A9FAEBD00364F11 /* LaunchScreen.xib in Resources */,
+				D1B8098D1AAC6DB300EAE5A8 /* Localizable.strings in Resources */,
 				D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,6 +435,7 @@
 				F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */,
 				F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */,
 				D1ABA18C1A9FAEBD00364F11 /* AppDelegate.m in Sources */,
+				D1B809931AAC7F3500EAE5A8 /* TFProfileViewController.m in Sources */,
 				D14E3E711A9FBB1100ABE348 /* UserInfo.m in Sources */,
 				D14E3E781A9FBB1100ABE348 /* CustomCollectionFlowLayout.m in Sources */,
 				D14E3E741A9FBB1100ABE348 /* StretchyHeaderCollectionViewLayout.m in Sources */,
@@ -467,8 +479,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				D1ABA1991A9FAEBD00364F11 /* Base */,
+				D1B8098C1AAC6D5D00EAE5A8 /* de */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		D1B8098F1AAC6DB300EAE5A8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D1B8098E1AAC6DB300EAE5A8 /* de */,
+				D1B809901AAC6DB700EAE5A8 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -508,7 +530,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -543,7 +565,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#define CLICKED_FACE_PICTURE @"clickedFacePicture.jpg"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -19,6 +20,7 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (NSString *)clickedPicturePath;
 -(void) flushDatabase;
 
 
