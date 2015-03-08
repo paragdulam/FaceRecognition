@@ -9,8 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
-#import "TFTwinsViewController.h"
-#import "CSStickyHeaderFlowLayout.h"
+#import "TFHomeViewController.h"
 
 @interface AppDelegate ()
 
@@ -46,10 +45,8 @@
     
     // Override point for customization after application launch.
     
-    CSStickyHeaderFlowLayout *layout = [[CSStickyHeaderFlowLayout alloc] init];
-    TFTwinsViewController *twinsViewController = [[TFTwinsViewController alloc] initWithCollectionViewLayout:layout className:@"User"];
-    twinsViewController.loadingViewEnabled = NO;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:twinsViewController];
+    TFHomeViewController *homeViewController = [[TFHomeViewController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     

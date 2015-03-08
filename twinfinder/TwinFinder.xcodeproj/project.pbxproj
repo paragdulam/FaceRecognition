@@ -29,7 +29,11 @@
 		D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
 		D1ABA19A1A9FAEBD00364F11 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1981A9FAEBD00364F11 /* LaunchScreen.xib */; };
 		D1ABA1A61A9FAEBD00364F11 /* TwinFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */; };
+		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
+		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
 		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
+		F186E8501AAB75D700197AAB /* TFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84F1AAB75D700197AAB /* TFHomeViewController.m */; };
+		F186E8531AAB7E1800197AAB /* TFBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E8521AAB7E1800197AAB /* TFBaseContentView.m */; };
 		F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
 /* End PBXBuildFile section */
 
@@ -88,8 +92,16 @@
 		D1ABA19F1A9FAEBD00364F11 /* TwinFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwinFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1ABA1A41A9FAEBD00364F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwinFinderTests.m; sourceTree = "<group>"; };
+		F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPhotoContentView.h; sourceTree = "<group>"; };
+		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
+		F15E2DE51AAC1A410040BBCB /* MAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAImageView.h; sourceTree = "<group>"; };
+		F15E2DE61AAC1A410040BBCB /* MAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAImageView.m; sourceTree = "<group>"; };
 		F186E84B1AAAF19400197AAB /* TFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFLoginViewController.h; sourceTree = "<group>"; };
 		F186E84C1AAAF19400197AAB /* TFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFLoginViewController.m; sourceTree = "<group>"; };
+		F186E84E1AAB75D700197AAB /* TFHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHomeViewController.h; sourceTree = "<group>"; };
+		F186E84F1AAB75D700197AAB /* TFHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHomeViewController.m; sourceTree = "<group>"; };
+		F186E8511AAB7E1800197AAB /* TFBaseContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFBaseContentView.h; sourceTree = "<group>"; };
+		F186E8521AAB7E1800197AAB /* TFBaseContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBaseContentView.m; sourceTree = "<group>"; };
 		F18C71191AA04397007497A1 /* CollectionBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBackgroundView.h; sourceTree = "<group>"; };
 		F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBackgroundView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,6 +161,8 @@
 		D14E3E551A9FBB1100ABE348 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F15E2DE51AAC1A410040BBCB /* MAImageView.h */,
+				F15E2DE61AAC1A410040BBCB /* MAImageView.m */,
 				D14E3E561A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.h */,
 				D14E3E571A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.m */,
 				D14E3E581A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.h */,
@@ -170,6 +184,8 @@
 				D14E3E621A9FBB1100ABE348 /* TFTwinsViewController.m */,
 				F186E84B1AAAF19400197AAB /* TFLoginViewController.h */,
 				F186E84C1AAAF19400197AAB /* TFLoginViewController.m */,
+				F186E84E1AAB75D700197AAB /* TFHomeViewController.h */,
+				F186E84F1AAB75D700197AAB /* TFHomeViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -187,6 +203,10 @@
 				D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */,
 				F18C71191AA04397007497A1 /* CollectionBackgroundView.h */,
 				F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */,
+				F186E8511AAB7E1800197AAB /* TFBaseContentView.h */,
+				F186E8521AAB7E1800197AAB /* TFBaseContentView.m */,
+				F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */,
+				F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -400,6 +420,9 @@
 				F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */,
 				D14E3E751A9FBB1100ABE348 /* TFAppManager.m in Sources */,
 				D14E3E761A9FBB1100ABE348 /* TFCameraViewController.m in Sources */,
+				F186E8531AAB7E1800197AAB /* TFBaseContentView.m in Sources */,
+				F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */,
+				F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */,
 				D1ABA18C1A9FAEBD00364F11 /* AppDelegate.m in Sources */,
 				D14E3E711A9FBB1100ABE348 /* UserInfo.m in Sources */,
 				D14E3E781A9FBB1100ABE348 /* CustomCollectionFlowLayout.m in Sources */,
@@ -416,6 +439,7 @@
 				D14E3E6C1A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m in Sources */,
 				D14E3E6E1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m in Sources */,
 				D14E3E731A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
+				F186E8501AAB75D700197AAB /* TFHomeViewController.m in Sources */,
 				D14E3E6F1A9FBB1100ABE348 /* FaceImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
