@@ -119,7 +119,7 @@
     [ageLabel setText:user.age];
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@",[appDelegate applicationDocumentsDirectory].path,user.facebookId];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@",[appDelegate applicationDocumentsDirectory].path,user.parse_id];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:NO]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *data = [NSData dataWithContentsOfFile:filePath];
@@ -128,7 +128,7 @@
             });
         });
     } else {
-        NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user.facebookId];
+        NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user.parse_id];
         NSURL *url = [NSURL URLWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [activityIndicator startAnimating];

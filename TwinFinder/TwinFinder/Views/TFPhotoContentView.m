@@ -15,7 +15,6 @@
 {
     UIButton *photoButton1;
     UIButton *photoButton2;
-    DACircularProgressView *progressView;
 }
 
 @end
@@ -67,10 +66,11 @@
         [photoButton2.titleLabel setFont:[UIFont boldSystemFontOfSize:10.f]];
         [self addSubview:photoButton2];
         
-        progressView = [[DACircularProgressView alloc] initWithFrame:CGRectZero];
-        progressView.trackTintColor = [UIColor blackColor];
-        progressView.thicknessRatio = 0.1;
-        [self addSubview:progressView];
+        self.progressView = [[DACircularProgressView alloc] initWithFrame:CGRectZero];
+        self.progressView.trackTintColor = [UIColor blackColor];
+        self.progressView.progressTintColor = [UIColor greenColor];
+        self.progressView.thicknessRatio = 0.1;
+        [self addSubview:self.progressView];
     }
     return self;
 }
@@ -100,7 +100,7 @@
     photoButton2.center = CGPointMake(self.imageView2.center.x, self.imageView2.center.y + ((self.imageView2.frame.size.height/2) + 20.f));
     
     CGFloat progressWidth = self.frame.size.height - 30 - self.imageView1.frame.size.height - photoButton2.frame.size.height;
-    progressView.frame = CGRectMake(self.center.x - progressView.frame.size.width/2, CGRectGetMaxY(photoButton2.frame) + 10, progressWidth, progressWidth);
+    self.progressView.frame = CGRectMake(self.center.x - self.progressView.frame.size.width/2, CGRectGetMaxY(photoButton2.frame) + 10, progressWidth, progressWidth);
 }
 
 

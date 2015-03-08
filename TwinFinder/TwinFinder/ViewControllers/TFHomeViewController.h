@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Parag Dulam. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TFBaseViewController.h"
 
-@interface TFHomeViewController : UIViewController
+@interface TFHomeViewController : TFBaseViewController
 
 @end

@@ -249,4 +249,14 @@
     return [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory].path,CLICKED_FACE_PICTURE];
 }
 
+-(NSString *)matchesPath
+{
+    BOOL isDirectory = YES;
+    NSString *matchesPath = [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory].path,MATCHES];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:matchesPath isDirectory:&isDirectory]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:matchesPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return matchesPath;
+}
+
 @end

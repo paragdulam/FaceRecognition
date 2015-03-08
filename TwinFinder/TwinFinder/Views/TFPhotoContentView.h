@@ -10,6 +10,8 @@
 
 
 @class MAImageView;
+@class DACircularProgressView;
+
 @protocol TFPhotoContentViewDelegate;
 
 @interface TFPhotoContentView : UIView
@@ -17,6 +19,8 @@
 @property(nonatomic,weak) id<TFPhotoContentViewDelegate> delegate;
 @property(nonatomic) MAImageView *imageView1;
 @property(nonatomic) MAImageView *imageView2;
+@property(nonatomic) DACircularProgressView *progressView;
+
 
 
 @end

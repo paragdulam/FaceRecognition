@@ -187,7 +187,7 @@
         [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:2]];
 
         [self.progressHUD setLabelText:@"Getting User Images..."];
-        [TFAppManager getFaceImagesForUserId:self.userInfo.facebookId
+        [TFAppManager getFaceImagesForUserId:self.userInfo.parse_id
                              completionBlock:^(id object, NSError *error) {
                                  if (object) {
                                      FaceImage *face = (FaceImage *)object;
@@ -547,7 +547,7 @@
                 FaceImage *faceImage = (FaceImage *)obj;
                 [aCell setHideFooterView:NO];
                 [aCell.addButton setTintColor:self.appColor];
-                UIImage *image = [UIImage imageWithData:faceImage.image];
+                UIImage *image = nil;
                 [aCell.imageView setImage:nil];
                 [aCell.imageView setImage:image];
             }
@@ -564,7 +564,7 @@
                     FaceImage *faceImage = (FaceImage *)obj;
                     [aCell setHideFooterView:YES];
                     [aCell.addButton setTintColor:self.appColor];
-                    UIImage *image = [UIImage imageWithData:faceImage.image];
+                    UIImage *image = nil;
                     [aCell.imageView setImage:image];
                 }
             } else {

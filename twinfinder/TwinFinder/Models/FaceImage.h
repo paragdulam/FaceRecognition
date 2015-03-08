@@ -1,9 +1,9 @@
 //
 //  FaceImage.h
-//  ParseStarterProject
+//  TwinFinder
 //
-//  Created by Parag Dulam on 25/02/15.
-//
+//  Created by Parag Dulam on 08/03/15.
+//  Copyright (c) 2015 Parag Dulam. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,10 +13,10 @@
 
 @interface FaceImage : NSManagedObject
 
-@property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSString * image_url;
 @property (nonatomic, retain) NSNumber * index;
 @property (nonatomic, retain) NSString * parse_id;
+@property (nonatomic, retain) NSString * temp_id;
 @property (nonatomic, retain) UserInfo *createdBy;
 
 @end

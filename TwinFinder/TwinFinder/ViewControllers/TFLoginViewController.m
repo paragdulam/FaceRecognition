@@ -8,7 +8,7 @@
 
 #import "TFLoginViewController.h"
 
-@interface TFLoginViewController ()
+@interface TFLoginViewController ()<PFSignUpViewControllerDelegate>
 {
     UILabel *appNameLabel;
     UIImageView *logoImageView;
@@ -36,6 +36,8 @@
     [logoImageView setImage:[UIImage imageNamed:@"logo"]];
     [logoImageView setContentMode:UIViewContentModeScaleAspectFit];
     [self.logInView insertSubview:logoImageView atIndex:2];
+    
+    self.signUpController.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -91,14 +93,16 @@
     logoImageView.frame = logoFrame;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - PFSignUpViewControllerDelegate
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user
+{
+    [signUpController dismissViewControllerAnimated:YES completion:^{
+        [self.delegate logInViewController:self didLogInUser:user];
+    }];
 }
-*/
+
+
 
 @end

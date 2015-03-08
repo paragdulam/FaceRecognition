@@ -1,9 +1,9 @@
 //
 //  FaceImage.m
-//  ParseStarterProject
+//  TwinFinder
 //
-//  Created by Parag Dulam on 25/02/15.
-//
+//  Created by Parag Dulam on 08/03/15.
+//  Copyright (c) 2015 Parag Dulam. All rights reserved.
 //
 
 #import "FaceImage.h"
@@ -12,10 +12,10 @@
 
 @implementation FaceImage
 
-@dynamic image;
 @dynamic image_url;
 @dynamic index;
 @dynamic parse_id;
+@dynamic temp_id;
 @dynamic createdBy;
 
 @end

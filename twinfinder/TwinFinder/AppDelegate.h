@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #define CLICKED_FACE_PICTURE @"clickedFacePicture.jpg"
+#define MATCHES @"matches"
+
+typedef enum {
+    HOME = 0,
+    PROFILE,
+}TF_VIEW_TYPE;
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -21,6 +28,7 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (NSString *)clickedPicturePath;
+-(NSString *)matchesPath;
 -(void) flushDatabase;
 
 
