@@ -117,37 +117,6 @@
 }
 
 
--(void) setUserInfo:(id) userInfo
-{
-    UserInfo *user = (UserInfo *)userInfo;
-    [self.descLabel setText:[NSString stringWithFormat:@"%@,%@",user.firstName,user.age]];
-    
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@",[appDelegate applicationDocumentsDirectory].path,user.parse_id];
-    BOOL no = NO;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&no]) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *data = [NSData dataWithContentsOfFile:filePath];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.profilePicButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-            });
-        });
-    } else {
-        NSString *urlString = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",user.parse_id];
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        [self.activityIndicator startAnimating];
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [data writeToFile:filePath atomically:YES];
-            });
-            [self.activityIndicator stopAnimating];
-            [self.profilePicButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-        }];
-    }
-}
-
-
 
 -(void) bottomButton1Tapped:(UIButton *) btn
 {

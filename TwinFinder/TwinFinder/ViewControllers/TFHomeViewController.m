@@ -68,6 +68,7 @@
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
+                [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
             });
         });
     } else {
@@ -148,7 +149,7 @@
                               [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
                           }
                         WithCompletionBlock:^(id object, int type, NSError *error) {
-                            
+                            [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
                         }];
         }
             break;

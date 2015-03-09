@@ -8,6 +8,10 @@
 
 #import "TFBaseViewController.h"
 
+@class AppDelegate;
+
 @interface TFProfileViewController : TFBaseViewController
+
+@property (nonatomic,weak) AppDelegate *appDelegate;
 
 @end

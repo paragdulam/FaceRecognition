@@ -11,8 +11,11 @@
 #import "TFBaseContentView.h"
 #import "TFPhotoContentView.h"
 #import "DACircularProgressView.h"
+#import "AppDelegate.h"
+#import "MAImageView.h"
+#import "TFCameraViewController.h"
 
-@interface TFProfileViewController ()
+@interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
     UIButton *cancelButton;
 }
@@ -20,6 +23,12 @@
 @end
 
 @implementation TFProfileViewController
+
+
+-(AppDelegate *) appDelegate
+{
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,6 +43,54 @@
     [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [cancelButton setBackgroundColor:[UIColor redColor]];
     [self.view addSubview:cancelButton];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate profilePicturePath]]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate profilePicturePath]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
+                [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+            });
+        });
+    } else {
+        [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageNamed:@"singleface"]];
+    }
+}
+
+
+-(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int) indx
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [imageData writeToFile:[appDelegate profilePicturePath] atomically:YES];
+    [vc dismissViewControllerAnimated:YES completion:NULL];
+    [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
+}
+
+-(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
+{
+    [vc dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+
+-(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn
+{
+    switch (btn.tag) {
+        case 1:
+        {
+            TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:0];
+            [cameraViewController setDelegate:self];
+            [self presentViewController:cameraViewController animated:YES completion:NULL];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void) photoContentView:(TFPhotoContentView *) view buttonTapped:(UIButton *) btn
+{
 }
 
 

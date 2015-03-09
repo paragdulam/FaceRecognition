@@ -249,6 +249,11 @@
     return [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory].path,CLICKED_FACE_PICTURE];
 }
 
+- (NSString *)profilePicturePath
+{
+    return [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory].path,CLICKED_PROFILE_PICTURE];
+}
+
 -(NSString *)matchesPath
 {
     BOOL isDirectory = YES;

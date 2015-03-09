@@ -16,18 +16,19 @@
 
 @property (nonatomic,weak) id<TFBaseContentViewDelegate>delegate;
 @property (nonatomic) TFPhotoContentView *contentView;
-
 @property (nonatomic) UIButton *profilePicButton;
 @property (nonatomic) UILabel *descLabel;
 @property (nonatomic) UILabel *locationLabel;
 @property (nonatomic) UIButton *bottomButton1;
+//@property (nonatomic) UIButton *twitterButton;
+//@property (nonatomic) UIButton *facebookButton;
+//@property (nonatomic) UIButton *instagramButton;
+//@property (nonatomic) UIButton *googleButton;
 @property (nonatomic) CAGradientLayer *gradientLayer1;
 @property (nonatomic) UIButton *bottomButton2;
 @property (nonatomic) CAGradientLayer *gradientLayer2;
 @property (nonatomic) UIActivityIndicatorView *activityIndicator;
 
-
--(void) setUserInfo:(id) userInfo;
 
 @end
 
