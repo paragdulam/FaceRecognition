@@ -9,14 +9,17 @@
     </entity>
     <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
         <attribute name="age" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="national" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="parse_id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="FaceImage" positionX="-54" positionY="27" width="128" height="120"/>
-        <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="180"/>
     </elements>
 </model>

@@ -39,6 +39,8 @@
     dataBackgroundView.contentView.delegate = self;
     dataBackgroundView.backgroundColor = [UIColor blackColor];
     [homeViewBackground addSubview:dataBackgroundView];
+    
+    [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:@"logo_small"] forState:UIControlStateNormal];
 }
 
 -(void) viewDidLayoutSubviews

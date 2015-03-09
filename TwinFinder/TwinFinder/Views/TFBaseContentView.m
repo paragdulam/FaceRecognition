@@ -9,9 +9,10 @@
 #import "TFBaseContentView.h"
 #import "TFPhotoContentView.h"
 #import "UserInfo.h"
+#import "TFTextFieldView.h"
 #import "AppDelegate.h"
 
-@interface TFBaseContentView()<TFPhotoContentViewDelegate>
+@interface TFBaseContentView()<TFPhotoContentViewDelegate,TFTextFieldViewDelegate>
 {
 }
 
@@ -38,6 +39,7 @@
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         self.activityIndicator.hidesWhenStopped = YES;
         [self.profilePicButton addSubview:self.activityIndicator];
+        [self.profilePicButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         
         self.descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.descLabel.textColor = [UIColor whiteColor];
@@ -77,11 +79,19 @@
         [self addSubview:self.bottomButton2];
         
         self.contentView = [[TFPhotoContentView alloc] initWithFrame:CGRectZero];
+        self.contentView.textFieldView.delegate = self;
         self.contentView.backgroundColor = [UIColor colorWithRed:210.f/255.f green:221.f/255.f blue:227.f/255.f alpha:1];
         [self addSubview:self.contentView];
     }
     return self;
 }
+
+
+-(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) uInfo
+{
+    [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.location,uInfo.national]];
+}
+
 
 
 -(void) layoutSubviews

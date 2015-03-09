@@ -14,6 +14,9 @@
 
 @property (nonatomic, retain) NSString * age;
 @property (nonatomic, retain) NSString * firstName;
+@property (nonatomic, retain) NSString * city;
+@property (nonatomic, retain) NSString * location;
+@property (nonatomic, retain) NSString * national;
 @property (nonatomic, retain) NSString * gender;
 @property (nonatomic, retain) NSString * lastName;
 @property (nonatomic, retain) NSString * name;

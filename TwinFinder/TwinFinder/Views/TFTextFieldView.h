@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class UserInfo;
+
+@protocol TFTextFieldViewDelegate;
+
 @interface TFTextFieldView : UIView
 {
     UITextField *nameTextField;
@@ -16,5 +20,17 @@
     UITextField *locationTextField;
     UITextField *nationalTextField;
 }
+
+@property (nonatomic,weak) id<TFTextFieldViewDelegate>delegate;
+
+
+-(void) fetchUserInfo;
+
+@end
+
+
+@protocol TFTextFieldViewDelegate<NSObject>
+
+-(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) uInfo;
 
 @end

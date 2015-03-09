@@ -398,6 +398,16 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     }];
 }
 
+
+
++(UserInfo *) userWithId:(NSString *) uid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"parse_id == %@",[PFUser currentUser].objectId]];
+    NSArray *userInfos = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    return [userInfos firstObject];
+}
+
 +(void) saveFaceImageData:(NSData *)imData
                   AtIndex:(int)index
                 ForUserId:(NSString *)fbId

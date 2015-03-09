@@ -18,6 +18,7 @@
 #import "TFProfileViewController.h"
 #import "DACircularProgressView.h"
 #import "TFTextFieldView.h"
+#import "UserInfo.h"
 
 @interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
@@ -141,16 +142,19 @@
         case 1:
         {
             //upload image to parse.
-            [TFAppManager saveFaceImageData:[NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]]
-                                    AtIndex:0
-                                  ForUserId:[PFUser currentUser].objectId
-                          withProgressBlock:^(NSString *progressString, int progress) {
-                              CGFloat percentage = (float)progress * 0.01;
-                              [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
-                          }
-                        WithCompletionBlock:^(id object, int type, NSError *error) {
-                            [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
-                        }];
+            NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
+            if (imageData) {
+                [TFAppManager saveFaceImageData:imageData
+                                        AtIndex:0
+                                      ForUserId:[PFUser currentUser].objectId
+                              withProgressBlock:^(NSString *progressString, int progress) {
+                                  CGFloat percentage = (float)progress * 0.01;
+                                  [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
+                              }
+                            WithCompletionBlock:^(id object, int type, NSError *error) {
+                                [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                            }];
+            }
         }
             break;
         case 2:
@@ -171,6 +175,10 @@
 {
     [self doPostLogin];
     [logInController dismissViewControllerAnimated:YES completion:NULL];
+    
+    UserInfo *userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    userInfo.parse_id = user.objectId;
+    [[TFAppManager appDelegate].managedObjectContext save:nil];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error

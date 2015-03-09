@@ -17,5 +17,9 @@
 @dynamic lastName;
 @dynamic name;
 @dynamic parse_id;
+@dynamic city;
+@dynamic location;
+@dynamic national;
+
 
 @end

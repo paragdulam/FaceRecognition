@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 
 @class FaceImage;
+@class UserInfo;
 
 @interface TFAppManager : NSObject
 
@@ -27,6 +28,7 @@
 +(void) matchImageWithOtherUsers:(FaceImage *) faceImage withCompletionBlock:(void(^)(id obj,NSError *error))completionBlock;
 +(void) getLookalikesForFaceImage:(FaceImage *) fImage withCompletionBlock:(void(^)(id object,NSError *error)) completionBlock;
 +(void) saveFaceImageData:(NSData *)imData ForUserId:(NSString *)userId withProgressBlock:(void (^)(NSString *, int))progressBlock WithCompletionBlock:(void (^)(id, int, NSError *))completionBlock;
++(UserInfo *) userWithId:(NSString *) uid;
 
 
 @end
