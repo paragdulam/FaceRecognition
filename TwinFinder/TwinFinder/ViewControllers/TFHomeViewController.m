@@ -17,6 +17,7 @@
 #import "MAImageView.h"
 #import "TFProfileViewController.h"
 #import "DACircularProgressView.h"
+#import "TFTextFieldView.h"
 
 @interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
@@ -40,6 +41,7 @@
     // Do any additional setup after loading the view.
     
     [self.navigationController setNavigationBarHidden:YES];
+    dataBackgroundView.contentView.textFieldView.hidden = YES;
 
     if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];

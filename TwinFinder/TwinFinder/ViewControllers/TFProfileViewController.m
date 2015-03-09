@@ -7,6 +7,10 @@
 //
 
 #import "TFProfileViewController.h"
+#import "TFTextFieldView.h"
+#import "TFBaseContentView.h"
+#import "TFPhotoContentView.h"
+#import "DACircularProgressView.h"
 
 @interface TFProfileViewController ()
 {
@@ -20,6 +24,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    dataBackgroundView.contentView.photoButton2.hidden = YES;
+    dataBackgroundView.contentView.progressView.hidden = YES;
+    dataBackgroundView.bottomButton2.hidden = YES;
+    [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Camera", nil) forState:UIControlStateNormal];
+    
     cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [cancelButton setBackgroundColor:[UIColor redColor]];
