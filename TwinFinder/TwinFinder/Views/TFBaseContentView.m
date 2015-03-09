@@ -11,6 +11,7 @@
 #import "UserInfo.h"
 #import "TFTextFieldView.h"
 #import "AppDelegate.h"
+#import "TFAppManager.h"
 
 @interface TFBaseContentView()<TFPhotoContentViewDelegate,TFTextFieldViewDelegate>
 {
@@ -42,6 +43,7 @@
         [self.profilePicButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         
         self.descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [self.descLabel setFont:[UIFont boldSystemFontOfSize:14.f]];
         self.descLabel.textColor = [UIColor whiteColor];
         [self addSubview:self.descLabel];
         
@@ -82,8 +84,22 @@
         self.contentView.textFieldView.delegate = self;
         self.contentView.backgroundColor = [UIColor colorWithRed:210.f/255.f green:221.f/255.f blue:227.f/255.f alpha:1];
         [self addSubview:self.contentView];
+        
+        UserInfo *uInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
+        [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.location,uInfo.national]];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:@"profile.updated" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+            UserInfo *uInfo = (UserInfo *)[note object];
+            [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.location,uInfo.national]];
+        }];
     }
     return self;
+}
+
+
+-(void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

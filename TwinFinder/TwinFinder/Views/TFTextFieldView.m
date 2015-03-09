@@ -86,6 +86,7 @@
     nationalTextField.text = self.userInfo.national;
     if ([self.delegate respondsToSelector:@selector(textFieldView:didUpdateUser:)]) {
         [self.delegate textFieldView:self didUpdateUser:self.userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"profile.updated" object:self.userInfo];
     }
 }
 
@@ -105,6 +106,7 @@
     [[TFAppManager appDelegate].managedObjectContext save:nil];
     if ([self.delegate respondsToSelector:@selector(textFieldView:didUpdateUser:)]) {
         [self.delegate textFieldView:self didUpdateUser:self.userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"profile.updated" object:self.userInfo];
     }
 }
 
