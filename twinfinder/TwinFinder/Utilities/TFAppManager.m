@@ -382,11 +382,8 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
                         PFFile *imgFile = [pImage objectForKey:@"imageFile"];
                         facImage.image_url = imgFile.url;
                         facImage.parse_id = pImage.objectId;
-                        
-                        [imgFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                            completionBlock(facImage,error);
-                            [[TFAppManager appDelegate].managedObjectContext save:nil];
-                        }];
+                        [[TFAppManager appDelegate].managedObjectContext save:nil];
+                        completionBlock(facImage,error);
                     } else {
                         completionBlock(nil,nil);
                     }
@@ -411,7 +408,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 
 +(FaceImage *) faceImageWithUserId:(NSString *)uid
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FaceImage"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"createdBy.parse_id == %@",uid]];
     NSArray *faceImages = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
     return [faceImages firstObject];
@@ -430,6 +427,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     uInfo.city = [user objectForKey:@"city"];
     uInfo.location = [user objectForKey:@"location"];
     uInfo.national = [user objectForKey:@"national"];
+    uInfo.parse_id = user.objectId;
     
     FaceImage *fImage = [TFAppManager faceImageWithUserId:user.objectId];
     if (!fImage) {
@@ -457,6 +455,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     uInfo.city = [user objectForKey:@"city"];
     uInfo.location = [user objectForKey:@"location"];
     uInfo.national = [user objectForKey:@"national"];
+    uInfo.parse_id = user.objectId;
     [[TFAppManager appDelegate].managedObjectContext save:nil];
 }
 
@@ -467,61 +466,59 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
         withProgressBlock:(void(^)(NSString *progressString,int progress))progressBlock
       WithCompletionBlock:(void(^)(id object, int type ,NSError *error))completionBlock
 {
-    [TFAppManager getFaceImageForUserId:fbId andIndex:index withCompletionBlock:^(id object, NSError *error) {
-        progressBlock(@"Uploading...",0);
-        FaceImage *faceImage = (FaceImage *)object;
-        if (!faceImage) {
-            faceImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
-        }
-        faceImage.index = [NSNumber numberWithInt:index];
-        faceImage.createdBy = [TFAppManager userWithId:fbId];
-        NSError *saveError = nil;
-        [[TFAppManager appDelegate].managedObjectContext save:&saveError];
-        completionBlock(faceImage,0,saveError);
-        
-        PFFile *imageFile = [PFFile fileWithData:imData];
-        [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                faceImage.image_url = imageFile.url;
-                [[TFAppManager appDelegate].managedObjectContext save:nil];
-                
-                PFQuery *imageQuery = [PFQuery queryWithClassName:@"FaceImage"];
-                [imageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-                [imageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:index]];
-                [imageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    PFObject *parseImage = nil;
-                    if ([objects count]) {
-                        parseImage = [objects firstObject];
-                    } else {
-                        parseImage = [PFObject objectWithClassName:@"FaceImage"];
-                    }
-                    [parseImage setObject:imageFile forKey:@"imageFile"];
-                    [parseImage setObject:[NSNumber numberWithInt:index] forKey:@"imageIndex"];
-                    [parseImage setObject:[PFUser currentUser] forKey:@"createdBy"];
-                    [parseImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        faceImage.parse_id = parseImage.objectId;
-                        [[TFAppManager appDelegate].managedObjectContext save:nil];
-                        completionBlock(faceImage,1,nil);
-                    }];
+    progressBlock(@"Uploading...",0);
+    FaceImage *faceImage = [TFAppManager faceImageWithUserId:fbId];
+    if (!faceImage) {
+        faceImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    }
+    faceImage.index = [NSNumber numberWithInt:index];
+    faceImage.createdBy = [TFAppManager userWithId:fbId];
+    NSError *saveError = nil;
+    [[TFAppManager appDelegate].managedObjectContext save:&saveError];
+    completionBlock(faceImage,0,saveError);
+    
+    PFFile *imageFile = [PFFile fileWithData:imData];
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            faceImage.image_url = imageFile.url;
+            [[TFAppManager appDelegate].managedObjectContext save:nil];
+            
+            PFQuery *imageQuery = [PFQuery queryWithClassName:@"FaceImage"];
+            [imageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+            [imageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:index]];
+            [imageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                PFObject *parseImage = nil;
+                if ([objects count]) {
+                    parseImage = [objects firstObject];
+                } else {
+                    parseImage = [PFObject objectWithClassName:@"FaceImage"];
+                }
+                [parseImage setObject:imageFile forKey:@"imageFile"];
+                [parseImage setObject:[NSNumber numberWithInt:index] forKey:@"imageIndex"];
+                [parseImage setObject:[PFUser currentUser] forKey:@"createdBy"];
+                [parseImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    faceImage.parse_id = parseImage.objectId;
+                    [[TFAppManager appDelegate].managedObjectContext save:nil];
+                    completionBlock(faceImage,1,nil);
                 }];
-            } else {
-                NSError *uploadError = nil;
-                NSMutableDictionary* details = [NSMutableDictionary dictionary];
-                [details setValue:@"There was a problem uploading your face image. Please retry!" forKey:NSLocalizedDescriptionKey];
-                uploadError = [NSError errorWithDomain:@"Upload Image Error" code:200 userInfo:details];
-                completionBlock(nil,1,uploadError);
-            }
+            }];
+        } else {
+            NSError *uploadError = nil;
+            NSMutableDictionary* details = [NSMutableDictionary dictionary];
+            [details setValue:@"There was a problem uploading your face image. Please retry!" forKey:NSLocalizedDescriptionKey];
+            uploadError = [NSError errorWithDomain:@"Upload Image Error" code:200 userInfo:details];
+            completionBlock(nil,1,uploadError);
         }
-           progressBlock:^(int percentDone) {
-               NSMutableString *text = [[NSMutableString alloc] init];
-               [text appendString:@"Uploading"];
-               if (percentDone) {
-                   [text appendFormat:@"(%d%%)",percentDone];
-               }
-               [text appendString:@"..."];
-               progressBlock(text,percentDone);
-           }];
-    }];
+    }
+       progressBlock:^(int percentDone) {
+           NSMutableString *text = [[NSMutableString alloc] init];
+           [text appendString:@"Uploading"];
+           if (percentDone) {
+               [text appendFormat:@"(%d%%)",percentDone];
+           }
+           [text appendString:@"..."];
+           progressBlock(text,percentDone);
+       }];
 }
 
 

@@ -19,6 +19,7 @@
 #import "DACircularProgressView.h"
 #import "TFTextFieldView.h"
 #import "UserInfo.h"
+#import "FaceImage.h"
 
 @interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
@@ -179,8 +180,10 @@
         case 2:
         {
             //face recognition.
-            [TFAppManager getLookalikesForFaceImage:[TFAppManager faceImageWithUserId:[PFUser currentUser].objectId] withCompletionBlock:^(id object, NSError *error) {
-                
+            FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
+            [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
+                FaceImage *fImage = (FaceImage *)object;
+                [dataBackgroundView.contentView.imageView2 setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
             }];
         }
             break;
