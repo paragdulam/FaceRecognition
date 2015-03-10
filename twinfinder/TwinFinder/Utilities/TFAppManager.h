@@ -29,6 +29,8 @@
 +(void) getLookalikesForFaceImage:(FaceImage *) fImage withCompletionBlock:(void(^)(id object,NSError *error)) completionBlock;
 +(void) saveFaceImageData:(NSData *)imData ForUserId:(NSString *)userId withProgressBlock:(void (^)(NSString *, int))progressBlock WithCompletionBlock:(void (^)(id, int, NSError *))completionBlock;
 +(UserInfo *) userWithId:(NSString *) uid;
++(FaceImage *) faceImageWithUserId:(NSString *)uid;
+
 
 
 @end

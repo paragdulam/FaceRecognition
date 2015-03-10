@@ -74,6 +74,23 @@
         });
     } else {
         [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageNamed:@"singleface"]];
+        PFQuery *faceQuery = [PFQuery queryWithClassName:@"FaceImage"];
+        [faceQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+        [faceQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            PFObject *faceImage = [objects firstObject];
+            PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
+            [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:data]];
+            }];
+        }];
+        
+        [dataBackgroundView.descLabel setText:@"Loading..."];
+        PFQuery *userInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
+        [userInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
+        [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            PFObject *userInfo = [objects firstObject];
+            [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"location"],[userInfo objectForKey:@"national"]]];
+        }];
     }
     
     if (![[[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.appDelegate matchesPath] error:nil] count]) {
@@ -160,6 +177,9 @@
         case 2:
         {
             //face recognition.
+            [TFAppManager getLookalikesForFaceImage:[TFAppManager faceImageWithUserId:[PFUser currentUser].objectId] withCompletionBlock:^(id object, NSError *error) {
+                
+            }];
         }
             break;
         default:

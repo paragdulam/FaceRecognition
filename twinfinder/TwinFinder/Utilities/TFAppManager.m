@@ -403,9 +403,18 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 +(UserInfo *) userWithId:(NSString *) uid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"parse_id == %@",[PFUser currentUser].objectId]];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"parse_id == %@",uid]];
     NSArray *userInfos = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
     return [userInfos firstObject];
+}
+
+
++(FaceImage *) faceImageWithUserId:(NSString *)uid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"UserInfo"];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"createdBy.parse_id == %@",uid]];
+    NSArray *faceImages = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    return [faceImages firstObject];
 }
 
 +(void) saveFaceImageData:(NSData *)imData
@@ -421,6 +430,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
             faceImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
         }
         faceImage.index = [NSNumber numberWithInt:index];
+        faceImage.createdBy = [TFAppManager userWithId:fbId];
         NSError *saveError = nil;
         [[TFAppManager appDelegate].managedObjectContext save:&saveError];
         completionBlock(faceImage,0,saveError);
