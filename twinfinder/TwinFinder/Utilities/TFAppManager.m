@@ -417,6 +417,50 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     return [faceImages firstObject];
 }
 
++(void) saveFaceImage:(PFObject *) faceImage
+{
+    PFUser *user = [faceImage objectForKey:@"createdBy"];
+    UserInfo *uInfo = [TFAppManager userWithId:user.objectId];
+    if (!uInfo) {
+        uInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    }
+    
+    uInfo.name = [user objectForKey:@"name"];
+    uInfo.age = [user objectForKey:@"age"];
+    uInfo.city = [user objectForKey:@"city"];
+    uInfo.location = [user objectForKey:@"location"];
+    uInfo.national = [user objectForKey:@"national"];
+    
+    FaceImage *fImage = [TFAppManager faceImageWithUserId:user.objectId];
+    if (!fImage) {
+        fImage = (FaceImage *)[NSEntityDescription insertNewObjectForEntityForName:@"FaceImage" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    }
+    
+    fImage.index = [faceImage objectForKey:@"imageIndex"];
+    fImage.parse_id = faceImage.objectId;
+    PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
+    fImage.image_url = imageFile.url;
+    fImage.createdBy = uInfo;    
+    [[TFAppManager appDelegate].managedObjectContext save:nil];
+}
+
++(void) saveUserinfo:(PFObject *) userInfo
+{
+    PFUser *user = [userInfo objectForKey:@"User"];
+    UserInfo *uInfo = [TFAppManager userWithId:user.objectId];
+    if (!uInfo) {
+        uInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    }
+    
+    uInfo.name = [user objectForKey:@"name"];
+    uInfo.age = [user objectForKey:@"age"];
+    uInfo.city = [user objectForKey:@"city"];
+    uInfo.location = [user objectForKey:@"location"];
+    uInfo.national = [user objectForKey:@"national"];
+    [[TFAppManager appDelegate].managedObjectContext save:nil];
+}
+
+
 +(void) saveFaceImageData:(NSData *)imData
                   AtIndex:(int)index
                 ForUserId:(NSString *)fbId

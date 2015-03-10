@@ -79,6 +79,7 @@
         [faceQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             PFObject *faceImage = [objects firstObject];
             PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
+            [TFAppManager saveFaceImage:faceImage];
             [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                 [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:data]];
             }];
@@ -89,6 +90,7 @@
         [userInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
         [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             PFObject *userInfo = [objects firstObject];
+            [TFAppManager saveUserinfo:userInfo];
             [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"location"],[userInfo objectForKey:@"national"]]];
         }];
     }
