@@ -181,10 +181,12 @@
         {
             //face recognition.
             FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
-            [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
-                FaceImage *fImage = (FaceImage *)object;
-                [dataBackgroundView.contentView.imageView2 setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
-            }];
+            if (faceImage) {
+                [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
+                    FaceImage *fImage = (FaceImage *)object;
+                    [dataBackgroundView.contentView.imageView2 setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
+                }];
+            }
         }
             break;
         default:
