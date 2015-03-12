@@ -23,8 +23,10 @@
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     
     [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];
 
