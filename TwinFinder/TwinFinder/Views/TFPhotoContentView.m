@@ -74,6 +74,10 @@
         self.progressView.progressTintColor = [UIColor greenColor];
         self.progressView.thicknessRatio = 0.1;
         [self addSubview:self.progressView];
+        
+        self.progressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [self.progressLabel setFont:[UIFont boldSystemFontOfSize:14.f]];
+        [self addSubview:self.progressLabel];
     }
     return self;
 }
@@ -105,6 +109,8 @@
     
     CGFloat progressWidth = self.frame.size.height - 30 - self.imageView1.frame.size.height - self.photoButton2.frame.size.height;
     self.progressView.frame = CGRectMake(self.center.x - self.progressView.frame.size.width/2, CGRectGetMaxY(self.photoButton2.frame) + 10, progressWidth, progressWidth);
+    [self.progressLabel sizeToFit];
+    self.progressLabel.center = self.progressView.center;
 }
 
 

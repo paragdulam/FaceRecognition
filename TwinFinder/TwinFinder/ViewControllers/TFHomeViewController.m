@@ -81,9 +81,7 @@
             PFObject *faceImage = [objects firstObject];
             PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
             [TFAppManager saveFaceImage:faceImage];
-            [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:data]];
-            }];
+            [dataBackgroundView.contentView.imageView1 setImageURL:[NSURL URLWithString:imageFile.url] forFileId:faceImage.objectId];
         }];
         
         [dataBackgroundView.descLabel setText:@"Loading..."];
@@ -185,6 +183,11 @@
                 [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
                     FaceImage *fImage = (FaceImage *)object;
                     [dataBackgroundView.contentView.imageView2 setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
+                    CGFloat progress = [faceImage.confidence floatValue]/100.f;
+                    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                    [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+                    [dataBackgroundView.contentView.progressLabel sizeToFit];
                 }];
             }
         }
@@ -200,12 +203,12 @@
 
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
-    [self doPostLogin];
-    [logInController dismissViewControllerAnimated:YES completion:NULL];
-    
     UserInfo *userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
     userInfo.parse_id = user.objectId;
     [[TFAppManager appDelegate].managedObjectContext save:nil];
+
+    [self doPostLogin];
+    [logInController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error

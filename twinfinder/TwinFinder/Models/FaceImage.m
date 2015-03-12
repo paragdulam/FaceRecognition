@@ -17,5 +17,6 @@
 @dynamic parse_id;
 @dynamic temp_id;
 @dynamic createdBy;
+@dynamic confidence;
 
 @end

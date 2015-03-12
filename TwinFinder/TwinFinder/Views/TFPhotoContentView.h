@@ -21,6 +21,7 @@
 @property(nonatomic) MAImageView *imageView1;
 @property(nonatomic) MAImageView *imageView2;
 @property(nonatomic) DACircularProgressView *progressView;
+@property(nonatomic) UILabel *progressLabel;
 @property(nonatomic) UIButton *photoButton1;
 @property(nonatomic) UIButton *photoButton2;
 @property(nonatomic) TFTextFieldView *textFieldView;
