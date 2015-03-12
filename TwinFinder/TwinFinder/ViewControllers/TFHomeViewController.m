@@ -18,10 +18,12 @@
 #import "TFProfileViewController.h"
 #import "DACircularProgressView.h"
 #import "TFTextFieldView.h"
+#import "TFImagesView.h"
 #import "UserInfo.h"
 #import "FaceImage.h"
+#import "TFImagesView.h"
 
-@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
+@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate>
 {
 }
 
@@ -44,7 +46,10 @@
     
     [self.navigationController setNavigationBarHidden:YES];
     dataBackgroundView.contentView.textFieldView.hidden = YES;
+    dataBackgroundView.contentView.photoButton2.enabled = NO;
+    dataBackgroundView.contentView.imagesView.delegate = self;;
 
+    
     if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];
     } else {
@@ -71,6 +76,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
                 [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                dataBackgroundView.contentView.photoButton2.enabled = YES;
             });
         });
     } else {
@@ -80,8 +86,11 @@
         [faceQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             PFObject *faceImage = [objects firstObject];
             PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
-            [TFAppManager saveFaceImage:faceImage];
+            [TFAppManager saveFaceImage:faceImage completionBlock:^(id obj, NSError *error) {
+                
+            }];
             [dataBackgroundView.contentView.imageView1 setImageURL:[NSURL URLWithString:imageFile.url] forFileId:faceImage.objectId];
+            dataBackgroundView.contentView.photoButton2.enabled = YES;
         }];
         
         [dataBackgroundView.descLabel setText:@"Loading..."];
@@ -110,6 +119,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+#pragma mark -  TFImagesViewDelegate
+
+-(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView
+{
+    FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
+    CGFloat progress = [faceImage.confidence floatValue]/100.f;
+    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+    [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+    [dataBackgroundView.contentView.progressLabel sizeToFit];
+}
 
 
 #pragma mark -  TFCameraViewControllerDelegate
@@ -180,9 +202,31 @@
             //face recognition.
             FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
             if (faceImage) {
+                __block int index = 0;
                 [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
                     FaceImage *fImage = (FaceImage *)object;
-                    [dataBackgroundView.contentView.imageView2 setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
+                    MAImageView *imageView = nil;
+                    switch (index) {
+                        case 0:
+                            imageView = dataBackgroundView.contentView.imagesView.imageView1;
+                            break;
+                        case 1:
+                            imageView = dataBackgroundView.contentView.imagesView.imageView2;
+                            break;
+                        case 2:
+                            imageView = dataBackgroundView.contentView.imagesView.imageView3;
+                            break;
+                        case 3:
+                            imageView = dataBackgroundView.contentView.imagesView.imageView4;
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                    index ++;
+                    [dataBackgroundView.contentView.imageView2 setHidden:YES];
+                    [dataBackgroundView.contentView.photoButton2 setTitle:@"Search Again" forState:UIControlStateNormal];
+                    [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
                     CGFloat progress = [faceImage.confidence floatValue]/100.f;
                     [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
                     [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];

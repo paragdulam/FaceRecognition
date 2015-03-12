@@ -12,6 +12,7 @@
 @class MAImageView;
 @class DACircularProgressView;
 @class TFTextFieldView;
+@class TFImagesView;
 
 @protocol TFPhotoContentViewDelegate;
 
@@ -25,6 +26,8 @@
 @property(nonatomic) UIButton *photoButton1;
 @property(nonatomic) UIButton *photoButton2;
 @property(nonatomic) TFTextFieldView *textFieldView;
+@property(nonatomic) TFImagesView *imagesView;
+
 
 
 @end

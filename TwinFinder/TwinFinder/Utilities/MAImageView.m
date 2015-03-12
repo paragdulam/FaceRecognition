@@ -57,6 +57,7 @@
 -(void) setImageURL:(NSURL *) url forFileId:(NSString *) idString
 {
     [self setImage:nil];
+    self.idString = idString;
     [activityIndicator startAnimating];
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     if ([[NSFileManager defaultManager] fileExistsAtPath:idString]) {

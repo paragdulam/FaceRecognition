@@ -39,6 +39,7 @@
 		F186E8501AAB75D700197AAB /* TFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84F1AAB75D700197AAB /* TFHomeViewController.m */; };
 		F186E8531AAB7E1800197AAB /* TFBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E8521AAB7E1800197AAB /* TFBaseContentView.m */; };
 		F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
+		F1B658731AB2078400A503E4 /* TFImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B658721AB2078400A503E4 /* TFImagesView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,8 @@
 		F186E8521AAB7E1800197AAB /* TFBaseContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBaseContentView.m; sourceTree = "<group>"; };
 		F18C71191AA04397007497A1 /* CollectionBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBackgroundView.h; sourceTree = "<group>"; };
 		F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBackgroundView.m; sourceTree = "<group>"; };
+		F1B658711AB2078400A503E4 /* TFImagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFImagesView.h; sourceTree = "<group>"; };
+		F1B658721AB2078400A503E4 /* TFImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFImagesView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +229,8 @@
 				F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */,
 				D1B809A01AACD0B200EAE5A8 /* TFTextFieldView.h */,
 				D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */,
+				F1B658711AB2078400A503E4 /* TFImagesView.h */,
+				F1B658721AB2078400A503E4 /* TFImagesView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 				D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */,
 				D14E3E771A9FBB1100ABE348 /* TFTwinsViewController.m in Sources */,
 				D14E3E6C1A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m in Sources */,
+				F1B658731AB2078400A503E4 /* TFImagesView.m in Sources */,
 				D14E3E6E1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m in Sources */,
 				D14E3E731A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
 				F186E8501AAB75D700197AAB /* TFHomeViewController.m in Sources */,

@@ -10,6 +10,7 @@
 #import "MAImageView.h"
 #import "DACircularProgressView.h"
 #import "TFTextFieldView.h"
+#import "TFImagesView.h"
 
 
 @interface TFPhotoContentView ()
@@ -48,6 +49,9 @@
         
         self.textFieldView = [[TFTextFieldView alloc] initWithFrame:CGRectZero];
         [self addSubview:self.textFieldView];
+        
+        self.imagesView = [[TFImagesView alloc] initWithFrame:CGRectZero];
+        [self addSubview:self.imagesView];
         
         self.photoButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.photoButton1 setBackgroundColor:[UIColor whiteColor]];
@@ -91,6 +95,7 @@
     float width = (self.frame.size.width - 15)/2;
     self.imageView1.frame = CGRectMake(5, 5, width, width);
     self.imageView2.frame = CGRectMake(CGRectGetMaxX(self.imageView1.frame) + 5, 5, width, width);
+    self.imagesView.frame = self.imageView2.frame;
     self.textFieldView.frame = CGRectMake(self.imageView2.frame.origin.x, 5, self.imageView2.frame.size.width, 180);
     
     self.photoButton1.frame = CGRectMake(0, 0, 100, 24);

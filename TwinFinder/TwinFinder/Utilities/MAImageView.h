@@ -10,7 +10,7 @@
 
 @interface MAImageView : UIImageView
 
-
+@property(nonatomic) NSString *idString;
 -(void) setImageURL:(NSURL *) url forFileId:(NSString *) idString;
 
 @end

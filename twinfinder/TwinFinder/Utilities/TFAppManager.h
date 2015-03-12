@@ -31,9 +31,9 @@
 
 +(UserInfo *) userWithId:(NSString *) uid;
 +(FaceImage *) faceImageWithUserId:(NSString *)uid;
-+(void) saveFaceImage:(PFObject *) faceImage;
++(void) saveFaceImage:(PFObject *) faceImage completionBlock:(void(^)(id obj,NSError *error))completionBlock;
 +(void) saveUserinfo:(PFObject *) userInfo;
-
++(FaceImage *)faceImageWithFaceImageId:(NSString *) pid;
 
 
 @end
