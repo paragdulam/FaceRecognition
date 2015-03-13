@@ -131,6 +131,8 @@
     [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
     [dataBackgroundView.contentView.progressLabel sizeToFit];
+    UserInfo *userInfo = faceImage.createdBy;
+    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
 }
 
 
@@ -232,6 +234,8 @@
                     [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
                     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
                     [dataBackgroundView.contentView.progressLabel sizeToFit];
+                    UserInfo *userInfo = faceImage.createdBy;
+                    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
                 }];
             }
         }
