@@ -33,6 +33,7 @@
 		D1B8099C1AACBDAA00EAE5A8 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
 		D1B8099F1AACCC2D00EAE5A8 /* TFBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */; };
 		D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */; };
+		F110C9991AB76050001ECBD4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F110C9981AB76050001ECBD4 /* MessageUI.framework */; };
 		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
 		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
 		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
@@ -106,6 +107,7 @@
 		D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBaseViewController.m; sourceTree = "<group>"; };
 		D1B809A01AACD0B200EAE5A8 /* TFTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTextFieldView.h; sourceTree = "<group>"; };
 		D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFTextFieldView.m; sourceTree = "<group>"; };
+		F110C9981AB76050001ECBD4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPhotoContentView.h; sourceTree = "<group>"; };
 		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
 		F15E2DE51AAC1A410040BBCB /* MAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAImageView.h; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F110C9991AB76050001ECBD4 /* MessageUI.framework in Frameworks */,
 				C5E166C092D9322009BECC19 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,6 +147,7 @@
 		CF55CC0EAAF92EAF3E4E02A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F110C9981AB76050001ECBD4 /* MessageUI.framework */,
 				1F3DA74D1EF03DE1B64893BF /* libPods.a */,
 			);
 			name = Frameworks;

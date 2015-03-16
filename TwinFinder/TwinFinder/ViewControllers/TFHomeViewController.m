@@ -22,12 +22,14 @@
 #import "UserInfo.h"
 #import "FaceImage.h"
 #import "TFImagesView.h"
+#import <MessageUI/MessageUI.h>
 
-@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate>
+@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate>
 {
 }
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
+@property (nonatomic,strong) UIButton *logoutButton;
 @property (nonatomic,weak) AppDelegate *appDelegate;
 
 @end
@@ -48,6 +50,13 @@
     dataBackgroundView.contentView.textFieldView.hidden = YES;
     dataBackgroundView.contentView.photoButton2.enabled = NO;
     dataBackgroundView.contentView.imagesView.delegate = self;;
+    
+    
+    self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.logoutButton.frame = CGRectMake(0, 0, 40, 40);
+    [self.view addSubview:self.logoutButton];
+    [self.logoutButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [self.logoutButton addTarget:self action:@selector(logoutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
     
     if ([[PFUser currentUser] sessionToken]) {
@@ -66,6 +75,14 @@
     [self.loginViewController setFields:PFLogInFieldsFacebook | PFLogInFieldsTwitter | PFLogInFieldsLogInButton | PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsSignUpButton];
     [self.loginViewController setDelegate:self];
     [self presentViewController:self.loginViewController animated:[animated boolValue] completion:NULL];
+}
+
+
+-(void)logoutButtonTapped:(UIButton *) btn
+{
+    [PFUser logOut];
+    [self.appDelegate flushDatabase];
+    [self showLoginView:[NSNumber numberWithBool:YES]];
 }
 
 -(void) doPostLogin
@@ -111,7 +128,8 @@
 -(void) viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
+    self.logoutButton.center = CGPointMake(25.f, appNameLabel.center.y);
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,6 +137,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+#pragma mark -  MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissViewControllerAnimated:YES completion:NULL];
+}
 
 
 #pragma mark -  TFImagesViewDelegate
@@ -162,6 +188,10 @@
             //Profile View Controller
             TFProfileViewController *profileViewController = [[TFProfileViewController alloc] init];
             [self presentViewController:profileViewController animated:YES completion:NULL];
+//            MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+//            [mailViewController setMailComposeDelegate:self];
+//            [mailViewController setToRecipients:@[[PFUser currentUser].email]];
+//            [self presentViewController:mailViewController animated:YES completion:NULL];
         }
             break;
         case 2:
