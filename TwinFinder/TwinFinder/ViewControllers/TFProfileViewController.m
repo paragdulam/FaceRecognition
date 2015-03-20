@@ -39,6 +39,7 @@
     dataBackgroundView.bottomButton2.hidden = YES;
     dataBackgroundView.contentView.imageView2.hidden = YES;
     [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Camera", nil) forState:UIControlStateNormal];
+    [dataBackgroundView.contentView bringSubviewToFront:dataBackgroundView.contentView.textFieldView];
     
     cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
