@@ -398,7 +398,14 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     }];
 }
 
-
++(void)logout
+{
+    [[NSFileManager defaultManager] removeItemAtPath:[TFAppManager appDelegate].clickedPicturePath error:nil];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[TFAppManager appDelegate].matchesPath error:nil];
+    for (NSString *path in contents) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    }
+}
 
 +(UserInfo *) userWithId:(NSString *) uid
 {

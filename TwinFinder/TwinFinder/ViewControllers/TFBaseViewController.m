@@ -41,6 +41,7 @@
     [homeViewBackground addSubview:dataBackgroundView];
     
     [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:@"logo_small"] forState:UIControlStateNormal];
+    self.viewState = NORMAL;
 }
 
 -(void) viewDidLayoutSubviews

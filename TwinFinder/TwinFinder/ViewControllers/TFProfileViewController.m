@@ -37,11 +37,12 @@
     dataBackgroundView.contentView.photoButton2.hidden = YES;
     dataBackgroundView.contentView.progressView.hidden = YES;
     dataBackgroundView.bottomButton2.hidden = YES;
+    dataBackgroundView.contentView.imageView2.hidden = YES;
     [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Camera", nil) forState:UIControlStateNormal];
     
     cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelButton setBackgroundColor:[UIColor redColor]];
+    [cancelButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [self.view addSubview:cancelButton];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate profilePicturePath]]) {

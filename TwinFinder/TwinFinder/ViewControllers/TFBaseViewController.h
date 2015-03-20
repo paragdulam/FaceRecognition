@@ -11,6 +11,13 @@
 @class TFBaseContentView;
 @class TFPhotoContentView;
 
+typedef enum TF_VIEW_STATE {
+    NORMAL,
+    LOADING,
+    LOADING_DONE
+}TF_VIEW_STATE;
+
+
 @interface TFBaseViewController : UIViewController
 {
     UIImageView *backgroundImageView;
@@ -18,5 +25,7 @@
     UIView *homeViewBackground;
     TFBaseContentView *dataBackgroundView;
 }
+
+@property TF_VIEW_STATE viewState;
 
 @end

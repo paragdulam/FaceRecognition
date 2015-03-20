@@ -34,6 +34,7 @@
 +(void) saveFaceImage:(PFObject *) faceImage completionBlock:(void(^)(id obj,NSError *error))completionBlock;
 +(void) saveUserinfo:(PFObject *) userInfo;
 +(FaceImage *)faceImageWithFaceImageId:(NSString *) pid;
++(void) logout;
 
 
 @end

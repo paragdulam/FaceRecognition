@@ -111,9 +111,16 @@
 }
 
 
+
+
 -(void) textFieldDidEndEditing:(UITextField *)textField
 {
     [self updateUserInfoToParse];
+}
+
+-(void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    
 }
 
 -(void) updateUserInfoToParse
