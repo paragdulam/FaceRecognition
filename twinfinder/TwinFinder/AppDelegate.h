@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-#define CLICKED_FACE_PICTURE @"clickedFacePicture.jpg"
+#define CLICKED_FACE_PICTURE @"clickedProfilePicture.jpg"
 #define CLICKED_PROFILE_PICTURE @"clickedProfilePicture.jpg"
 #define MATCHES @"matches"
 

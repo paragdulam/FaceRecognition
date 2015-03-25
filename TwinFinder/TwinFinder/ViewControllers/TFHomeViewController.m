@@ -172,7 +172,6 @@
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
     CGFloat progress = [faceImage.confidence floatValue]/100.f;
     [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
     [dataBackgroundView.contentView.progressLabel sizeToFit];
     UserInfo *userInfo = faceImage.createdBy;

@@ -29,6 +29,7 @@
     
     
     [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];
+    [PFTwitterUtils initializeWithConsumerKey:@"mPQoaTD9irFpFrya4CqKZbUsp" consumerSecret:@"2Dqh68gMdDqMe7Hd3bB8oKRJOGVt13UwQevfCN1kgmxwhQB9qa"];
 
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
