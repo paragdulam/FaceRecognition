@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "MAImageView.h"
 #import "TFCameraViewController.h"
+#import "TFAppManager.h"
 
 @interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
@@ -46,6 +47,7 @@
     [cancelButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [self.view addSubview:cancelButton];
     
+    NSLog(@"profile path %@",[self.appDelegate profilePicturePath]);
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate profilePicturePath]]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate profilePicturePath]];
@@ -93,6 +95,30 @@
 
 -(void) photoContentView:(TFPhotoContentView *) view buttonTapped:(UIButton *) btn
 {
+    switch (btn.tag) {
+        case 1:
+        {
+            NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
+            if (imageData) {
+                self.viewState = LOADING;
+                [TFAppManager saveFaceImageData:imageData
+                                        AtIndex:0
+                                      ForUserId:[PFUser currentUser].objectId
+                              withProgressBlock:^(NSString *progressString, int progress) {
+                                  CGFloat percentage = (float)progress * 0.01;
+                                  [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
+                              }
+                            WithCompletionBlock:^(id object, int type, NSError *error) {
+                                self.viewState = LOADING_DONE;
+                                [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                            }];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 

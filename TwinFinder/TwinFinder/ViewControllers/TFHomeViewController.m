@@ -122,7 +122,7 @@
             [TFAppManager saveFaceImage:faceImage completionBlock:^(id obj, NSError *error) {
                 
             }];
-            [dataBackgroundView.contentView.imageView1 setImageURL:[NSURL URLWithString:imageFile.url] forFileId:faceImage.objectId];
+            [dataBackgroundView.contentView.imageView1 setImageURL:[NSURL URLWithString:imageFile.url] forFileId:CLICKED_FACE_PICTURE];
             dataBackgroundView.contentView.photoButton2.enabled = YES;
         }];
         
@@ -205,10 +205,6 @@
             //Profile View Controller
             TFProfileViewController *profileViewController = [[TFProfileViewController alloc] init];
             [self presentViewController:profileViewController animated:YES completion:NULL];
-//            MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
-//            [mailViewController setMailComposeDelegate:self];
-//            [mailViewController setToRecipients:@[[PFUser currentUser].email]];
-//            [self presentViewController:mailViewController animated:YES completion:NULL];
         }
             break;
         case 2:

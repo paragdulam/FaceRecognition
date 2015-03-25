@@ -7,6 +7,7 @@
 //
 
 #import "MAImageView.h"
+#import "AppDelegate.h"
 
 @interface MAImageView ()
 {
@@ -60,9 +61,10 @@
     self.idString = idString;
     [activityIndicator startAnimating];
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,idString];
     if ([[NSFileManager defaultManager] fileExistsAtPath:idString]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSString *filePath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,idString];
+            NSLog(@"saved Path %@",filePath);
             UIImage *image = [UIImage imageWithContentsOfFile:filePath];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setImage:image];
@@ -71,6 +73,9 @@
         });
     } else {
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:url] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [data writeToFile:filePath atomically:YES];
+            });
             [self setImage:[UIImage imageWithData:data]];
             [activityIndicator stopAnimating];
         }];
