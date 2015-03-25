@@ -169,16 +169,14 @@
 
 -(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView
 {
-    if ([imgView isKindOfClass:[MAImageView class]]) {
-        FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
-        CGFloat progress = [faceImage.confidence floatValue]/100.f;
-        [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-        [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-        [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
-        [dataBackgroundView.contentView.progressLabel sizeToFit];
-        UserInfo *userInfo = faceImage.createdBy;
-        [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
-    }
+    FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
+    CGFloat progress = [faceImage.confidence floatValue]/100.f;
+    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+    [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+    [dataBackgroundView.contentView.progressLabel sizeToFit];
+    UserInfo *userInfo = faceImage.createdBy;
+    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
 }
 
 
