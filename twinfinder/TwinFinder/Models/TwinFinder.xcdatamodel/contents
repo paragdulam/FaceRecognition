@@ -8,6 +8,12 @@
         <attribute name="temp_id" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="createdBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" syncable="YES"/>
     </entity>
+    <entity name="Message" representedClassName="Message" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="fromUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" syncable="YES"/>
+        <relationship name="toUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInfo" syncable="YES"/>
+    </entity>
     <entity name="UserInfo" representedClassName="UserInfo" syncable="YES">
         <attribute name="age" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
@@ -22,5 +28,6 @@
     <elements>
         <element name="FaceImage" positionX="-54" positionY="27" width="128" height="135"/>
         <element name="UserInfo" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="Message" positionX="-63" positionY="54" width="128" height="105"/>
     </elements>
 </model>

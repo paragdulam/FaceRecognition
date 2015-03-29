@@ -35,6 +35,10 @@
 +(void) saveUserinfo:(PFObject *) userInfo;
 +(FaceImage *)faceImageWithFaceImageId:(NSString *) pid;
 +(void) logout;
++(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser;
++(NSArray *) messagesForFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser;
++(NSInteger) messageCountForFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser;
+
 
 
 @end

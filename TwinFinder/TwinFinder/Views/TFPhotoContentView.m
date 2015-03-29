@@ -38,12 +38,14 @@
     if (self = [super initWithFrame:frame]) {
         self.imageView1 = [[MAImageView alloc] initWithFrame:CGRectZero];
         self.imageView1.backgroundColor = [UIColor clearColor];
-        self.imageView1.contentMode = UIViewContentModeScaleAspectFit;
+        self.imageView1.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageView1.clipsToBounds = YES;
         [self addSubview:self.imageView1];
         
         self.imageView2 = [[MAImageView alloc] initWithFrame:CGRectZero];
         self.imageView2.backgroundColor = [UIColor clearColor];
-        self.imageView2.contentMode = UIViewContentModeScaleAspectFit;
+        self.imageView2.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageView2.clipsToBounds = YES;
         [self addSubview:self.imageView2];
         
         

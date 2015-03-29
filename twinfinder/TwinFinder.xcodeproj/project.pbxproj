@@ -22,6 +22,8 @@
 		D14E3E7A1A9FBB1100ABE348 /* TFFriendsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E691A9FBB1100ABE348 /* TFFriendsHeaderView.m */; };
 		D14E3E7B1A9FBB1100ABE348 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */; };
 		D14E3E7D1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E7C1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel */; };
+		D18579521AC56C3500787517 /* TFChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D18579511AC56C3500787517 /* TFChatViewController.m */; };
+		D18579551AC58E5C00787517 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D18579541AC58E5C00787517 /* Message.m */; };
 		D1ABA1891A9FAEBD00364F11 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1881A9FAEBD00364F11 /* main.m */; };
 		D1ABA18C1A9FAEBD00364F11 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA18B1A9FAEBD00364F11 /* AppDelegate.m */; };
 		D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
@@ -87,6 +89,10 @@
 		D14E3E6A1A9FBB1100ABE348 /* TFUserProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFUserProfileView.h; sourceTree = "<group>"; };
 		D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFUserProfileView.m; sourceTree = "<group>"; };
 		D14E3E7C1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TwinFinder.xcdatamodel; sourceTree = "<group>"; };
+		D18579501AC56C3500787517 /* TFChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFChatViewController.h; sourceTree = "<group>"; };
+		D18579511AC56C3500787517 /* TFChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFChatViewController.m; sourceTree = "<group>"; };
+		D18579531AC58E5C00787517 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		D18579541AC58E5C00787517 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		D1ABA1831A9FAEBD00364F11 /* TwinFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwinFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1ABA1871A9FAEBD00364F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1ABA1881A9FAEBD00364F11 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -186,6 +192,8 @@
 				D1B809951AACBD7800EAE5A8 /* UserInfo.m */,
 				D1B8099A1AACBDAA00EAE5A8 /* FaceImage.h */,
 				D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */,
+				D18579531AC58E5C00787517 /* Message.h */,
+				D18579541AC58E5C00787517 /* Message.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,6 +230,8 @@
 				F186E84F1AAB75D700197AAB /* TFHomeViewController.m */,
 				D1B809911AAC7F3500EAE5A8 /* TFProfileViewController.h */,
 				D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */,
+				D18579501AC56C3500787517 /* TFChatViewController.h */,
+				D18579511AC56C3500787517 /* TFChatViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -466,6 +476,7 @@
 				F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */,
 				D1B8099F1AACCC2D00EAE5A8 /* TFBaseViewController.m in Sources */,
 				F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */,
+				D18579551AC58E5C00787517 /* Message.m in Sources */,
 				D1ABA18C1A9FAEBD00364F11 /* AppDelegate.m in Sources */,
 				D1B809931AAC7F3500EAE5A8 /* TFProfileViewController.m in Sources */,
 				D14E3E781A9FBB1100ABE348 /* CustomCollectionFlowLayout.m in Sources */,
@@ -483,6 +494,7 @@
 				D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */,
 				D14E3E771A9FBB1100ABE348 /* TFTwinsViewController.m in Sources */,
 				D14E3E6C1A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m in Sources */,
+				D18579521AC56C3500787517 /* TFChatViewController.m in Sources */,
 				F1B658731AB2078400A503E4 /* TFImagesView.m in Sources */,
 				D14E3E6E1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m in Sources */,
 				D14E3E731A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,

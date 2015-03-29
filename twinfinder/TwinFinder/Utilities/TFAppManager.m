@@ -9,7 +9,7 @@
 #import "TFAppManager.h"
 #import "UserInfo.h"
 #import "FaceImage.h"
-#import "UserInfo.h"
+#import "Message.h"
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 
@@ -610,5 +610,65 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 }
 
 
+
++(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser
+{
+    Message *message = (Message *)[NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    message.fromUser = [TFAppManager userWithId:[PFUser currentUser].objectId];
+    message.toUser = toUser;
+    message.created_at = [NSDate date];
+    message.text = text;
+    [[TFAppManager appDelegate].managedObjectContext save:nil];
+    
+    PFObject *parseMessage = [PFObject objectWithClassName:@"Message"];
+    parseMessage[@"fromUser"] = [PFUser currentUser];
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:toUser.parse_id];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFUser *user = [objects firstObject];
+        parseMessage[@"toUser"] = user;
+        parseMessage[@"text"] = text;
+        [parseMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+        }];
+    }];
+}
+
+
+
+
++(NSInteger) messageCountForFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(fromUser == %@ && toUser == %@) || (fromUser == %@ && toUser == %@)",fromUser,toUser,toUser,fromUser];
+    [fetchRequest setPredicate:predicate];
+    return [[TFAppManager appDelegate].managedObjectContext countForFetchRequest:fetchRequest error:nil];
+}
+
+
++(NSArray *) messagesForFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(fromUser == %@ && toUser == %@) || (fromUser == %@ && toUser == %@)",fromUser,toUser,toUser,fromUser];
+    [fetchRequest setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created_at" ascending:NO];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    return [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    
+//    PFQuery *userQuery = [PFUser query];
+//    [userQuery whereKey:@"objectId" equalTo:toUser.parse_id];
+//    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        PFUser *user = [objects firstObject];
+//        PFQuery *messagesQuery = [PFQuery queryWithClassName:@"Message"];
+//        [messagesQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
+//        [messagesQuery whereKey:@"toUser" equalTo:user];
+//        [messagesQuery whereKey:@"fromUser" equalTo:user];
+//        [messagesQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
+//        [messagesQuery orderByDescending:@"created_At"];
+//        [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//            
+//        }];
+//    }];
+}
 
 @end
