@@ -85,6 +85,20 @@
 -(void) didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date
 {
     [TFAppManager addMessageWithText:text ToUser:self.toUser onDate:date];
+    
+    PFQuery *userQuery =[PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:self.toUser.parse_id];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFUser *toUser = [objects firstObject];
+        
+        PFQuery *queryInstallation = [PFInstallation query];
+        [queryInstallation whereKey:@"user" equalTo:toUser];
+        
+        PFPush *push = [[PFPush alloc] init];
+        [push setChannel:[NSString stringWithFormat:@"%@|%@",[PFUser currentUser].objectId,self.toUser.parse_id]];
+        [push setMessage:text];
+        [push sendPushInBackground];
+    }];
     [self finishSendingMessageAnimated:YES];
 }
 

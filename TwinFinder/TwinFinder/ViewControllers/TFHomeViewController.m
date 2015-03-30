@@ -96,6 +96,17 @@
     [PFUser logOut];
     [self.appDelegate flushDatabase];
     [TFAppManager logout];
+    
+    PFInstallation *installation = [PFInstallation currentInstallation];
+    [installation removeObjectForKey:@"user"];
+    [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+         if (error != nil)
+         {
+             NSLog(@"ParsePushUserResign save error.");
+         }
+     }];
+    
     [self showLoginView:[NSNumber numberWithBool:YES]];
     self.viewState = NORMAL;
 }
@@ -316,6 +327,17 @@
     [[TFAppManager appDelegate].managedObjectContext save:nil];
 
     [self doPostLogin];
+    
+    PFInstallation *installation = [PFInstallation currentInstallation];
+    installation[@"user"] = [PFUser currentUser];
+    [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+         if (error != nil)
+         {
+             NSLog(@"ParsePushUserAssign save error.");
+         }
+     }];
+    
     [logInController dismissViewControllerAnimated:YES completion:NULL];
 }
 
