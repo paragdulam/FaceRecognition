@@ -15,5 +15,7 @@
 @property (nonatomic,strong) UserInfo *toUser;
 
 -(id) initWithRecipient:(UserInfo *) userInfo;
+-(void) loadMessages;
+
 
 @end

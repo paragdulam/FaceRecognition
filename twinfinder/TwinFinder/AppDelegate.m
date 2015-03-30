@@ -10,6 +10,8 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "TFHomeViewController.h"
+#import "TFAppManager.h"
+#import "TFChatViewController.h"
 
 @interface AppDelegate ()
 
@@ -100,6 +102,11 @@
 }
 
 
+-(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"userInfo %@",userInfo);
+    [self.chatViewController loadMessages];
+}
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return [FBSession.activeSession handleOpenURL:url];

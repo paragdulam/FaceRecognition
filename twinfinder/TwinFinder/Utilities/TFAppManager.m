@@ -610,6 +610,12 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 }
 
 
++(void) addMessageWithText:(NSString *) text FromUser:(UserInfo *)fromUser ToUser:(UserInfo *) toUser onDate:(NSDate *) date
+{
+    
+}
+
+
 
 +(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser onDate:(NSDate *) date
 {

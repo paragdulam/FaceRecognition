@@ -306,18 +306,7 @@
                     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
                     [dataBackgroundView.contentView.progressLabel sizeToFit];
                     UserInfo *userInfo = faceImage.createdBy;
-                    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
-                    
-                    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                    NSArray *toBeAddedChannels = @[[NSString stringWithFormat:@"%@%@",[PFUser currentUser].objectId,userInfo.parse_id],[NSString stringWithFormat:@"%@%@",userInfo.parse_id,[PFUser currentUser].objectId]];
-                    NSArray *channels = [currentInstallation channels];
-                    if (!channels) {
-                        [currentInstallation setChannels:toBeAddedChannels];
-                    } else {
-                        NSMutableArray *mutableChannels = [[NSMutableArray alloc] initWithArray:channels];
-                        [mutableChannels addObjectsFromArray:toBeAddedChannels];
-                        [currentInstallation setChannels:mutableChannels];
-                    }
+                    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];                    
                 }];
             }
         }

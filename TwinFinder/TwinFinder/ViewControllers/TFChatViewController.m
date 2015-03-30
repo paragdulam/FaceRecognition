@@ -47,9 +47,15 @@
     CGFloat progress = [faceImage.confidence floatValue] * 0.01;
     [progressView setProgress:progress animated:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:progressView];
-    [self loadMessages];
+    [[TFAppManager appDelegate] setChatViewController:self];
 }
 
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self loadMessages];
+}
 
 -(void) loadMessages
 {
@@ -85,21 +91,26 @@
 -(void) didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date
 {
     [TFAppManager addMessageWithText:text ToUser:self.toUser onDate:date];
+    UserInfo *fromUser = [TFAppManager userWithId:[PFUser currentUser].objectId];
+
+    PFQuery *innerQuery = [PFUser query];
     
-    PFQuery *userQuery =[PFUser query];
-    [userQuery whereKey:@"objectId" equalTo:self.toUser.parse_id];
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        PFUser *toUser = [objects firstObject];
-        
-        PFQuery *queryInstallation = [PFInstallation query];
-        [queryInstallation whereKey:@"user" equalTo:toUser];
-        
-        PFPush *push = [[PFPush alloc] init];
-        NSString *channelName = [NSString stringWithFormat:@"%@%@",[PFUser currentUser].objectId,self.toUser.parse_id];
-        [push setChannel:channelName];
-        [push setMessage:text];
-        [push sendPushInBackground];
-    }];
+    // Use hasPrefix: to only match against the month/date
+    [innerQuery whereKey:@"objectId" equalTo:self.toUser.parse_id];
+    
+    // Build the actual push notification target query
+    PFQuery *query = [PFInstallation query];
+    
+    // only return Installations that belong to a User that
+    // matches the innerQuery
+    [query whereKey:@"user" matchesQuery:innerQuery];
+    
+    // Send the notification.
+    PFPush *push = [[PFPush alloc] init];
+    [push setQuery:query];
+    [push setMessage:[NSString stringWithFormat:@"%@:%@",fromUser.name,text]];
+    [push sendPushInBackground];
+
     [self finishSendingMessageAnimated:YES];
 }
 
