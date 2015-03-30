@@ -95,7 +95,8 @@
         [queryInstallation whereKey:@"user" equalTo:toUser];
         
         PFPush *push = [[PFPush alloc] init];
-        [push setChannel:[NSString stringWithFormat:@"%@|%@",[PFUser currentUser].objectId,self.toUser.parse_id]];
+        NSString *channelName = [NSString stringWithFormat:@"%@%@",[PFUser currentUser].objectId,self.toUser.parse_id];
+        [push setChannel:channelName];
         [push setMessage:text];
         [push sendPushInBackground];
     }];
