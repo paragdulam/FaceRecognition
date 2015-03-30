@@ -177,12 +177,17 @@
     [dataBackgroundView.contentView.progressLabel sizeToFit];
     UserInfo *userInfo = faceImage.createdBy;
     [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
-    
-    TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
-    UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
-    [chatViewController setSenderId:userInfo.parse_id];
-    [chatViewController setSenderDisplayName:userInfo.name];
-    [self presentViewController:chatNavController animated:YES completion:NULL];
+
+    if (userInfo.parse_id && userInfo.name) {
+        TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
+        UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
+        [chatViewController setSenderId:userInfo.parse_id];
+        [chatViewController setSenderDisplayName:userInfo.name];
+        [self presentViewController:chatNavController animated:YES completion:NULL];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The selected user has not configured his profile." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alertView show];
+    }
 }
 
 

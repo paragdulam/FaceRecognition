@@ -14,6 +14,7 @@
 @interface Message : NSManagedObject
 
 @property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) NSString * parse_id;
 @property (nonatomic, retain) NSDate * created_at;
 @property (nonatomic, retain) UserInfo *fromUser;
 @property (nonatomic, retain) UserInfo *toUser;

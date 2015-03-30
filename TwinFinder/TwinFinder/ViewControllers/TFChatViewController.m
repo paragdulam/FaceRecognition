@@ -47,7 +47,17 @@
     CGFloat progress = [faceImage.confidence floatValue] * 0.01;
     [progressView setProgress:progress animated:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:progressView];
+    [self loadMessages];
 }
+
+
+-(void) loadMessages
+{
+    [TFAppManager loadMessagesFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser completionBlock:^(NSError *error) {
+        [self finishReceivingMessageAnimated:YES];
+    }];
+}
+
 
 
 -(void) cancelButtonTapped:(UIBarButtonItem *) btn
@@ -74,7 +84,7 @@
 
 -(void) didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date
 {
-    [TFAppManager addMessageWithText:text ToUser:self.toUser];
+    [TFAppManager addMessageWithText:text ToUser:self.toUser onDate:date];
     [self finishSendingMessageAnimated:YES];
 }
 

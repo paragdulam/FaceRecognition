@@ -35,9 +35,11 @@
 +(void) saveUserinfo:(PFObject *) userInfo;
 +(FaceImage *)faceImageWithFaceImageId:(NSString *) pid;
 +(void) logout;
-+(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser;
++(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser onDate:(NSDate *) date;
 +(NSArray *) messagesForFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser;
 +(NSInteger) messageCountForFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser;
++(void) loadMessagesFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser completionBlock:(void(^)(NSError *error))completionBlock;
+
 
 
 

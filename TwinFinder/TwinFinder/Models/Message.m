@@ -13,6 +13,7 @@
 @implementation Message
 
 @dynamic text;
+@dynamic parse_id;
 @dynamic created_at;
 @dynamic fromUser;
 @dynamic toUser;

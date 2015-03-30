@@ -611,12 +611,12 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 
 
 
-+(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser
++(void) addMessageWithText:(NSString *) text ToUser:(UserInfo *) toUser onDate:(NSDate *) date
 {
     Message *message = (Message *)[NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
     message.fromUser = [TFAppManager userWithId:[PFUser currentUser].objectId];
     message.toUser = toUser;
-    message.created_at = [NSDate date];
+    message.created_at = date;
     message.text = text;
     [[TFAppManager appDelegate].managedObjectContext save:nil];
     
@@ -629,7 +629,8 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
         parseMessage[@"toUser"] = user;
         parseMessage[@"text"] = text;
         [parseMessage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
+            message.parse_id = parseMessage.objectId;
+            [[TFAppManager appDelegate].managedObjectContext save:nil];
         }];
     }];
 }
@@ -651,24 +652,58 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(fromUser == %@ && toUser == %@) || (fromUser == %@ && toUser == %@)",fromUser,toUser,toUser,fromUser];
     [fetchRequest setPredicate:predicate];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created_at" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created_at" ascending:YES];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     return [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    
-//    PFQuery *userQuery = [PFUser query];
-//    [userQuery whereKey:@"objectId" equalTo:toUser.parse_id];
-//    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        PFUser *user = [objects firstObject];
-//        PFQuery *messagesQuery = [PFQuery queryWithClassName:@"Message"];
-//        [messagesQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
-//        [messagesQuery whereKey:@"toUser" equalTo:user];
-//        [messagesQuery whereKey:@"fromUser" equalTo:user];
-//        [messagesQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
-//        [messagesQuery orderByDescending:@"created_At"];
-//        [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//            
-//        }];
-//    }];
+}
+
+
++(void) saveMessages:(NSArray *) messages
+{
+    for (PFObject *parseMessage in messages) {
+        NSString *parseId = parseMessage.objectId;
+        NSFetchRequest *messageFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Message"];
+        NSPredicate *messagePredicate = [NSPredicate predicateWithFormat:@"parse_id == %@",parseId];
+        [messageFetchRequest setPredicate:messagePredicate];
+        NSArray *fetchedMessages = [[TFAppManager appDelegate].managedObjectContext executeFetchRequest:messageFetchRequest error:nil];
+        Message *toBeStoredMessage = nil;
+        if ([fetchedMessages count]) {
+            toBeStoredMessage = [fetchedMessages firstObject];
+        } else {
+            toBeStoredMessage = [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+        }
+        toBeStoredMessage.parse_id = parseId;
+        toBeStoredMessage.text = [parseMessage objectForKey:@"text"];
+        toBeStoredMessage.created_at = parseMessage.createdAt;
+        PFUser *fromUser = [parseMessage objectForKey:@"fromUser"];
+        PFUser *toUser = [parseMessage objectForKey:@"toUser"];
+        toBeStoredMessage.fromUser = [TFAppManager userWithId:fromUser.objectId];
+        toBeStoredMessage.toUser = [TFAppManager userWithId:toUser.objectId];
+        [[TFAppManager appDelegate].managedObjectContext save:nil];
+    }
+}
+
++(void) loadMessagesFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser completionBlock:(void(^)(NSError *error))completionBlock
+{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:toUser.parse_id];
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        PFUser *user = [objects firstObject];
+        PFQuery *messagesQuery = [PFQuery queryWithClassName:@"Message"];
+        [messagesQuery whereKey:@"fromUser" equalTo:[PFUser currentUser]];
+        [messagesQuery whereKey:@"toUser" equalTo:user];
+        
+        PFQuery *otherMessageQuery = [PFQuery queryWithClassName:@"Message"];
+        [otherMessageQuery whereKey:@"fromUser" equalTo:user];
+        [otherMessageQuery whereKey:@"toUser" equalTo:[PFUser currentUser]];
+        
+        PFQuery *finalMessageQuery = [PFQuery orQueryWithSubqueries:@[messagesQuery,otherMessageQuery]];
+        [finalMessageQuery orderByDescending:@"created_At"];
+        [finalMessageQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            [TFAppManager saveMessages:objects];
+            completionBlock(nil);
+        }];
+    }];
 }
 
 @end
