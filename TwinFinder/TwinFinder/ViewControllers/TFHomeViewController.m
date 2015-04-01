@@ -179,16 +179,13 @@
 
 #pragma mark -  TFImagesViewDelegate
 
--(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView
+-(void) imagesView:(TFImagesView *) view longPressedView:(MAImageView *) imgView
 {
+    [self imagesView:view tappedView:imgView];
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
-    CGFloat progress = [faceImage.confidence floatValue]/100.f;
-    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-    [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
-    [dataBackgroundView.contentView.progressLabel sizeToFit];
     UserInfo *userInfo = faceImage.createdBy;
     [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
-
+    
     if (userInfo.parse_id && userInfo.name) {
         TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
         UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
@@ -199,6 +196,18 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The selected user has not configured his profile." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
         [alertView show];
     }
+}
+
+
+-(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView
+{
+    FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
+    CGFloat progress = [faceImage.confidence floatValue]/100.f;
+    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+    [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+    [dataBackgroundView.contentView.progressLabel sizeToFit];
+    UserInfo *userInfo = faceImage.createdBy;
+    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
 }
 
 

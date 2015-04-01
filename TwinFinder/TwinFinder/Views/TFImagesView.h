@@ -28,5 +28,7 @@
 @protocol TFImagesViewDelegate<NSObject>
 
 -(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView;
+-(void) imagesView:(TFImagesView *) view longPressedView:(MAImageView *) imgView;
+
 
 @end

@@ -54,6 +54,9 @@
 
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
         [self addGestureRecognizer:tapGesture];
+        
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesture:)];
+        [self addGestureRecognizer:longPressGesture];
     }
     return self;
 }
@@ -67,6 +70,21 @@
     self.imageView4.layer.borderWidth = 0;
     
     imageView.layer.borderWidth = 2.f;
+}
+
+
+
+-(void) longPressGesture:(UILongPressGestureRecognizer *) gestureRecognizer
+{
+    UIView* view = gestureRecognizer.view;
+    CGPoint loc = [gestureRecognizer locationInView:view];
+    MAImageView* subview = (MAImageView *)[view hitTest:loc withEvent:nil];
+    if ([subview isKindOfClass:[MAImageView class]] && subview.image) {
+        if ([self.delegate respondsToSelector:@selector(imagesView:longPressedView:)]) {
+            [self deselectAllButImageView:subview];
+            [self.delegate imagesView:self longPressedView:subview];
+        }
+    }
 }
 
 -(void) tapGesture:(UITapGestureRecognizer *) gestureRecognizer
