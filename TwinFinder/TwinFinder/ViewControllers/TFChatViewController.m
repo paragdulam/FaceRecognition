@@ -129,21 +129,15 @@
 
 -(id<JSQMessageAvatarImageDataSource>) collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    Message *message = [[TFAppManager messagesForFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser] objectAtIndex:indexPath.item];
-//    FaceImage *faceImage = nil;
-//    if ([message.fromUser.parse_id isEqualToString:self.senderId]) {
-//        faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
-//    } else {
-//        faceImage = [TFAppManager faceImageWithUserId:self.toUser.parse_id];
-//    }
-//    return faceImage.image_url;
-    
-    JSQMessagesAvatarImage *jsqImage = [JSQMessagesAvatarImageFactory avatarImageWithUserInitials:@"JSQ"
-                                                                                  backgroundColor:[UIColor colorWithWhite:0.85f alpha:1.0f]
-                                                                                        textColor:[UIColor colorWithWhite:0.60f alpha:1.0f]
-                                                                                             font:[UIFont systemFontOfSize:14.0f]
-                                                                                         diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-    return jsqImage;
+    Message *message = [[TFAppManager messagesForFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser] objectAtIndex:indexPath.item];
+
+    if ([self.senderId isEqualToString:message.fromUser.parse_id]) {
+        return [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageWithContentsOfFile:[[TFAppManager appDelegate] clickedPicturePath]] diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    } else {
+        FaceImage *faceImage = [TFAppManager faceImageWithUserId:message.toUser.parse_id];
+        NSString *imagePath = [NSString stringWithFormat:@"%@/%@",[[TFAppManager appDelegate] applicationDocumentsDirectory].path,faceImage.parse_id];
+        return [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageWithContentsOfFile:imagePath] diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    }
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
