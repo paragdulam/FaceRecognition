@@ -692,7 +692,14 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 +(void) loadMessagesFromUser:(UserInfo *) fromUser ToUser:(UserInfo *) toUser completionBlock:(void(^)(NSError *error))completionBlock
 {
     PFQuery *userQuery = [PFUser query];
-    [userQuery whereKey:@"objectId" equalTo:toUser.parse_id];
+    
+    NSString *userId = nil;
+    if ([fromUser.parse_id isEqualToString:[PFUser currentUser].objectId]) {
+        userId = toUser.parse_id;
+    } else if ([toUser.parse_id isEqualToString:[PFUser currentUser].objectId]) {
+        userId = fromUser.parse_id;
+    }
+    [userQuery whereKey:@"objectId" equalTo:userId];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         PFUser *user = [objects firstObject];
         PFQuery *messagesQuery = [PFQuery queryWithClassName:@"Message"];

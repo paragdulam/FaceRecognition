@@ -104,35 +104,36 @@
 
 -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [self.chatViewController loadMessages];
+//    [self.chatViewController loadMessages];
 
-//    NSLog(@"userInfo %@",userInfo);
-//    NSString *sender = [userInfo objectForKey:@"sender"];
-//    if ([self.chatViewController.toUser.parse_id isEqualToString:sender]) {
-//        [self.chatViewController loadMessages];
-//    } else {
-//        UserInfo *toUser = [TFAppManager userWithId:sender];
-//        if (toUser) {
-//            TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:toUser];
-//            UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
-//            [chatViewController setSenderId:toUser.parse_id];
-//            [chatViewController setSenderDisplayName:toUser.name];
-//            [self.window.rootViewController presentViewController:chatNavController animated:YES completion:NULL];
-//        } else {
-//            PFQuery *userQuery = [PFUser query];
-//            [userQuery whereKey:@"objectId" equalTo:sender];
-//            [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//                [TFAppManager saveUserinfo:[objects firstObject]];
-//                
-//                UserInfo *toUser = [TFAppManager userWithId:sender];
-//                TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:toUser];
-//                UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
-//                [chatViewController setSenderId:toUser.parse_id];
-//                [chatViewController setSenderDisplayName:toUser.name];
-//                [self.window.rootViewController presentViewController:chatNavController animated:YES completion:NULL];
-//            }];
-//        }
-//    }
+    NSLog(@"userInfo %@",userInfo);
+    NSString *sender = [userInfo objectForKey:@"sender"];
+    UserInfo *toUser = [TFAppManager userWithId:sender];
+    UserInfo *fromUser = [TFAppManager userWithId:[PFUser currentUser].objectId];
+    if ([self.chatViewController.toUser.parse_id isEqualToString:sender]) {
+        [self.chatViewController loadMessages];
+    } else {
+        if (toUser) {
+            TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:toUser];
+            UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
+            [chatViewController setSenderId:fromUser.parse_id];
+            [chatViewController setSenderDisplayName:fromUser.name];
+            [self.window.rootViewController presentViewController:chatNavController animated:YES completion:NULL];
+        } else {
+            PFQuery *userQuery = [PFUser query];
+            [userQuery whereKey:@"objectId" equalTo:sender];
+            [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                [TFAppManager saveUserinfo:[objects firstObject]];
+                
+                UserInfo *fetchedUser = [TFAppManager userWithId:sender];
+                TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:fetchedUser];
+                UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
+                [chatViewController setSenderId:fromUser.parse_id];
+                [chatViewController setSenderDisplayName:fromUser.name];
+                [self.window.rootViewController presentViewController:chatNavController animated:YES completion:NULL];
+            }];
+        }
+    }
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {

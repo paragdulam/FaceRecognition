@@ -59,7 +59,7 @@
 
 -(void) loadMessages
 {
-    [TFAppManager loadMessagesFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser completionBlock:^(NSError *error) {
+    [TFAppManager loadMessagesFromUser:[TFAppManager userWithId:self.senderId] ToUser:self.toUser completionBlock:^(NSError *error) {
         [self finishReceivingMessageAnimated:YES];
     }];
 }
@@ -91,7 +91,7 @@
 -(void) didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date
 {
     [TFAppManager addMessageWithText:text ToUser:self.toUser onDate:date];
-    UserInfo *fromUser = [TFAppManager userWithId:[PFUser currentUser].objectId];
+    UserInfo *fromUser = [TFAppManager userWithId:self.senderId];
 
     PFQuery *innerQuery = [PFUser query];
     
@@ -122,9 +122,9 @@
     Message *message = [[TFAppManager messagesForFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser] objectAtIndex:indexPath.item];
     
     if ([message.fromUser.parse_id isEqualToString:self.senderId]) {
-        return [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
+        return [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleBlueColor]];
     }
-    return [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
+    return [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
 }
 
 
@@ -143,8 +143,7 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [TFAppManager messageCountForFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser];
-    
+    return [TFAppManager messageCountForFromUser:[TFAppManager userWithId:self.senderId] ToUser:self.toUser];
 }
 
 /*

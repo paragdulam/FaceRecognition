@@ -189,8 +189,8 @@
     if (userInfo.parse_id && userInfo.name) {
         TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
         UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
-        [chatViewController setSenderId:userInfo.parse_id];
-        [chatViewController setSenderDisplayName:userInfo.name];
+        [chatViewController setSenderId:[PFUser currentUser].objectId];
+        [chatViewController setSenderDisplayName:[TFAppManager userWithId:[PFUser currentUser].objectId].name];
         [self presentViewController:chatNavController animated:YES completion:NULL];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The selected user has not configured his profile." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
