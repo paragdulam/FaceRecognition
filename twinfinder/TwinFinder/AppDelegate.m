@@ -104,9 +104,6 @@
 
 -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-//    [self.chatViewController loadMessages];
-
-    NSLog(@"userInfo %@",userInfo);
     NSString *sender = [userInfo objectForKey:@"sender"];
     UserInfo *toUser = [TFAppManager userWithId:sender];
     UserInfo *fromUser = [TFAppManager userWithId:[PFUser currentUser].objectId];

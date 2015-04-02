@@ -26,6 +26,5 @@ typedef enum TF_VIEW_STATE {
     TFBaseContentView *dataBackgroundView;
 }
 
-@property TF_VIEW_STATE viewState;
 
 @end

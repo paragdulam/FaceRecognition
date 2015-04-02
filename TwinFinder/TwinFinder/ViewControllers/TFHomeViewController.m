@@ -56,28 +56,14 @@
     [self.view addSubview:self.logoutButton];
     [self.logoutButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
     [self.logoutButton addTarget:self action:@selector(logoutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-
--(void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
-    if (self.viewState == NORMAL) {
-        dataBackgroundView.contentView.photoButton2.enabled = NO;
-        [dataBackgroundView.contentView.imagesView setHidden:YES];
+    if ([[PFUser currentUser] sessionToken]) {
+        [self doPostLogin];
     } else {
-        [dataBackgroundView.contentView.imagesView setHidden:NO];
-    }
-
-    if (self.viewState == LOADING_DONE || self.viewState == NORMAL) {
-        if ([[PFUser currentUser] sessionToken]) {
-            [self doPostLogin];
-        } else {
-            [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
-        }
+        [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
     }
 }
+
 
 
 -(void) showLoginView:(NSNumber *) animated
@@ -108,11 +94,16 @@
      }];
     
     [self showLoginView:[NSNumber numberWithBool:YES]];
-    self.viewState = NORMAL;
 }
 
 -(void) doPostLogin
 {
+    dataBackgroundView.contentView.imagesView.hidden = YES;
+    dataBackgroundView.contentView.imageView2.hidden = NO;
+    dataBackgroundView.contentView.photoButton2.enabled = NO;
+    [dataBackgroundView.contentView.photoButton2 setTitle:@"Start Search" forState:UIControlStateNormal];
+
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate clickedPicturePath]]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
@@ -126,9 +117,7 @@
         [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageNamed:@"singleface"]];
         PFQuery *faceQuery = [PFQuery queryWithClassName:@"FaceImage"];
         [faceQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-        self.viewState = LOADING;
         [faceQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            self.viewState = LOADING_DONE;
             PFObject *faceImage = [objects firstObject];
             PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
             [TFAppManager saveFaceImage:faceImage completionBlock:^(id obj, NSError *error) {
@@ -141,9 +130,7 @@
         [dataBackgroundView.descLabel setText:@"Loading..."];
         PFQuery *userInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
         [userInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
-        self.viewState = LOADING;
         [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            self.viewState = LOADING_DONE;
             PFObject *userInfo = [objects firstObject];
             [TFAppManager saveUserinfo:userInfo];
             [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"location"],[userInfo objectForKey:@"national"]]];
@@ -261,7 +248,6 @@
             //upload image to parse.
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
             if (imageData) {
-                self.viewState = LOADING;
                 [TFAppManager saveFaceImageData:imageData
                                         AtIndex:0
                                       ForUserId:[PFUser currentUser].objectId
@@ -270,7 +256,6 @@
                                   [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
                               }
                             WithCompletionBlock:^(id object, int type, NSError *error) {
-                                self.viewState = LOADING_DONE;
                                 [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
                             }];
             }
@@ -282,9 +267,7 @@
             FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
             if (faceImage) {
                 __block int index = 0;
-                self.viewState = LOADING;
                 [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
-                    self.viewState = LOADING_DONE;
                     FaceImage *fImage = (FaceImage *)object;
                     MAImageView *imageView = nil;
                     switch (index) {

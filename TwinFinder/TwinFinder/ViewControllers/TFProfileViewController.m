@@ -100,7 +100,6 @@
         {
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
             if (imageData) {
-                self.viewState = LOADING;
                 [TFAppManager saveFaceImageData:imageData
                                         AtIndex:0
                                       ForUserId:[PFUser currentUser].objectId
@@ -109,7 +108,6 @@
                                   [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
                               }
                             WithCompletionBlock:^(id object, int type, NSError *error) {
-                                self.viewState = LOADING_DONE;
                                 [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
                             }];
             }
