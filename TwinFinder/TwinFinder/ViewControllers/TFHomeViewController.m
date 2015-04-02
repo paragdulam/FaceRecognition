@@ -102,8 +102,8 @@
     dataBackgroundView.contentView.imageView2.hidden = NO;
     dataBackgroundView.contentView.photoButton2.enabled = NO;
     [dataBackgroundView.contentView.photoButton2 setTitle:@"Start Search" forState:UIControlStateNormal];
+    [dataBackgroundView.contentView.photoButton1 setTitle:@"Add Photo" forState:UIControlStateNormal];
 
-    
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate clickedPicturePath]]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
@@ -257,6 +257,7 @@
                               }
                             WithCompletionBlock:^(id object, int type, NSError *error) {
                                 [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                                dataBackgroundView.contentView.photoButton2.enabled = YES;
                             }];
             }
         }
