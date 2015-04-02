@@ -12,6 +12,7 @@
 #import "TFHomeViewController.h"
 #import "TFAppManager.h"
 #import "TFChatViewController.h"
+#import "UserInfo.h"
 
 @interface AppDelegate ()
 
@@ -28,7 +29,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
     
     [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];
     [PFTwitterUtils initializeWithConsumerKey:@"mPQoaTD9irFpFrya4CqKZbUsp" consumerSecret:@"2Dqh68gMdDqMe7Hd3bB8oKRJOGVt13UwQevfCN1kgmxwhQB9qa"];
@@ -105,7 +105,32 @@
 -(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"userInfo %@",userInfo);
-    [self.chatViewController loadMessages];
+    NSString *sender = [userInfo objectForKey:@"sender"];
+    if ([self.chatViewController.toUser.parse_id isEqualToString:sender]) {
+        [self.chatViewController loadMessages];
+    } else {
+        UserInfo *toUser = [TFAppManager userWithId:sender];
+        if (toUser) {
+            TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:toUser];
+            UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
+            [chatViewController setSenderId:toUser.parse_id];
+            [chatViewController setSenderDisplayName:toUser.name];
+            [self.window.rootViewController presentViewController:chatNavController animated:YES completion:NULL];
+        } else {
+            PFQuery *userQuery = [PFUser query];
+            [userQuery whereKey:@"objectId" equalTo:sender];
+            [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                [TFAppManager saveUserinfo:[objects firstObject]];
+                
+                UserInfo *toUser = [TFAppManager userWithId:sender];
+                TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:toUser];
+                UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
+                [chatViewController setSenderId:toUser.parse_id];
+                [chatViewController setSenderDisplayName:toUser.name];
+                [self.window.rootViewController presentViewController:chatNavController animated:YES completion:NULL];
+            }];
+        }
+    }
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
@@ -270,6 +295,12 @@
 {
     return [NSString stringWithFormat:@"%@/%@",[self applicationDocumentsDirectory].path,CLICKED_FACE_PICTURE];
 }
+
+- (NSString *)smallClickedPicturePath
+{
+    return [NSString stringWithFormat:@"%@/%@_small",[self applicationDocumentsDirectory].path,CLICKED_FACE_PICTURE];
+}
+
 
 - (NSString *)profilePicturePath
 {

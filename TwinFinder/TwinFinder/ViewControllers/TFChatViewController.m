@@ -108,7 +108,8 @@
     // Send the notification.
     PFPush *push = [[PFPush alloc] init];
     [push setQuery:query];
-    [push setMessage:[NSString stringWithFormat:@"%@:%@",fromUser.name,text]];
+//    [push setMessage:[NSString stringWithFormat:@"%@:%@",fromUser.name,text]];
+    [push setData:@{@"sender":self.senderId,@"alert":[NSString stringWithFormat:@"%@:%@",fromUser.name,text]}];
     [push sendPushInBackground];
 
     [self finishSendingMessageAnimated:YES];
@@ -130,12 +131,12 @@
 -(id<JSQMessageAvatarImageDataSource>) collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     Message *message = [[TFAppManager messagesForFromUser:[TFAppManager userWithId:[PFUser currentUser].objectId] ToUser:self.toUser] objectAtIndex:indexPath.item];
-
-    if ([self.senderId isEqualToString:message.fromUser.parse_id]) {
-        return [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageWithContentsOfFile:[[TFAppManager appDelegate] clickedPicturePath]] diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    if ([self.toUser.parse_id isEqualToString:message.toUser.parse_id]) {
+        //outgoing message
+        return [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageWithContentsOfFile:[[TFAppManager appDelegate] smallClickedPicturePath]] diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
     } else {
-        FaceImage *faceImage = [TFAppManager faceImageWithUserId:message.toUser.parse_id];
-        NSString *imagePath = [NSString stringWithFormat:@"%@/%@",[[TFAppManager appDelegate] applicationDocumentsDirectory].path,faceImage.parse_id];
+        FaceImage *faceImage = [TFAppManager faceImageWithUserId:message.fromUser.parse_id];
+        NSString *imagePath = [NSString stringWithFormat:@"%@/%@_small",[[TFAppManager appDelegate] applicationDocumentsDirectory].path,faceImage.parse_id];
         return [JSQMessagesAvatarImageFactory avatarImageWithImage:[UIImage imageWithContentsOfFile:imagePath] diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
     }
 }

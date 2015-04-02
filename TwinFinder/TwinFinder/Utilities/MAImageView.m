@@ -53,7 +53,13 @@
     activityIndicator.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
 }
 
-
+- (UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return destImage;
+}
 
 -(void) setImageURL:(NSURL *) url forFileId:(NSString *) idString
 {
@@ -62,6 +68,7 @@
     [activityIndicator startAnimating];
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *filePath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,idString];
+    NSString *smallFilePath = [NSString stringWithFormat:@"%@/%@_small",documentsDirectory,idString];
     if ([[NSFileManager defaultManager] fileExistsAtPath:idString]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSLog(@"saved Path %@",filePath);
@@ -75,6 +82,8 @@
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:url] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 [data writeToFile:filePath atomically:YES];
+                UIImage *smallImage = [self imageWithImage:[UIImage imageWithData:data] convertToSize:CGSizeMake(40, 40)];
+                [UIImageJPEGRepresentation(smallImage, 1) writeToFile:smallFilePath atomically:YES];
             });
             [self setImage:[UIImage imageWithData:data]];
             [activityIndicator stopAnimating];

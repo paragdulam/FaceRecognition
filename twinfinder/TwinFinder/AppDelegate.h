@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-#define CLICKED_FACE_PICTURE @"clickedProfilePicture.jpg"
-#define CLICKED_PROFILE_PICTURE @"clickedProfilePicture.jpg"
+#define CLICKED_FACE_PICTURE @"clickedProfilePicture"
+#define CLICKED_PROFILE_PICTURE @"clickedProfilePicture"
 #define MATCHES @"matches"
 
 typedef enum {
@@ -34,6 +34,8 @@ typedef enum {
 - (NSString *)profilePicturePath;
 -(NSString *)matchesPath;
 -(void) flushDatabase;
+- (NSString *)smallClickedPicturePath;
+
 
 
 @end
