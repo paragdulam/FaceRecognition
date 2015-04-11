@@ -35,6 +35,7 @@
 		D1B8099C1AACBDAA00EAE5A8 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
 		D1B8099F1AACCC2D00EAE5A8 /* TFBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */; };
 		D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */; };
+		D1BA04511AD9900A00301D69 /* TFAdVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */; };
 		F110C9991AB76050001ECBD4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F110C9981AB76050001ECBD4 /* MessageUI.framework */; };
 		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
 		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
@@ -116,6 +117,8 @@
 		D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBaseViewController.m; sourceTree = "<group>"; };
 		D1B809A01AACD0B200EAE5A8 /* TFTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTextFieldView.h; sourceTree = "<group>"; };
 		D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFTextFieldView.m; sourceTree = "<group>"; };
+		D1BA044F1AD9900A00301D69 /* TFAdVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAdVideoViewController.h; sourceTree = "<group>"; };
+		D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAdVideoViewController.m; sourceTree = "<group>"; };
 		F110C9981AB76050001ECBD4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPhotoContentView.h; sourceTree = "<group>"; };
 		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 				D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */,
 				D18579501AC56C3500787517 /* TFChatViewController.h */,
 				D18579511AC56C3500787517 /* TFChatViewController.m */,
+				D1BA044F1AD9900A00301D69 /* TFAdVideoViewController.h */,
+				D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -493,6 +498,7 @@
 				D14E3E7A1A9FBB1100ABE348 /* TFFriendsHeaderView.m in Sources */,
 				D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */,
 				D14E3E771A9FBB1100ABE348 /* TFTwinsViewController.m in Sources */,
+				D1BA04511AD9900A00301D69 /* TFAdVideoViewController.m in Sources */,
 				D14E3E6C1A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m in Sources */,
 				D18579521AC56C3500787517 /* TFChatViewController.m in Sources */,
 				F1B658731AB2078400A503E4 /* TFImagesView.m in Sources */,

@@ -258,6 +258,11 @@ THE SOFTWARE.
    limitations under the License.
 
 
+## GoogleAds-IMA-iOS-SDK
+
+Copyright 2014 Google, Inc. All rights reserved.
+
+
 ## JSQMessagesViewController
 
 

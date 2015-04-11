@@ -283,6 +283,15 @@ THE SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>Copyright 2014 Google, Inc. All rights reserved.
+</string>
+			<key>Title</key>
+			<string>GoogleAds-IMA-iOS-SDK</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>
 MIT License
 Copyright (c) 2014 Jesse Squires

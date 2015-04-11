@@ -24,6 +24,7 @@
 #import "TFImagesView.h"
 #import <MessageUI/MessageUI.h>
 #import "TFChatViewController.h"
+#import "TFAdVideoViewController.h"
 
 @interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate>
 {
@@ -264,6 +265,9 @@
             break;
         case 2:
         {
+            TFAdVideoViewController *adVideoViewController = [[TFAdVideoViewController alloc] init];
+            [self presentViewController:adVideoViewController animated:YES completion:NULL];
+            
             //face recognition.
             FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
             if (faceImage) {
