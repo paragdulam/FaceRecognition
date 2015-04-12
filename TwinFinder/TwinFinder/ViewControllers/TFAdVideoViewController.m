@@ -28,6 +28,11 @@ NSString *const kTestAppAdTagUrl =
   [self requestAds];
 }
 
+-(void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark Content Player Setup
 
 - (void)setUpContentPlayer {
@@ -84,6 +89,7 @@ NSString *const kTestAppAdTagUrl =
 - (void)contentDidFinishPlaying {
   [self.adsLoader contentComplete];
   [self.contentPlayer pause];
+    self.contentPlayer = nil;
   [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -115,6 +121,8 @@ NSString *const kTestAppAdTagUrl =
   // When the SDK notified us that ads have been loaded, play them.
   if (event.type == kIMAAdEvent_LOADED) {
     [adsManager start];
+  } else if (event.type == kIMAAdEvent_SKIPPED) {
+    [self contentDidFinishPlaying];
   }
 }
 
