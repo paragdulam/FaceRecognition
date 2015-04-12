@@ -57,6 +57,14 @@
     [self.view addSubview:self.logoutButton];
     [self.logoutButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
     [self.logoutButton addTarget:self action:@selector(logoutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"com.user.updated"
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
+                                                      UIImage *profileImage = [UIImage imageNamed:userInfo.national];
+                                                      [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
+                                                  }];
     
     if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];

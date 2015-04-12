@@ -31,7 +31,8 @@
         nameTextField.placeholder = NSLocalizedString(@"Name", nil);
         nameTextField.font = [UIFont boldSystemFontOfSize:14.f];
         nameTextField.delegate = self;
-        nameTextField.textAlignment = NSTextAlignmentCenter;
+        UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, nameTextField.frame.size.height)];
+        nameTextField.leftView = leftView;
         [nameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:nameTextField];
         
@@ -39,8 +40,9 @@
         ageTextField.backgroundColor = [UIColor whiteColor];
         ageTextField.placeholder = NSLocalizedString(@"Age", nil);
         ageTextField.font = [UIFont boldSystemFontOfSize:14.f];
-        ageTextField.textAlignment = NSTextAlignmentCenter;
         ageTextField.delegate = self;
+        leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, nameTextField.frame.size.height)];
+        ageTextField.leftView = leftView;
         [ageTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:ageTextField];
         
@@ -48,8 +50,9 @@
         cityTextField.backgroundColor = [UIColor whiteColor];
         cityTextField.placeholder = NSLocalizedString(@"City", nil);
         cityTextField.font = [UIFont boldSystemFontOfSize:14.f];
-        cityTextField.textAlignment = NSTextAlignmentCenter;
         cityTextField.delegate = self;
+        leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, nameTextField.frame.size.height)];
+        cityTextField.leftView = leftView;
         [cityTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:cityTextField];
         
@@ -57,19 +60,22 @@
         locationTextField.backgroundColor = [UIColor whiteColor];
         locationTextField.placeholder = NSLocalizedString(@"Land", nil);
         locationTextField.font = [UIFont boldSystemFontOfSize:14.f];
-        locationTextField.textAlignment = NSTextAlignmentCenter;
         locationTextField.delegate = self;
+        leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, nameTextField.frame.size.height)];
+        locationTextField.leftView = leftView;
         [locationTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:locationTextField];
         
         nationalTextField = [[HTAutocompleteTextField alloc] initWithFrame:CGRectZero];
+        nationalTextField.autocompleteDisabled = NO;
         nationalTextField.autocompleteDataSource = [HTAutocompleteManager sharedManager];
         nationalTextField.autocompleteType = HTAutocompleteTypeCountry;
         nationalTextField.backgroundColor = [UIColor whiteColor];
         nationalTextField.placeholder = NSLocalizedString(@"National.", nil);
         nationalTextField.font = [UIFont boldSystemFontOfSize:14.f];
-        nationalTextField.textAlignment = NSTextAlignmentCenter;
         nationalTextField.delegate = self;
+        leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, nameTextField.frame.size.height)];
+        nationalTextField.leftView = leftView;
         [nationalTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:nationalTextField];
  
@@ -144,7 +150,8 @@
         [userInfo setObject:nationalTextField.text forKey:@"national"];
         [userInfo setObject:[PFUser currentUser] forKey:@"User"];
         [userInfo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            
+            [TFAppManager saveUserinfo:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"com.user.updated" object:[TFAppManager userWithId:userInfo.objectId]];
         }];
     }];
 }
