@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class UserInfo;
+@class HTAutocompleteTextField;
 
 @protocol TFTextFieldViewDelegate;
 
@@ -18,7 +19,7 @@
     UITextField *ageTextField;
     UITextField *cityTextField;
     UITextField *locationTextField;
-    UITextField *nationalTextField;
+    HTAutocompleteTextField *nationalTextField;
 }
 
 @property (nonatomic,weak) id<TFTextFieldViewDelegate>delegate;

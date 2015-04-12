@@ -107,6 +107,9 @@
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate clickedPicturePath]]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
+            UIImage *profileImage = [UIImage imageNamed:userInfo.national];
+            [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate clickedPicturePath]];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [dataBackgroundView.contentView.imageView1 setImage:[UIImage imageWithData:imageData]];
@@ -134,6 +137,7 @@
         [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             PFObject *userInfo = [objects firstObject];
             [TFAppManager saveUserinfo:userInfo];
+            [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:[userInfo objectForKey:@"national"]] forState:UIControlStateNormal];
             [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"location"],[userInfo objectForKey:@"national"]]];
         }];
     }

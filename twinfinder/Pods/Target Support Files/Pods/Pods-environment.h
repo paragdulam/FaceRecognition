@@ -31,6 +31,12 @@
 // Please contact the author.
 // Version: 3.0.beta.12.
 
+// HTAutocompleteTextField
+#define COCOAPODS_POD_AVAILABLE_HTAutocompleteTextField
+#define COCOAPODS_VERSION_MAJOR_HTAutocompleteTextField 1
+#define COCOAPODS_VERSION_MINOR_HTAutocompleteTextField 3
+#define COCOAPODS_VERSION_PATCH_HTAutocompleteTextField 2
+
 // JSQMessagesViewController
 #define COCOAPODS_POD_AVAILABLE_JSQMessagesViewController
 #define COCOAPODS_VERSION_MAJOR_JSQMessagesViewController 7

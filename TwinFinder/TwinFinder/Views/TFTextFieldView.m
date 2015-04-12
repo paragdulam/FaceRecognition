@@ -10,6 +10,8 @@
 #import <Parse/Parse.h>
 #import "UserInfo.h"
 #import "TFAppManager.h"
+#import "HTAutocompleteTextField.h"
+#import "HTAutocompleteManager.h"
 
 @interface TFTextFieldView ()<UITextFieldDelegate>
 
@@ -60,7 +62,9 @@
         [locationTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:locationTextField];
         
-        nationalTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        nationalTextField = [[HTAutocompleteTextField alloc] initWithFrame:CGRectZero];
+        nationalTextField.autocompleteDataSource = [HTAutocompleteManager sharedManager];
+        nationalTextField.autocompleteType = HTAutocompleteTypeCountry;
         nationalTextField.backgroundColor = [UIColor whiteColor];
         nationalTextField.placeholder = NSLocalizedString(@"National.", nil);
         nationalTextField.font = [UIFont boldSystemFontOfSize:14.f];
@@ -69,8 +73,7 @@
         [nationalTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:nationalTextField];
  
-        [self fetchUserInfo];
-        
+        [self fetchUserInfo];        
     }
     return self;
 }
