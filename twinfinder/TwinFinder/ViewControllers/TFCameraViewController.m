@@ -106,6 +106,9 @@
     [previewLayer setFrame:CGRectMake(0, 0, rootLayer.bounds.size.width, rootLayer.bounds.size.height)];
     [rootLayer insertSublayer:previewLayer atIndex:0];
     
+    TFCameraOverlayView *overlayView = [[TFCameraOverlayView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:overlayView];
+    
     [self.session startRunning];
 
     
