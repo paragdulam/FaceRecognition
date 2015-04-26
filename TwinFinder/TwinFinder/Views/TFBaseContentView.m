@@ -40,7 +40,7 @@
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         self.activityIndicator.hidesWhenStopped = YES;
         [self.profilePicButton addSubview:self.activityIndicator];
-        [self.profilePicButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.profilePicButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
         
         self.descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.descLabel setFont:[UIFont boldSystemFontOfSize:14.f]];

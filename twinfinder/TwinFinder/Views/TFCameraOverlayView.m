@@ -43,7 +43,7 @@
     
     [maskPath moveToPoint:self.center];
     [maskPath addArcWithCenter:self.center
-                        radius:140.f
+                        radius:150.f
                     startAngle:0
                       endAngle:M_PI * 2
                      clockwise:YES];
@@ -52,6 +52,15 @@
     [maskWithHole setFillRule:kCAFillRuleEvenOdd];
     [maskWithHole setFillColor:[[UIColor colorWithRed:1 green:1 blue:1 alpha:.8f] CGColor]];
     [self.layer addSublayer:maskWithHole];
+    
+    UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 300, 0)];
+    [infoLabel setFont:[UIFont boldSystemFontOfSize:16.f]];
+    [infoLabel setNumberOfLines:0];
+    [infoLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    [infoLabel setText:@"PLease make sure you take a selfie in bright light and face resides within the circle"];
+    [infoLabel sizeToFit];
+    infoLabel.center = CGPointMake(self.center.x, infoLabel.center.y);
+    [self addSubview:infoLabel];
 }
 
 @end
