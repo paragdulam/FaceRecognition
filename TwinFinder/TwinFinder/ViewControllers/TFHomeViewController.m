@@ -146,7 +146,7 @@
             PFObject *userInfo = [objects firstObject];
             [TFAppManager saveUserinfo:userInfo];
             [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:[userInfo objectForKey:@"national"]] forState:UIControlStateNormal];
-            [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"location"],[userInfo objectForKey:@"national"]]];
+            [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"national"]]];
         }];
     }
     
@@ -184,7 +184,7 @@
     [self imagesView:view tappedView:imgView];
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
     UserInfo *userInfo = faceImage.createdBy;
-    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
+    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
     
     if (userInfo.parse_id && userInfo.name) {
         TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
@@ -207,7 +207,7 @@
     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
     [dataBackgroundView.contentView.progressLabel sizeToFit];
     UserInfo *userInfo = faceImage.createdBy;
-    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];
+    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
 }
 
 
@@ -315,7 +315,7 @@
                     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
                     [dataBackgroundView.contentView.progressLabel sizeToFit];
                     UserInfo *userInfo = faceImage.createdBy;
-                    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.location,userInfo.national]];                    
+                    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
                 }];
             }
         }

@@ -86,11 +86,11 @@
         [self addSubview:self.contentView];
         
         UserInfo *uInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
-        [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.location,uInfo.national]];
+        [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.national]];
         
         [[NSNotificationCenter defaultCenter] addObserverForName:@"profile.updated" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             UserInfo *uInfo = (UserInfo *)[note object];
-            [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.location,uInfo.national]];
+            [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.national]];
         }];
     }
     return self;
@@ -105,7 +105,7 @@
 
 -(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) uInfo
 {
-    [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.location,uInfo.national]];
+    [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.national]];
 }
 
 

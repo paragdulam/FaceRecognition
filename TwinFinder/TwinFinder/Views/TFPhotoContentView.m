@@ -98,7 +98,7 @@
     self.imageView1.frame = CGRectMake(5, 5, width, width);
     self.imageView2.frame = CGRectMake(CGRectGetMaxX(self.imageView1.frame) + 5, 5, width, width);
     self.imagesView.frame = self.imageView2.frame;
-    self.textFieldView.frame = CGRectMake(self.imageView2.frame.origin.x, 5, self.imageView2.frame.size.width, 180);
+    self.textFieldView.frame = CGRectMake(self.imageView2.frame.origin.x, 5, self.imageView2.frame.size.width, 145);
     
     self.photoButton1.frame = CGRectMake(0, 0, 100, 24);
     self.photoButton1.layer.cornerRadius = 12.f;

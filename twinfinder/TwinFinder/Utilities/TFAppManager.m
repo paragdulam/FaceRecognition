@@ -449,7 +449,6 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
         uInfo.name = name;
         uInfo.age = [userInfo objectForKey:@"age"];
         uInfo.city = [userInfo objectForKey:@"city"];
-        uInfo.location = [userInfo objectForKey:@"location"];
         uInfo.national = [userInfo objectForKey:@"national"];
         uInfo.parse_id = user.objectId;
         
@@ -482,7 +481,6 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     uInfo.name = [userInfo objectForKey:@"name"];
     uInfo.age = [userInfo objectForKey:@"age"];
     uInfo.city = [userInfo objectForKey:@"city"];
-    uInfo.location = [userInfo objectForKey:@"location"];
     uInfo.national = [userInfo objectForKey:@"national"];
     uInfo.parse_id = user.objectId;
     [[TFAppManager appDelegate].managedObjectContext save:nil];

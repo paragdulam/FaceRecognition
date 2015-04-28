@@ -47,7 +47,6 @@
     [cancelButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [self.view addSubview:cancelButton];
     
-    NSLog(@"profile path %@",[self.appDelegate profilePicturePath]);
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate profilePicturePath]]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *imageData = [NSData dataWithContentsOfFile:[self.appDelegate profilePicturePath]];

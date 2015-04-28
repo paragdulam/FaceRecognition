@@ -18,7 +18,6 @@
     UITextField *nameTextField;
     UITextField *ageTextField;
     UITextField *cityTextField;
-    UITextField *locationTextField;
     HTAutocompleteTextField *nationalTextField;
 }
 
