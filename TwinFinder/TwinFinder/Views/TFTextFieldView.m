@@ -167,6 +167,7 @@
         [nationalTextField becomeFirstResponder];
     } else {
         [nationalTextField resignFirstResponder];
+        [self textFieldDidChange:nationalTextField];
     }
     return YES;
 }

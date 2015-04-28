@@ -97,7 +97,7 @@
 }
 
 
--(void) dealloc
+-(void) deallo
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
