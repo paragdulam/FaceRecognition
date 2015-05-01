@@ -40,6 +40,9 @@
         self.imageView1.backgroundColor = [UIColor clearColor];
         self.imageView1.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView1.clipsToBounds = YES;
+        self.imageView1.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainImageViewTapped:)];
+        [self.imageView1 addGestureRecognizer:tapGestureRecognizer];
         [self addSubview:self.imageView1];
         
         self.imageView2 = [[MAImageView alloc] initWithFrame:CGRectZero];
@@ -120,6 +123,13 @@
     self.progressLabel.center = self.progressView.center;
 }
 
+
+-(void)mainImageViewTapped:(UITapGestureRecognizer *) gesture
+{
+    if ([self.delegate respondsToSelector:@selector(photoContentViewWasTapped:)]) {
+        [self.delegate photoContentViewWasTapped:self];
+    }
+}
 
 
 -(void) photoButton1Tapped:(UIButton *) btn

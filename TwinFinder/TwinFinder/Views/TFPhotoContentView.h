@@ -37,5 +37,7 @@
 @protocol TFPhotoContentViewDelegate <NSObject>
 
 -(void) photoContentView:(TFPhotoContentView *) view buttonTapped:(UIButton *) btn;
+-(void) photoContentViewWasTapped:(TFPhotoContentView *) view;
+
 
 @end

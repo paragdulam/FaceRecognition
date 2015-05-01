@@ -208,6 +208,8 @@
     [dataBackgroundView.contentView.progressLabel sizeToFit];
     UserInfo *userInfo = faceImage.createdBy;
     [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
+    UIImage *profileImage = [UIImage imageNamed:userInfo.national];
+    [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
 }
 
 
@@ -250,6 +252,15 @@
         default:
             break;
     }
+}
+
+
+-(void) photoContentViewWasTapped:(TFPhotoContentView *) view
+{
+    UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
+    UIImage *profileImage = [UIImage imageNamed:userInfo.national];
+    [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
+    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
 }
 
 
