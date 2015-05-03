@@ -38,6 +38,46 @@
 		D1BA04511AD9900A00301D69 /* TFAdVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */; };
 		D1C627631ADA8343003C48CD /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */; };
 		F110C9991AB76050001ECBD4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F110C9981AB76050001ECBD4 /* MessageUI.framework */; };
+		F12650D51AF61EE000A2AF97 /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
+		F12650D61AF61EE000A2AF97 /* TFAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E5D1A9FBB1100ABE348 /* TFAppManager.m */; };
+		F12650D71AF61EE000A2AF97 /* TFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E601A9FBB1100ABE348 /* TFCameraViewController.m */; };
+		F12650D81AF61EE000A2AF97 /* TFBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E8521AAB7E1800197AAB /* TFBaseContentView.m */; };
+		F12650D91AF61EE000A2AF97 /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
+		F12650DA1AF61EE000A2AF97 /* TFBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */; };
+		F12650DB1AF61EE000A2AF97 /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
+		F12650DC1AF61EE000A2AF97 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D18579541AC58E5C00787517 /* Message.m */; };
+		F12650DD1AF61EE000A2AF97 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA18B1A9FAEBD00364F11 /* AppDelegate.m */; };
+		F12650DE1AF61EE000A2AF97 /* TFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */; };
+		F12650DF1AF61EE000A2AF97 /* CustomCollectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E651A9FBB1100ABE348 /* CustomCollectionFlowLayout.m */; };
+		F12650E01AF61EE000A2AF97 /* StretchyHeaderCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E5B1A9FBB1100ABE348 /* StretchyHeaderCollectionViewLayout.m */; };
+		F12650E11AF61EE000A2AF97 /* TFCameraOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E671A9FBB1100ABE348 /* TFCameraOverlayView.m */; };
+		F12650E21AF61EE000A2AF97 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
+		F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */; };
+		F12650E41AF61EE000A2AF97 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1881A9FAEBD00364F11 /* main.m */; };
+		F12650E51AF61EE000A2AF97 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E4B1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m */; };
+		F12650E61AF61EE000A2AF97 /* TwinFinder.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E7C1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel */; };
+		F12650E71AF61EE000A2AF97 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809951AACBD7800EAE5A8 /* UserInfo.m */; };
+		F12650E81AF61EE000A2AF97 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
+		F12650E91AF61EE000A2AF97 /* CSStickyHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E571A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.m */; };
+		F12650EA1AF61EE000A2AF97 /* TFFriendsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E691A9FBB1100ABE348 /* TFFriendsHeaderView.m */; };
+		F12650EB1AF61EE000A2AF97 /* TFTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */; };
+		F12650EC1AF61EE000A2AF97 /* TFTwinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E621A9FBB1100ABE348 /* TFTwinsViewController.m */; };
+		F12650ED1AF61EE000A2AF97 /* TFAdVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */; };
+		F12650EE1AF61EE000A2AF97 /* TFAddImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E491A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m */; };
+		F12650EF1AF61EE000A2AF97 /* TFChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D18579511AC56C3500787517 /* TFChatViewController.m */; };
+		F12650F01AF61EE000A2AF97 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */; };
+		F12650F11AF61EE000A2AF97 /* TFImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B658721AB2078400A503E4 /* TFImagesView.m */; };
+		F12650F21AF61EE000A2AF97 /* TFFriendCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E4D1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m */; };
+		F12650F31AF61EE000A2AF97 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E591A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.m */; };
+		F12650F41AF61EE000A2AF97 /* TFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84F1AAB75D700197AAB /* TFHomeViewController.m */; };
+		F12650F61AF61EE000A2AF97 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FDBE4D1AC2D4BB00CDDBD9 /* Accounts.framework */; };
+		F12650F71AF61EE000A2AF97 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FDBE4B1AC2D4B300CDDBD9 /* Twitter.framework */; };
+		F12650F81AF61EE000A2AF97 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FDBE491AC2D4AF00CDDBD9 /* Social.framework */; };
+		F12650F91AF61EE000A2AF97 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F110C9981AB76050001ECBD4 /* MessageUI.framework */; };
+		F12650FA1AF61EE000A2AF97 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3DA74D1EF03DE1B64893BF /* libPods.a */; };
+		F12650FC1AF61EE000A2AF97 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1981A9FAEBD00364F11 /* LaunchScreen.xib */; };
+		F12650FD1AF61EE000A2AF97 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1B8098F1AAC6DB300EAE5A8 /* Localizable.strings */; };
+		F12650FE1AF61EE000A2AF97 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
 		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
 		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
 		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
@@ -123,6 +163,8 @@
 		D1C627611ADA8343003C48CD /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		F110C9981AB76050001ECBD4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F12651031AF61EE000A2AF97 /* TwinFinder copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TwinFinder copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F12651041AF61EE100A2AF97 /* TwinFinder copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TwinFinder copy-Info.plist"; path = "/Users/paragdulam/Projects/FaceRecognition/TwinFinder/TwinFinder copy-Info.plist"; sourceTree = "<absolute>"; };
 		F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPhotoContentView.h; sourceTree = "<group>"; };
 		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
 		F15E2DE51AAC1A410040BBCB /* MAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAImageView.h; sourceTree = "<group>"; };
@@ -159,6 +201,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F12650F51AF61EE000A2AF97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F12650F61AF61EE000A2AF97 /* Accounts.framework in Frameworks */,
+				F12650F71AF61EE000A2AF97 /* Twitter.framework in Frameworks */,
+				F12650F81AF61EE000A2AF97 /* Social.framework in Frameworks */,
+				F12650F91AF61EE000A2AF97 /* MessageUI.framework in Frameworks */,
+				F12650FA1AF61EE000A2AF97 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +333,7 @@
 				D1ABA1841A9FAEBD00364F11 /* Products */,
 				DFCC50859940ABF0E1B4405F /* Pods */,
 				CF55CC0EAAF92EAF3E4E02A8 /* Frameworks */,
+				F12651041AF61EE100A2AF97 /* TwinFinder copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -287,6 +342,7 @@
 			children = (
 				D1ABA1831A9FAEBD00364F11 /* TwinFinder.app */,
 				D1ABA19F1A9FAEBD00364F11 /* TwinFinderTests.xctest */,
+				F12651031AF61EE000A2AF97 /* TwinFinder copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -384,6 +440,25 @@
 			productReference = D1ABA19F1A9FAEBD00364F11 /* TwinFinderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F12650D21AF61EE000A2AF97 /* TwinFinder copy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F12651001AF61EE000A2AF97 /* Build configuration list for PBXNativeTarget "TwinFinder copy" */;
+			buildPhases = (
+				F12650D31AF61EE000A2AF97 /* Check Pods Manifest.lock */,
+				F12650D41AF61EE000A2AF97 /* Sources */,
+				F12650F51AF61EE000A2AF97 /* Frameworks */,
+				F12650FB1AF61EE000A2AF97 /* Resources */,
+				F12650FF1AF61EE000A2AF97 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TwinFinder copy";
+			productName = TwinFinder;
+			productReference = F12651031AF61EE000A2AF97 /* TwinFinder copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -395,6 +470,7 @@
 				TargetAttributes = {
 					D1ABA1821A9FAEBD00364F11 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = LR2H3P6E48;
 					};
 					D1ABA19E1A9FAEBD00364F11 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -416,6 +492,7 @@
 			projectRoot = "";
 			targets = (
 				D1ABA1821A9FAEBD00364F11 /* TwinFinder */,
+				F12650D21AF61EE000A2AF97 /* TwinFinder copy */,
 				D1ABA19E1A9FAEBD00364F11 /* TwinFinderTests */,
 			);
 		};
@@ -436,6 +513,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F12650FB1AF61EE000A2AF97 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F12650FC1AF61EE000A2AF97 /* LaunchScreen.xib in Resources */,
+				F12650FD1AF61EE000A2AF97 /* Localizable.strings in Resources */,
+				F12650FE1AF61EE000A2AF97 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +557,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F12650D31AF61EE000A2AF97 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F12650FF1AF61EE000A2AF97 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -519,6 +636,45 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1ABA1A61A9FAEBD00364F11 /* TwinFinderTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F12650D41AF61EE000A2AF97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F12650D51AF61EE000A2AF97 /* TFLoginViewController.m in Sources */,
+				F12650D61AF61EE000A2AF97 /* TFAppManager.m in Sources */,
+				F12650D71AF61EE000A2AF97 /* TFCameraViewController.m in Sources */,
+				F12650D81AF61EE000A2AF97 /* TFBaseContentView.m in Sources */,
+				F12650D91AF61EE000A2AF97 /* MAImageView.m in Sources */,
+				F12650DA1AF61EE000A2AF97 /* TFBaseViewController.m in Sources */,
+				F12650DB1AF61EE000A2AF97 /* TFPhotoContentView.m in Sources */,
+				F12650DC1AF61EE000A2AF97 /* Message.m in Sources */,
+				F12650DD1AF61EE000A2AF97 /* AppDelegate.m in Sources */,
+				F12650DE1AF61EE000A2AF97 /* TFProfileViewController.m in Sources */,
+				F12650DF1AF61EE000A2AF97 /* CustomCollectionFlowLayout.m in Sources */,
+				F12650E01AF61EE000A2AF97 /* StretchyHeaderCollectionViewLayout.m in Sources */,
+				F12650E11AF61EE000A2AF97 /* TFCameraOverlayView.m in Sources */,
+				F12650E21AF61EE000A2AF97 /* CollectionBackgroundView.m in Sources */,
+				F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */,
+				F12650E41AF61EE000A2AF97 /* main.m in Sources */,
+				F12650E51AF61EE000A2AF97 /* TFEmptyCollectionViewCell.m in Sources */,
+				F12650E61AF61EE000A2AF97 /* TwinFinder.xcdatamodel in Sources */,
+				F12650E71AF61EE000A2AF97 /* UserInfo.m in Sources */,
+				F12650E81AF61EE000A2AF97 /* FaceImage.m in Sources */,
+				F12650E91AF61EE000A2AF97 /* CSStickyHeaderFlowLayout.m in Sources */,
+				F12650EA1AF61EE000A2AF97 /* TFFriendsHeaderView.m in Sources */,
+				F12650EB1AF61EE000A2AF97 /* TFTextFieldView.m in Sources */,
+				F12650EC1AF61EE000A2AF97 /* TFTwinsViewController.m in Sources */,
+				F12650ED1AF61EE000A2AF97 /* TFAdVideoViewController.m in Sources */,
+				F12650EE1AF61EE000A2AF97 /* TFAddImageCollectionViewCell.m in Sources */,
+				F12650EF1AF61EE000A2AF97 /* TFChatViewController.m in Sources */,
+				F12650F01AF61EE000A2AF97 /* HTAutocompleteManager.m in Sources */,
+				F12650F11AF61EE000A2AF97 /* TFImagesView.m in Sources */,
+				F12650F21AF61EE000A2AF97 /* TFFriendCollectionViewCell.m in Sources */,
+				F12650F31AF61EE000A2AF97 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
+				F12650F41AF61EE000A2AF97 /* TFHomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,10 +791,13 @@
 			baseConfigurationReference = 7F9C47FAD13D66A59DFECD2C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TwinFinder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -647,10 +806,13 @@
 			baseConfigurationReference = A478DE25B600557ABFDB741A /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TwinFinder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -688,6 +850,30 @@
 			};
 			name = Release;
 		};
+		F12651011AF61EE000A2AF97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F9C47FAD13D66A59DFECD2C /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "TwinFinder copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "TwinFinder copy";
+			};
+			name = Debug;
+		};
+		F12651021AF61EE000A2AF97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A478DE25B600557ABFDB741A /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "TwinFinder copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "TwinFinder copy";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -714,6 +900,15 @@
 			buildConfigurations = (
 				D1ABA1AD1A9FAEBD00364F11 /* Debug */,
 				D1ABA1AE1A9FAEBD00364F11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F12651001AF61EE000A2AF97 /* Build configuration list for PBXNativeTarget "TwinFinder copy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F12651011AF61EE000A2AF97 /* Debug */,
+				F12651021AF61EE000A2AF97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
