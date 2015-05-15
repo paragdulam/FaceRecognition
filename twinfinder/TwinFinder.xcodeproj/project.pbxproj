@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C5E166C092D9322009BECC19 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3DA74D1EF03DE1B64893BF /* libPods.a */; };
 		D14E3E6C1A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E491A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m */; };
-		D14E3E6D1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E4B1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m */; };
 		D14E3E6E1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E4D1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m */; };
 		D14E3E721A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E571A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.m */; };
 		D14E3E731A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E591A9FBB1100ABE348 /* CSStickyHeaderFlowLayoutAttributes.m */; };
@@ -35,7 +34,6 @@
 		D1B8099C1AACBDAA00EAE5A8 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
 		D1B8099F1AACCC2D00EAE5A8 /* TFBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */; };
 		D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */; };
-		D1BA04511AD9900A00301D69 /* TFAdVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */; };
 		D1C627631ADA8343003C48CD /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */; };
 		F110C9991AB76050001ECBD4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F110C9981AB76050001ECBD4 /* MessageUI.framework */; };
 		F12650D51AF61EE000A2AF97 /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
@@ -54,7 +52,6 @@
 		F12650E21AF61EE000A2AF97 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
 		F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */; };
 		F12650E41AF61EE000A2AF97 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1881A9FAEBD00364F11 /* main.m */; };
-		F12650E51AF61EE000A2AF97 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E4B1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m */; };
 		F12650E61AF61EE000A2AF97 /* TwinFinder.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E7C1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel */; };
 		F12650E71AF61EE000A2AF97 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809951AACBD7800EAE5A8 /* UserInfo.m */; };
 		F12650E81AF61EE000A2AF97 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
@@ -62,7 +59,6 @@
 		F12650EA1AF61EE000A2AF97 /* TFFriendsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E691A9FBB1100ABE348 /* TFFriendsHeaderView.m */; };
 		F12650EB1AF61EE000A2AF97 /* TFTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */; };
 		F12650EC1AF61EE000A2AF97 /* TFTwinsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E621A9FBB1100ABE348 /* TFTwinsViewController.m */; };
-		F12650ED1AF61EE000A2AF97 /* TFAdVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */; };
 		F12650EE1AF61EE000A2AF97 /* TFAddImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E491A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m */; };
 		F12650EF1AF61EE000A2AF97 /* TFChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D18579511AC56C3500787517 /* TFChatViewController.m */; };
 		F12650F01AF61EE000A2AF97 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */; };
@@ -85,6 +81,8 @@
 		F186E8531AAB7E1800197AAB /* TFBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E8521AAB7E1800197AAB /* TFBaseContentView.m */; };
 		F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
 		F1B658731AB2078400A503E4 /* TFImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B658721AB2078400A503E4 /* TFImagesView.m */; };
+		F1F6A0401B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */; };
+		F1F6A0411B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */; };
 		F1FDBE4A1AC2D4AF00CDDBD9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FDBE491AC2D4AF00CDDBD9 /* Social.framework */; };
 		F1FDBE4C1AC2D4B300CDDBD9 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FDBE4B1AC2D4B300CDDBD9 /* Twitter.framework */; };
 		F1FDBE4E1AC2D4BB00CDDBD9 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FDBE4D1AC2D4BB00CDDBD9 /* Accounts.framework */; };
@@ -106,8 +104,6 @@
 		A478DE25B600557ABFDB741A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D14E3E481A9FBB1100ABE348 /* TFAddImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAddImageCollectionViewCell.h; sourceTree = "<group>"; };
 		D14E3E491A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAddImageCollectionViewCell.m; sourceTree = "<group>"; };
-		D14E3E4A1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyCollectionViewCell.h; sourceTree = "<group>"; };
-		D14E3E4B1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFEmptyCollectionViewCell.m; sourceTree = "<group>"; };
 		D14E3E4C1A9FBB1100ABE348 /* TFFriendCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFriendCollectionViewCell.h; sourceTree = "<group>"; };
 		D14E3E4D1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFFriendCollectionViewCell.m; sourceTree = "<group>"; };
 		D14E3E561A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSStickyHeaderFlowLayout.h; sourceTree = "<group>"; };
@@ -158,8 +154,6 @@
 		D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBaseViewController.m; sourceTree = "<group>"; };
 		D1B809A01AACD0B200EAE5A8 /* TFTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTextFieldView.h; sourceTree = "<group>"; };
 		D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFTextFieldView.m; sourceTree = "<group>"; };
-		D1BA044F1AD9900A00301D69 /* TFAdVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAdVideoViewController.h; sourceTree = "<group>"; };
-		D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAdVideoViewController.m; sourceTree = "<group>"; };
 		D1C627611ADA8343003C48CD /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
 		D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
 		F110C9981AB76050001ECBD4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -179,6 +173,8 @@
 		F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBackgroundView.m; sourceTree = "<group>"; };
 		F1B658711AB2078400A503E4 /* TFImagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFImagesView.h; sourceTree = "<group>"; };
 		F1B658721AB2078400A503E4 /* TFImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFImagesView.m; sourceTree = "<group>"; };
+		F1F6A03E1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyCollectionViewCell.h; sourceTree = "<group>"; };
+		F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFEmptyCollectionViewCell.m; sourceTree = "<group>"; };
 		F1FDBE491AC2D4AF00CDDBD9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		F1FDBE4B1AC2D4B300CDDBD9 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		F1FDBE4D1AC2D4BB00CDDBD9 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -234,10 +230,10 @@
 		D14E3E471A9FBB1100ABE348 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				F1F6A03E1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.h */,
+				F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */,
 				D14E3E481A9FBB1100ABE348 /* TFAddImageCollectionViewCell.h */,
 				D14E3E491A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m */,
-				D14E3E4A1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.h */,
-				D14E3E4B1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m */,
 				D14E3E4C1A9FBB1100ABE348 /* TFFriendCollectionViewCell.h */,
 				D14E3E4D1A9FBB1100ABE348 /* TFFriendCollectionViewCell.m */,
 			);
@@ -294,8 +290,6 @@
 				D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */,
 				D18579501AC56C3500787517 /* TFChatViewController.h */,
 				D18579511AC56C3500787517 /* TFChatViewController.m */,
-				D1BA044F1AD9900A00301D69 /* TFAdVideoViewController.h */,
-				D1BA04501AD9900A00301D69 /* TFAdVideoViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -605,6 +599,7 @@
 				F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */,
 				D18579551AC58E5C00787517 /* Message.m in Sources */,
 				D1ABA18C1A9FAEBD00364F11 /* AppDelegate.m in Sources */,
+				F1F6A0401B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m in Sources */,
 				D1B809931AAC7F3500EAE5A8 /* TFProfileViewController.m in Sources */,
 				D14E3E781A9FBB1100ABE348 /* CustomCollectionFlowLayout.m in Sources */,
 				D14E3E741A9FBB1100ABE348 /* StretchyHeaderCollectionViewLayout.m in Sources */,
@@ -612,7 +607,6 @@
 				F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */,
 				D14E3E7B1A9FBB1100ABE348 /* TFUserProfileView.m in Sources */,
 				D1ABA1891A9FAEBD00364F11 /* main.m in Sources */,
-				D14E3E6D1A9FBB1100ABE348 /* TFEmptyCollectionViewCell.m in Sources */,
 				D14E3E7D1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel in Sources */,
 				D1B809961AACBD7800EAE5A8 /* UserInfo.m in Sources */,
 				D1B8099C1AACBDAA00EAE5A8 /* FaceImage.m in Sources */,
@@ -620,7 +614,6 @@
 				D14E3E7A1A9FBB1100ABE348 /* TFFriendsHeaderView.m in Sources */,
 				D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */,
 				D14E3E771A9FBB1100ABE348 /* TFTwinsViewController.m in Sources */,
-				D1BA04511AD9900A00301D69 /* TFAdVideoViewController.m in Sources */,
 				D14E3E6C1A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m in Sources */,
 				D18579521AC56C3500787517 /* TFChatViewController.m in Sources */,
 				D1C627631ADA8343003C48CD /* HTAutocompleteManager.m in Sources */,
@@ -652,6 +645,7 @@
 				F12650DB1AF61EE000A2AF97 /* TFPhotoContentView.m in Sources */,
 				F12650DC1AF61EE000A2AF97 /* Message.m in Sources */,
 				F12650DD1AF61EE000A2AF97 /* AppDelegate.m in Sources */,
+				F1F6A0411B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m in Sources */,
 				F12650DE1AF61EE000A2AF97 /* TFProfileViewController.m in Sources */,
 				F12650DF1AF61EE000A2AF97 /* CustomCollectionFlowLayout.m in Sources */,
 				F12650E01AF61EE000A2AF97 /* StretchyHeaderCollectionViewLayout.m in Sources */,
@@ -659,7 +653,6 @@
 				F12650E21AF61EE000A2AF97 /* CollectionBackgroundView.m in Sources */,
 				F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */,
 				F12650E41AF61EE000A2AF97 /* main.m in Sources */,
-				F12650E51AF61EE000A2AF97 /* TFEmptyCollectionViewCell.m in Sources */,
 				F12650E61AF61EE000A2AF97 /* TwinFinder.xcdatamodel in Sources */,
 				F12650E71AF61EE000A2AF97 /* UserInfo.m in Sources */,
 				F12650E81AF61EE000A2AF97 /* FaceImage.m in Sources */,
@@ -667,7 +660,6 @@
 				F12650EA1AF61EE000A2AF97 /* TFFriendsHeaderView.m in Sources */,
 				F12650EB1AF61EE000A2AF97 /* TFTextFieldView.m in Sources */,
 				F12650EC1AF61EE000A2AF97 /* TFTwinsViewController.m in Sources */,
-				F12650ED1AF61EE000A2AF97 /* TFAdVideoViewController.m in Sources */,
 				F12650EE1AF61EE000A2AF97 /* TFAddImageCollectionViewCell.m in Sources */,
 				F12650EF1AF61EE000A2AF97 /* TFChatViewController.m in Sources */,
 				F12650F01AF61EE000A2AF97 /* HTAutocompleteManager.m in Sources */,

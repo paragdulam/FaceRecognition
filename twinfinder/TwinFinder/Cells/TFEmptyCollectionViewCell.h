@@ -7,6 +7,7 @@
 //
 
 #import <ParseUI/ParseUI.h>
+#import <UIKit/UIKit.h>
 
 @interface TFEmptyCollectionViewCell : PFCollectionViewCell
 -(void) setText:(NSString *)text;

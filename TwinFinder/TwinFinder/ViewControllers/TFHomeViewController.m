@@ -24,15 +24,18 @@
 #import "TFImagesView.h"
 #import <MessageUI/MessageUI.h>
 #import "TFChatViewController.h"
-#import "TFAdVideoViewController.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate>
+
+@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate>
 {
 }
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
 @property (nonatomic,strong) UIButton *logoutButton;
 @property (nonatomic,weak) AppDelegate *appDelegate;
+@property(nonatomic, strong) GADInterstitial *interstitial;
+
 
 @end
 
@@ -103,6 +106,15 @@
      }];
     
     [self showLoginView:[NSNumber numberWithBool:YES]];
+}
+
+- (GADInterstitial *)createAndLoadInterstitial {
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-4512831376775086/9680376458"];
+    interstitial.delegate = self;
+    GADRequest *request = [GADRequest request];
+    request.testDevices = @[kGADSimulatorID];
+    [interstitial loadRequest:request];
+    return interstitial;
 }
 
 -(void) doPostLogin
@@ -229,6 +241,20 @@
 }
 
 
+#pragma mark - GADInterstitialDelegate
+
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+{
+    [ad presentFromRootViewController:self];
+}
+
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    
+}
+
+
 #pragma mark - TFBaseContentViewDelegate,TFPhotoContentViewDelegate
 
 -(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn
@@ -288,8 +314,9 @@
             break;
         case 2:
         {
-            TFAdVideoViewController *adVideoViewController = [[TFAdVideoViewController alloc] init];
-            [self presentViewController:adVideoViewController animated:YES completion:NULL];
+//            TFAdVideoViewController *adVideoViewController = [[TFAdVideoViewController alloc] init];
+//            [self presentViewController:adVideoViewController animated:YES completion:NULL];
+            self.interstitial = [self createAndLoadInterstitial];
             
             //face recognition.
             FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];

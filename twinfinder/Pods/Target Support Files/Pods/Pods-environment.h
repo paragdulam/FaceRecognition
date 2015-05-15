@@ -36,12 +36,11 @@
 #define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK 23
 #define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK 2
 
-// GoogleAds-IMA-iOS-SDK
-#define COCOAPODS_POD_AVAILABLE_GoogleAds_IMA_iOS_SDK
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 3.0.beta.12.
+// Google-Mobile-Ads-SDK
+#define COCOAPODS_POD_AVAILABLE_Google_Mobile_Ads_SDK
+#define COCOAPODS_VERSION_MAJOR_Google_Mobile_Ads_SDK 7
+#define COCOAPODS_VERSION_MINOR_Google_Mobile_Ads_SDK 2
+#define COCOAPODS_VERSION_PATCH_Google_Mobile_Ads_SDK 2
 
 // HTAutocompleteTextField
 #define COCOAPODS_POD_AVAILABLE_HTAutocompleteTextField
@@ -53,7 +52,7 @@
 #define COCOAPODS_POD_AVAILABLE_JSQMessagesViewController
 #define COCOAPODS_VERSION_MAJOR_JSQMessagesViewController 7
 #define COCOAPODS_VERSION_MINOR_JSQMessagesViewController 0
-#define COCOAPODS_VERSION_PATCH_JSQMessagesViewController 1
+#define COCOAPODS_VERSION_PATCH_JSQMessagesViewController 2
 
 // JSQSystemSoundPlayer
 #define COCOAPODS_POD_AVAILABLE_JSQSystemSoundPlayer
@@ -69,21 +68,17 @@
 
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse
-#define COCOAPODS_VERSION_MAJOR_Parse 1
-#define COCOAPODS_VERSION_MINOR_Parse 7
-#define COCOAPODS_VERSION_PATCH_Parse 1
-
-// Parse-iOS-SDK
-#define COCOAPODS_POD_AVAILABLE_Parse_iOS_SDK
-#define COCOAPODS_VERSION_MAJOR_Parse_iOS_SDK 1
-#define COCOAPODS_VERSION_MINOR_Parse_iOS_SDK 3
-#define COCOAPODS_VERSION_PATCH_Parse_iOS_SDK 0
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 1.7.2.2.
 
 // ParseFacebookUtils
 #define COCOAPODS_POD_AVAILABLE_ParseFacebookUtils
-#define COCOAPODS_VERSION_MAJOR_ParseFacebookUtils 1
-#define COCOAPODS_VERSION_MINOR_ParseFacebookUtils 7
-#define COCOAPODS_VERSION_PATCH_ParseFacebookUtils 1
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 1.7.2.2.
 
 // ParseUI
 #define COCOAPODS_POD_AVAILABLE_ParseUI

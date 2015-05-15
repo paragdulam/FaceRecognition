@@ -290,10 +290,9 @@ THE SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2014 Google, Inc. All rights reserved.
-</string>
+			<string>Copyright 2011 Google Inc. All Rights Reserved.</string>
 			<key>Title</key>
-			<string>GoogleAds-IMA-iOS-SDK</string>
+			<string>Google-Mobile-Ads-SDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -399,14 +398,6 @@ THE SOFTWARE.</string>
 			<string>See https://www.parse.com/about/terms</string>
 			<key>Title</key>
 			<string>Parse</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>See https://www.parse.com/about/terms</string>
-			<key>Title</key>
-			<string>Parse-iOS-SDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

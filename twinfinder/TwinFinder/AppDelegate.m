@@ -11,8 +11,10 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "TFHomeViewController.h"
 #import "TFAppManager.h"
-#import "TFChatViewController.h"
 #import "UserInfo.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "TFChatViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -30,6 +32,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [NSThread sleepForTimeInterval:2.0];
+    NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
     [Parse setApplicationId:@"AkVbI8fa3mzFpkfS4aZHSpXTCp8RPZxVnJ0DwJ9p" clientKey:@"XRnPJ8MlKJTeU0pFetXLdb8M520abZ42SwoHNNvk"];
     [PFTwitterUtils initializeWithConsumerKey:@"mPQoaTD9irFpFrya4CqKZbUsp" consumerSecret:@"2Dqh68gMdDqMe7Hd3bB8oKRJOGVt13UwQevfCN1kgmxwhQB9qa"];
 

@@ -265,10 +265,9 @@ THE SOFTWARE.
    limitations under the License.
 
 
-## GoogleAds-IMA-iOS-SDK
+## Google-Mobile-Ads-SDK
 
-Copyright 2014 Google, Inc. All rights reserved.
-
+Copyright 2011 Google Inc. All Rights Reserved.
 
 ## HTAutocompleteTextField
 
@@ -352,10 +351,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ## Parse
-
-See https://www.parse.com/about/terms
-
-## Parse-iOS-SDK
 
 See https://www.parse.com/about/terms
 
