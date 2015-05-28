@@ -85,12 +85,76 @@
         self.contentView.backgroundColor = [UIColor colorWithRed:210.f/255.f green:221.f/255.f blue:227.f/255.f alpha:1];
         [self addSubview:self.contentView];
         
-        UserInfo *uInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
-        [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.national]];
+        UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
+        NSString *name = userInfo.name.length ? userInfo.name : @"Name";
+        NSString *age = userInfo.age.length ? userInfo.age : @"Age";
+        NSString *city = userInfo.city.length ? userInfo.city : @"City";
+        NSString *national = userInfo.national.length ? userInfo.national : @"Nationality";
+        
+        NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+        NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+        NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+        if ([name isEqualToString:@"Name"]) {
+            [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+        }
+        [finalString appendAttributedString:nameString];
+        [finalString appendAttributedString:commaString];
+        NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+        if ([age isEqualToString:@"Age"]) {
+            [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+        }
+        [finalString appendAttributedString:ageString];
+        [finalString appendAttributedString:commaString];
+        NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+        if ([city isEqualToString:@"City"]) {
+            [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+        }
+        [finalString appendAttributedString:cityString];
+        [finalString appendAttributedString:commaString];
+        NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+        if ([national isEqualToString:@"Nationality"]) {
+            [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+        }
+        [finalString appendAttributedString:nationalString];
+        [self.descLabel setAttributedText:finalString];
+
+        
         
         [[NSNotificationCenter defaultCenter] addObserverForName:@"profile.updated" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             UserInfo *uInfo = (UserInfo *)[note object];
-            [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.national]];
+            
+            NSString *name = uInfo.name.length ? uInfo.name : @"Name";
+            NSString *age = uInfo.age.length ? uInfo.age : @"Age";
+            NSString *city = uInfo.city.length ? uInfo.city : @"City";
+            NSString *national = uInfo.national.length ? uInfo.national : @"Nationality";
+            
+            NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+            NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+            if ([name isEqualToString:@"Name"]) {
+                [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+            }
+            [finalString appendAttributedString:nameString];
+            [finalString appendAttributedString:commaString];
+            NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+            if ([age isEqualToString:@"Age"]) {
+                [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+            }
+            [finalString appendAttributedString:ageString];
+            [finalString appendAttributedString:commaString];
+            NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+            if ([city isEqualToString:@"City"]) {
+                [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+            }
+            [finalString appendAttributedString:cityString];
+            [finalString appendAttributedString:commaString];
+            NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+            if ([national isEqualToString:@"Nationality"]) {
+                [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+            }
+            [finalString appendAttributedString:nationalString];
+            [self.descLabel setAttributedText:finalString];
+            
         }];
     }
     return self;
@@ -103,9 +167,39 @@
 }
 
 
--(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) uInfo
+-(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) userInfo
 {
-    [self.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",uInfo.name,uInfo.age,uInfo.city,uInfo.national]];
+    NSString *name = userInfo.name.length ? userInfo.name : @"Name";
+    NSString *age = userInfo.age.length ? userInfo.age : @"Age";
+    NSString *city = userInfo.city.length ? userInfo.city : @"City";
+    NSString *national = userInfo.national.length ? userInfo.national : @"Nationality";
+    
+    NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+    NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+    NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+    if ([name isEqualToString:@"Name"]) {
+        [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+    }
+    [finalString appendAttributedString:nameString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+    if ([age isEqualToString:@"Age"]) {
+        [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+    }
+    [finalString appendAttributedString:ageString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+    if ([city isEqualToString:@"City"]) {
+        [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+    }
+    [finalString appendAttributedString:cityString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+    if ([national isEqualToString:@"Nationality"]) {
+        [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+    }
+    [finalString appendAttributedString:nationalString];
+    [self.descLabel setAttributedText:finalString];
 }
 
 

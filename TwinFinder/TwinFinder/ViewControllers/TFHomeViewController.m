@@ -112,7 +112,7 @@
     GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-4512831376775086/9680376458"];
     interstitial.delegate = self;
     GADRequest *request = [GADRequest request];
-    request.testDevices = @[kGADSimulatorID];
+    request.testDevices = @[kGADSimulatorID,@"0cd059293bbf2ef79fa5cb8a7530afc1"];
     [interstitial loadRequest:request];
     return interstitial;
 }
@@ -124,7 +124,7 @@
     dataBackgroundView.contentView.photoButton2.enabled = NO;
     [dataBackgroundView.contentView.photoButton2 setTitle:@"Start Search" forState:UIControlStateNormal];
     [dataBackgroundView.contentView.photoButton1 setTitle:@"Add Photo" forState:UIControlStateNormal];
-
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.appDelegate clickedPicturePath]]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
@@ -142,29 +142,76 @@
         PFQuery *faceQuery = [PFQuery queryWithClassName:@"FaceImage"];
         [faceQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
         [faceQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            PFObject *faceImage = [objects firstObject];
-            PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
-            [TFAppManager saveFaceImage:faceImage completionBlock:^(id obj, NSError *error) {
-                
-            }];
-            [dataBackgroundView.contentView.imageView1 setImageURL:[NSURL URLWithString:imageFile.url] forFileId:CLICKED_FACE_PICTURE];
-            dataBackgroundView.contentView.photoButton2.enabled = YES;
+            if (!error) {
+                PFObject *faceImage = [objects firstObject];
+                PFFile *imageFile = [faceImage objectForKey:@"imageFile"];
+                [TFAppManager saveFaceImage:faceImage completionBlock:^(id obj, NSError *error) {
+                    
+                }];
+                [dataBackgroundView.contentView.imageView1 setImageURL:[NSURL URLWithString:imageFile.url] forFileId:CLICKED_FACE_PICTURE];
+                dataBackgroundView.contentView.photoButton2.enabled = YES;
+            } else {
+                [self showErrorAlert:error];
+            }
         }];
         
         [dataBackgroundView.descLabel setText:@"Loading..."];
         PFQuery *userInfoQuery = [PFQuery queryWithClassName:@"UserInfo"];
         [userInfoQuery whereKey:@"User" equalTo:[PFUser currentUser]];
         [userInfoQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            PFObject *userInfo = [objects firstObject];
-            [TFAppManager saveUserinfo:userInfo];
-            [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:[userInfo objectForKey:@"national"]] forState:UIControlStateNormal];
-            [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",[userInfo objectForKey:@"name"],[userInfo objectForKey:@"age"],[userInfo objectForKey:@"city"],[userInfo objectForKey:@"national"]]];
+            if (!error) {
+                PFObject *userInfo = [objects firstObject];
+                [TFAppManager saveUserinfo:userInfo];
+                [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:[userInfo objectForKey:@"national"]] forState:UIControlStateNormal];
+                
+                
+                NSString *name = [[userInfo objectForKey:@"name"] length] ? [userInfo objectForKey:@"name"] : @"Name";
+                NSString *age = [[userInfo objectForKey:@"age"] length] ? [userInfo objectForKey:@"age"] : @"Age";
+                NSString *city = [[userInfo objectForKey:@"city"] length] ? [userInfo objectForKey:@"city"] : @"City";
+                NSString *national = [[userInfo objectForKey:@"national"] length] ? [userInfo objectForKey:@"national"] : @"Nationality";
+                
+                NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+                NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+                NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+                if ([name isEqualToString:@"Name"]) {
+                    [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+                }
+                [finalString appendAttributedString:nameString];
+                [finalString appendAttributedString:commaString];
+                NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+                if ([age isEqualToString:@"Age"]) {
+                    [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+                }
+                [finalString appendAttributedString:ageString];
+                [finalString appendAttributedString:commaString];
+                NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+                if ([city isEqualToString:@"City"]) {
+                    [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+                }
+                [finalString appendAttributedString:cityString];
+                [finalString appendAttributedString:commaString];
+                NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+                if ([national isEqualToString:@"Nationality"]) {
+                    [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+                }
+                [finalString appendAttributedString:nationalString];
+                [dataBackgroundView.descLabel setAttributedText:finalString];
+            } else {
+                [self showErrorAlert:error];
+            }
         }];
     }
     
     if (![[[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.appDelegate matchesPath] error:nil] count]) {
         [dataBackgroundView.contentView.imageView2 setImage:[UIImage imageNamed:@"twofaces"]];
     }
+}
+
+
+- (void)showErrorAlert:(NSError *)err
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[err localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+    [alertView show];
 }
 
 -(void) viewDidLayoutSubviews
@@ -196,7 +243,40 @@
     [self imagesView:view tappedView:imgView];
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
     UserInfo *userInfo = faceImage.createdBy;
-    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
+
+    
+    NSString *name = userInfo.name.length ? userInfo.name : @"Name";
+    NSString *age = userInfo.age.length ? userInfo.age : @"Age";
+    NSString *city = userInfo.city.length ? userInfo.city : @"City";
+    NSString *national = userInfo.national.length ? userInfo.national : @"Nationality";
+    
+    NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+    NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+    NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+    if ([name isEqualToString:@"Name"]) {
+        [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+    }
+    [finalString appendAttributedString:nameString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+    if ([age isEqualToString:@"Age"]) {
+        [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+    }
+    [finalString appendAttributedString:ageString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+    if ([city isEqualToString:@"City"]) {
+        [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+    }
+    [finalString appendAttributedString:cityString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+    if ([national isEqualToString:@"Nationality"]) {
+        [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+    }
+    [finalString appendAttributedString:nationalString];
+    [dataBackgroundView.descLabel setAttributedText:finalString];
+
     
     if (userInfo.parse_id && userInfo.name) {
         TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
@@ -219,7 +299,39 @@
     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
     [dataBackgroundView.contentView.progressLabel sizeToFit];
     UserInfo *userInfo = faceImage.createdBy;
-    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
+
+    NSString *name = userInfo.name.length ? userInfo.name : @"Name";
+    NSString *age = userInfo.age.length ? userInfo.age : @"Age";
+    NSString *city = userInfo.city.length ? userInfo.city : @"City";
+    NSString *national = userInfo.national.length ? userInfo.national : @"Nationality";
+    
+    NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+    NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+    NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+    if ([name isEqualToString:@"Name"]) {
+        [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+    }
+    [finalString appendAttributedString:nameString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+    if ([age isEqualToString:@"Age"]) {
+        [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+    }
+    [finalString appendAttributedString:ageString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+    if ([city isEqualToString:@"City"]) {
+        [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+    }
+    [finalString appendAttributedString:cityString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+    if ([national isEqualToString:@"Nationality"]) {
+        [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+    }
+    [finalString appendAttributedString:nationalString];
+    [dataBackgroundView.descLabel setAttributedText:finalString];
+    
     UIImage *profileImage = [UIImage imageNamed:userInfo.national];
     [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
 }
@@ -286,7 +398,39 @@
     UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
     UIImage *profileImage = [UIImage imageNamed:userInfo.national];
     [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
-    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
+
+    NSString *name = userInfo.name.length ? userInfo.name : @"Name";
+    NSString *age = userInfo.age.length ? userInfo.age : @"Age";
+    NSString *city = userInfo.city.length ? userInfo.city : @"City";
+    NSString *national = userInfo.national.length ? userInfo.national : @"Nationality";
+    
+    NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+    NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+    NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+    if ([name isEqualToString:@"Name"]) {
+        [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+    }
+    [finalString appendAttributedString:nameString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+    if ([age isEqualToString:@"Age"]) {
+        [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+    }
+    [finalString appendAttributedString:ageString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+    if ([city isEqualToString:@"City"]) {
+        [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+    }
+    [finalString appendAttributedString:cityString];
+    [finalString appendAttributedString:commaString];
+    NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+    if ([national isEqualToString:@"Nationality"]) {
+        [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+    }
+    [finalString appendAttributedString:nationalString];
+    [dataBackgroundView.descLabel setAttributedText:finalString];
+    
 }
 
 
@@ -306,9 +450,16 @@
                                   [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
                               }
                             WithCompletionBlock:^(id object, int type, NSError *error) {
-                                [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
-                                dataBackgroundView.contentView.photoButton2.enabled = YES;
+                                if (!error) {
+                                    [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                                    dataBackgroundView.contentView.photoButton2.enabled = YES;
+                                } else {
+                                    [self showErrorAlert:error];
+                                }
                             }];
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please click a selfie and tap the add button to upload it to our server." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alertView show];
             }
         }
             break;
@@ -323,38 +474,76 @@
             if (faceImage) {
                 __block int index = 0;
                 [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
-                    FaceImage *fImage = (FaceImage *)object;
-                    MAImageView *imageView = nil;
-                    switch (index) {
-                        case 0:
-                            imageView = dataBackgroundView.contentView.imagesView.imageView1;
-                            break;
-                        case 1:
-                            imageView = dataBackgroundView.contentView.imagesView.imageView2;
-                            break;
-                        case 2:
-                            imageView = dataBackgroundView.contentView.imagesView.imageView3;
-                            break;
-                        case 3:
-                            imageView = dataBackgroundView.contentView.imagesView.imageView4;
-                            break;
-                            
-                        default:
-                            break;
+                    if (!error) {
+                        FaceImage *fImage = (FaceImage *)object;
+                        MAImageView *imageView = nil;
+                        switch (index) {
+                            case 0:
+                                imageView = dataBackgroundView.contentView.imagesView.imageView1;
+                                break;
+                            case 1:
+                                imageView = dataBackgroundView.contentView.imagesView.imageView2;
+                                break;
+                            case 2:
+                                imageView = dataBackgroundView.contentView.imagesView.imageView3;
+                                break;
+                            case 3:
+                                imageView = dataBackgroundView.contentView.imagesView.imageView4;
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                        index ++;
+                        [dataBackgroundView.contentView.imagesView setHidden:NO];
+                        [dataBackgroundView.contentView.imageView2 setHidden:YES];
+                        [dataBackgroundView.contentView.photoButton2 setTitle:@"Search Again" forState:UIControlStateNormal];
+                        [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
+                        CGFloat progress = [faceImage.confidence floatValue]/100.f;
+                        [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                        [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                        [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+                        [dataBackgroundView.contentView.progressLabel sizeToFit];
+                        UserInfo *userInfo = faceImage.createdBy;
+                        
+                        NSString *name = userInfo.name.length ? userInfo.name : @"Name";
+                        NSString *age = userInfo.age.length ? userInfo.age : @"Age";
+                        NSString *city = userInfo.city.length ? userInfo.city : @"City";
+                        NSString *national = userInfo.national.length ? userInfo.national : @"Nationality";
+                        
+                        NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+                        NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+                        NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+                        if ([name isEqualToString:@"Name"]) {
+                            [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+                        }
+                        [finalString appendAttributedString:nameString];
+                        [finalString appendAttributedString:commaString];
+                        NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+                        if ([age isEqualToString:@"Age"]) {
+                            [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+                        }
+                        [finalString appendAttributedString:ageString];
+                        [finalString appendAttributedString:commaString];
+                        NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+                        if ([city isEqualToString:@"City"]) {
+                            [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+                        }
+                        [finalString appendAttributedString:cityString];
+                        [finalString appendAttributedString:commaString];
+                        NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+                        if ([national isEqualToString:@"Nationality"]) {
+                            [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+                        }
+                        [finalString appendAttributedString:nationalString];
+                        [dataBackgroundView.descLabel setAttributedText:finalString];
+                    } else {
+                        [self showErrorAlert:error];
                     }
-                    index ++;
-                    [dataBackgroundView.contentView.imagesView setHidden:NO];
-                    [dataBackgroundView.contentView.imageView2 setHidden:YES];
-                    [dataBackgroundView.contentView.photoButton2 setTitle:@"Search Again" forState:UIControlStateNormal];
-                    [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
-                    CGFloat progress = [faceImage.confidence floatValue]/100.f;
-                    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                    [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                    [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
-                    [dataBackgroundView.contentView.progressLabel sizeToFit];
-                    UserInfo *userInfo = faceImage.createdBy;
-                    [dataBackgroundView.descLabel setText:[NSString stringWithFormat:@"%@,%@,%@,%@",userInfo.name,userInfo.age,userInfo .city,userInfo.national]];
                 }];
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please click a selfie and tap the add button to upload it to our server." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alertView show];
             }
         }
             break;

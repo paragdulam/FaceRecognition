@@ -15,6 +15,7 @@
 #import "MAImageView.h"
 #import "TFCameraViewController.h"
 #import "TFAppManager.h"
+#import "TFHomeViewController.h"
 
 @interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate>
 {
@@ -60,6 +61,12 @@
     }
 }
 
+
+- (void)showErrorAlert:(NSError *)err
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[err localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+    [alertView show];
+}
 
 -(void) cameraViewController:(TFCameraViewController *) vc didCapturePictureWithData:(NSData *) imageData WithIndex:(int) indx
 {
@@ -107,8 +114,18 @@
                                   [dataBackgroundView.contentView.progressView setProgress:percentage  animated:YES];
                               }
                             WithCompletionBlock:^(id object, int type, NSError *error) {
-                                [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                                if (!error) {
+                                    [dataBackgroundView.contentView.photoButton1 setTitle:@"Added" forState:UIControlStateNormal];
+                                    UINavigationController *navController = (UINavigationController *)self.presentingViewController;
+                                    TFHomeViewController *homeViewController = (TFHomeViewController *)[navController.viewControllers firstObject];
+                                    [homeViewController doPostLogin];
+                                } else {
+                                    [self showErrorAlert:error];
+                                }
                             }];
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please click a selfie and tap the add button to upload it to our server." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alertView show];
             }
         }
             break;

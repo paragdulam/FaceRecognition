@@ -12,4 +12,6 @@
 
 @interface TFHomeViewController : TFBaseViewController
 
+-(void) doPostLogin;
+
 @end
