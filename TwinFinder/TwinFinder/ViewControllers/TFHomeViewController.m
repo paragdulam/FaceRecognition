@@ -58,7 +58,7 @@
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.logoutButton.frame = CGRectMake(0, 0, 40, 40);
     [self.view addSubview:self.logoutButton];
-    [self.logoutButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [self.logoutButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [self.logoutButton addTarget:self action:@selector(logoutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] addObserverForName:@"com.user.updated"
                                                       object:nil
