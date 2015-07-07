@@ -46,6 +46,12 @@
     FaceImage *faceImage = [TFAppManager faceImageWithUserId:self.toUser.parse_id];
     CGFloat progress = [faceImage.confidence floatValue] * 0.01;
     [progressView setProgress:progress animated:YES];
+    UILabel *progressLabel = [[UILabel alloc] init];
+    [progressLabel setFont:[UIFont systemFontOfSize:12.f]];
+    [progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+    [progressLabel sizeToFit];
+    [progressView addSubview:progressLabel];
+    progressLabel.center = progressView.center;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:progressView];
     [[TFAppManager appDelegate] setChatViewController:self];
 }

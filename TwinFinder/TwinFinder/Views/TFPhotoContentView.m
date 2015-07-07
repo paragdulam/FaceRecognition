@@ -113,6 +113,7 @@
     self.photoButton1.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.photoButton1.layer.borderWidth = 2.f;
     self.photoButton1.center = CGPointMake(self.imageView1.center.x, self.imageView1.center.y + ((self.imageView1.frame.size.height/2) + 20.f));
+    [self.photoButton1 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     
     self.photoButton2.frame = CGRectMake(0, 0, 100, 24);
     self.photoButton2.layer.cornerRadius = 12.f;
@@ -120,6 +121,7 @@
     self.photoButton2.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.photoButton2.layer.borderWidth = 2.f;
     self.photoButton2.center = CGPointMake(self.imageView2.center.x, self.imageView2.center.y + ((self.imageView2.frame.size.height/2) + 20.f));
+    [self.photoButton2 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     
 //    CGFloat progressWidth = self.frame.size.height - 30 - self.imageView1.frame.size.height - self.photoButton2.frame.size.height;
 //    self.progressView.frame = CGRectMake(self.center.x - self.progressView.frame.size.width/2, CGRectGetMaxY(self.photoButton2.frame) + 10, progressWidth, progressWidth);
