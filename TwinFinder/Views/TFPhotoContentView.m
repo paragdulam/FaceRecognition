@@ -99,7 +99,7 @@
     [super layoutSubviews];
     
     self.progressView.frame = CGRectMake(0, 0, 50, 50);
-    self.progressView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height - 25.f);
+    self.progressView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height - 30.f);
     
     float width = (self.frame.size.width - 15 - 50)/2;
     self.imageView1.frame = CGRectMake(5, 5, width, width);
@@ -123,8 +123,11 @@
     self.photoButton2.center = CGPointMake(self.imageView2.center.x, self.imageView2.center.y + ((self.imageView2.frame.size.height/2) + 20.f));
     [self.photoButton2 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     
-//    CGFloat progressWidth = self.frame.size.height - 30 - self.imageView1.frame.size.height - self.photoButton2.frame.size.height;
-//    self.progressView.frame = CGRectMake(self.center.x - self.progressView.frame.size.width/2, CGRectGetMaxY(self.photoButton2.frame) + 10, progressWidth, progressWidth);
+    CGFloat progressWidth = self.frame.size.height - 30 - self.imageView1.frame.size.height - self.photoButton2.frame.size.height;
+    if (progressWidth > 50) {
+        self.progressView.frame = CGRectMake(self.center.x - self.progressView.frame.size.width/2, CGRectGetMaxY(self.photoButton2.frame) + 10, progressWidth, progressWidth);
+        self.progressView.center = CGPointMake(self.frame.size.width/2, self.progressView.center.y);
+    }
     [self.progressLabel sizeToFit];
     self.progressLabel.center = self.progressView.center;
 }

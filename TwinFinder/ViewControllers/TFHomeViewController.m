@@ -474,6 +474,7 @@
             FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
             if (faceImage) {
                 __block int index = 0;
+                
                 [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
                     if (!error) {
                         FaceImage *fImage = (FaceImage *)object;
