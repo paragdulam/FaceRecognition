@@ -47,10 +47,9 @@
     [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:@"logo_small"] forState:UIControlStateNormal];
     self.bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(self.view.frame.size.width, 50)) origin:CGPointMake(0, self.view.frame.size.height - 55)];
     [self.view addSubview:self.bannerView];
-    self.bannerView.adUnitID = @"ca-app-pub-4512831376775086/9680376458";
+    self.bannerView.adUnitID = @"ca-app-pub-8389287507606895/2534918963";
     self.bannerView.rootViewController = self;
     GADRequest *request = [GADRequest request];
-    request.testDevices = @[ kGADSimulatorID ,@"0cd059293bbf2ef79fa5cb8a7530afc1"];
     [self.bannerView loadRequest:request];
 
 }
