@@ -102,6 +102,8 @@
 		1F3DA74D1EF03DE1B64893BF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9C47FAD13D66A59DFECD2C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A478DE25B600557ABFDB741A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D0A5F4631B51B9AB0023D257 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		D0A5F4641B51B9AC0023D257 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		D14E3E481A9FBB1100ABE348 /* TFAddImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFAddImageCollectionViewCell.h; sourceTree = "<group>"; };
 		D14E3E491A9FBB1100ABE348 /* TFAddImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAddImageCollectionViewCell.m; sourceTree = "<group>"; };
 		D14E3E4C1A9FBB1100ABE348 /* TFFriendCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFFriendCollectionViewCell.h; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"es-MX",
 			);
 			mainGroup = D1ABA17A1A9FAEBD00364F11;
 			productRefGroup = D1ABA1841A9FAEBD00364F11 /* Products */;
@@ -686,6 +689,7 @@
 			children = (
 				D1ABA1991A9FAEBD00364F11 /* Base */,
 				D1B8098C1AAC6D5D00EAE5A8 /* de */,
+				D0A5F4631B51B9AB0023D257 /* es-MX */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -695,6 +699,7 @@
 			children = (
 				D1B8098E1AAC6DB300EAE5A8 /* de */,
 				D1B809901AAC6DB700EAE5A8 /* en */,
+				D0A5F4641B51B9AC0023D257 /* es-MX */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
