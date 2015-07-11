@@ -506,7 +506,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     faceImage.createdBy = [TFAppManager userWithId:fbId];
     NSError *saveError = nil;
     [[TFAppManager appDelegate].managedObjectContext save:&saveError];
-    completionBlock(faceImage,0,saveError);
+//    completionBlock(faceImage,0,saveError);
     
     PFFile *imageFile = [PFFile fileWithData:imData];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

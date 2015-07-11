@@ -20,10 +20,6 @@
 @property (nonatomic) UILabel *descLabel;
 @property (nonatomic) UILabel *locationLabel;
 @property (nonatomic) UIButton *bottomButton1;
-//@property (nonatomic) UIButton *twitterButton;
-//@property (nonatomic) UIButton *facebookButton;
-//@property (nonatomic) UIButton *instagramButton;
-//@property (nonatomic) UIButton *googleButton;
 @property (nonatomic) CAGradientLayer *gradientLayer1;
 @property (nonatomic) UIButton *bottomButton2;
 @property (nonatomic) CAGradientLayer *gradientLayer2;
@@ -35,5 +31,7 @@
 @protocol TFBaseContentViewDelegate <NSObject>
 
 -(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn;
+-(void) baseContentView:(TFBaseContentView *) view didSelectNationalityTextField:(UITextField *) textField;
+
 
 @end

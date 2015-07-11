@@ -25,6 +25,8 @@
 
 
 -(void) fetchUserInfo;
+-(void) updateUserInfoToParse;
+
 
 @end
 
@@ -32,5 +34,6 @@
 @protocol TFTextFieldViewDelegate<NSObject>
 
 -(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) uInfo;
+-(void) textFieldView:(TFTextFieldView *) view didSelectNationalityTextField:(UITextField *) nationalityTextField;
 
 @end

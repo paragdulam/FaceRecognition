@@ -28,6 +28,7 @@
         self.backgroundColor = [UIColor blackColor];
         nameTextField = [[UITextField alloc] initWithFrame:CGRectZero];
         nameTextField.backgroundColor = [UIColor whiteColor];
+        nameTextField.textAlignment = NSTextAlignmentCenter;
         nameTextField.placeholder = NSLocalizedString(@"Name", nil);
         nameTextField.font = [UIFont boldSystemFontOfSize:14.f];
         nameTextField.delegate = self;
@@ -37,6 +38,7 @@
         [self addSubview:nameTextField];
         
         ageTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        ageTextField.textAlignment = NSTextAlignmentCenter;
         ageTextField.backgroundColor = [UIColor whiteColor];
         ageTextField.placeholder = NSLocalizedString(@"Age", nil);
         ageTextField.font = [UIFont boldSystemFontOfSize:14.f];
@@ -47,6 +49,7 @@
         [self addSubview:ageTextField];
         
         cityTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        cityTextField.textAlignment = NSTextAlignmentCenter;
         cityTextField.backgroundColor = [UIColor whiteColor];
         cityTextField.placeholder = NSLocalizedString(@"City", nil);
         cityTextField.font = [UIFont boldSystemFontOfSize:14.f];
@@ -57,6 +60,7 @@
         [self addSubview:cityTextField];
         
         nationalTextField = [[HTAutocompleteTextField alloc] initWithFrame:CGRectZero];
+        nationalTextField.textAlignment = NSTextAlignmentCenter;
         nationalTextField.autocompleteDisabled = NO;
         nationalTextField.autocompleteDataSource = [HTAutocompleteManager sharedManager];
         nationalTextField.autoCompleteTextFieldDelegate = self;
@@ -173,10 +177,22 @@
 }
 
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (textField == nationalTextField) {
+        if ([self.delegate respondsToSelector:@selector(textFieldView:didSelectNationalityTextField:)]) {
+            [self.delegate textFieldView:self didSelectNationalityTextField:textField];
+        }
+        return NO;
+    }
+    return YES;
+}
+
+
 -(void) layoutSubviews
 {
     [super layoutSubviews];
-    self.layer.cornerRadius = 10.f;
+    self.layer.cornerRadius = 2.f;
     self.clipsToBounds = YES;
     
     nameTextField.frame = CGRectMake(5, 5, self.frame.size.width - 10, 30);
@@ -184,16 +200,16 @@
     cityTextField.frame = CGRectMake(ageTextField.frame.origin.x, CGRectGetMaxY(ageTextField.frame) + 5, ageTextField.frame.size.width, ageTextField.frame.size.height);
     nationalTextField.frame = CGRectMake(cityTextField.frame.origin.x, CGRectGetMaxY(cityTextField.frame) + 5, cityTextField.frame.size.width, cityTextField.frame.size.height);
     
-    nameTextField.layer.cornerRadius = 10.f;
+    nameTextField.layer.cornerRadius = 2;
     nameTextField.clipsToBounds = YES;
     
-    ageTextField.layer.cornerRadius = 10.f;
+    ageTextField.layer.cornerRadius = 2;
     ageTextField.clipsToBounds = YES;
     
-    cityTextField.layer.cornerRadius = 10.f;
+    cityTextField.layer.cornerRadius = 2;
     cityTextField.clipsToBounds = YES;
     
-    nationalTextField.layer.cornerRadius = 10.f;
+    nationalTextField.layer.cornerRadius = 2;
     nationalTextField.clipsToBounds = YES;
 }
 

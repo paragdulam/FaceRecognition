@@ -57,7 +57,7 @@
     [infoLabel setFont:[UIFont boldSystemFontOfSize:16.f]];
     [infoLabel setNumberOfLines:0];
     [infoLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    [infoLabel setText:@"Please make sure you take a selfie in bright light and face resides within the circle"];
+    [infoLabel setText:NSLocalizedString(@"Please make sure you take a selfie in bright light and face resides within the circle", nil)];
     [infoLabel sizeToFit];
     infoLabel.center = CGPointMake(self.center.x, infoLabel.center.y);
     [self addSubview:infoLabel];

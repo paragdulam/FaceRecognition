@@ -63,7 +63,7 @@
         [self.photoButton1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.photoButton1.tag = 1;
         [self.photoButton1 addTarget:self action:@selector(photoButton1Tapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self.photoButton1 setTitle:NSLocalizedString(@"Add Photo", @"Add Photo")
+        [self.photoButton1 setTitle:NSLocalizedString(@"Take Picture", nil)
                        forState:UIControlStateNormal];
         [self.photoButton1.titleLabel setFont:[UIFont boldSystemFontOfSize:10.f]];
         [self addSubview:self.photoButton1];
