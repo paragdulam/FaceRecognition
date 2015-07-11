@@ -71,6 +71,8 @@
                                                       UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
                                                       UIImage *profileImage = [UIImage imageNamed:userInfo.national];
                                                       [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
+                                                      [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"profile_updated"];
+                                                      [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Update Profile", nil) forState:UIControlStateNormal];
     
                                                   }];
     if ([[PFUser currentUser] sessionToken]) {

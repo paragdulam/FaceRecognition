@@ -52,7 +52,7 @@
         
         self.bottomButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.bottomButton1.titleLabel setFont:[UIFont boldSystemFontOfSize:16.f]];
-        [self.bottomButton1 setTitle:NSLocalizedString(@"Create a profile", nil) forState:UIControlStateNormal];
+        [self.bottomButton1 setTitle:[[[NSUserDefaults standardUserDefaults] objectForKey:@"profile_updated"] boolValue] ? NSLocalizedString(@"Update Profile", nil) : NSLocalizedString(@"Create Profile", nil) forState:UIControlStateNormal];
         [self.bottomButton1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.bottomButton1 addTarget:self action:@selector(bottomButton1Tapped:) forControlEvents:UIControlEventTouchUpInside];
         self.bottomButton1.tag = 1;

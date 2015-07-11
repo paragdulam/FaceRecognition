@@ -404,6 +404,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
 
 +(void)logout
 {
+    [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"profile_updated"];
     [[NSFileManager defaultManager] removeItemAtPath:[TFAppManager appDelegate].clickedPicturePath error:nil];
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[TFAppManager appDelegate].matchesPath error:nil];
     for (NSString *path in contents) {
