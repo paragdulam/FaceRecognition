@@ -5,12 +5,20 @@
   Created by Parag Dulam on 08/03/15.
   Copyright (c) 2015 Parag Dulam. All rights reserved.
 */
-"Add Photo" = "Foto hinzufügen";
-"Start Search" = "Suche Starten";
-"Create a profile" = "Profil erstellen";
-"Camera" = "Kamera";
+
+"Add Photo" = "Add Photo";
+"Start Search" = "Start Search";
+"Create a profile" = "Create a profile";
+"Camera" = "Camera";
 "Name" = "Name";
-"Age" = "Alter";
-"City" = "Stadt";
+"Age" = "Age";
+"City" = "City";
 "Land" = "Land";
 "National." = "National.";
+"Take New Picture" = "Take New Picture";
+"Loading..." = "Loading...";
+"Error" = "Error";
+"Nationality" = "Nationality";
+"Search Again" = "Search Again";
+"Ok" = "Ok";
+"Uploading..." = "Uploading...";
