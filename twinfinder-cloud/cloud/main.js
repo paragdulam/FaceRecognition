@@ -198,7 +198,7 @@ Parse.Cloud.define("getLookalikes", function(request,response) {
         success:function(getAppNamespaceResponse) {
           var namespace = getAppNamespaceResponse.namespaces[0].name;
           var tobeSavedUid = faceImageId + "@" + namespace;          
-          Parse.Cloud.run("saveTag", {"tid":tid,"uid":tobeSavedUid}, {
+		  Parse.Cloud.run("saveTag", {"tid":tid,"uid":tobeSavedUid}, {
             success:function(saveTagResponse) {
               Parse.Cloud.run("trainFaceImage", {"uids":tobeSavedUid}, {
                 success:function(trainFaceResponse) {

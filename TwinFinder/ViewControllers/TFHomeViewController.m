@@ -561,7 +561,9 @@
                             [finalString appendAttributedString:nationalString];
                             [dataBackgroundView.descLabel setAttributedText:finalString];
                         } else {
-                            [self showErrorAlert:error];
+//                            [self showErrorAlert:error];
+                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:NSLocalizedString(@"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light.", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                            [alertView show];
                         }
                     }];
                 } else {

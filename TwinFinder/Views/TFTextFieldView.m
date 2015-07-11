@@ -168,7 +168,7 @@
     } else if (textField == ageTextField) {
         [cityTextField becomeFirstResponder];
     } else if (textField == cityTextField) {
-        [nationalTextField becomeFirstResponder];
+        [cityTextField resignFirstResponder];
     } else {
         [nationalTextField resignFirstResponder];
         [self textFieldDidChange:nationalTextField];

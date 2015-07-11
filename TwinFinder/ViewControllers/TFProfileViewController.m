@@ -43,7 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    dataBackgroundView.contentView.backButton.hidden = YES;
     self.countries = @[ @"Abkhazia",
                         @"Afghanistan",
                         @"Aland",
