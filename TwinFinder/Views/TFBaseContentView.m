@@ -72,6 +72,8 @@
         [self.bottomButton2 addTarget:self action:@selector(bottomButton2Tapped:) forControlEvents:UIControlEventTouchUpInside];
         self.bottomButton2.tag = 2;
         
+        
+        
         self.gradientLayer2 = [CAGradientLayer layer];
         self.gradientLayer2.colors = @[(id)[UIColor lightGrayColor].CGColor,
                                        (id)[UIColor whiteColor].CGColor];
@@ -264,6 +266,14 @@
 }
 
 #pragma mark - TFPhotoContentViewDelegate
+
+-(void) photoContentView:(TFPhotoContentView *) view backbuttonTapped:(UIButton *) btn
+{
+    if ([self.delegate respondsToSelector:@selector(baseContentView:backButtonTapped:)]) {
+        [self.delegate baseContentView:self backButtonTapped:btn];
+    }
+}
+
 
 
 -(void) photoContentView:(TFPhotoContentView *) view buttonTapped:(UIButton *) btn

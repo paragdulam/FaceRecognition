@@ -30,7 +30,7 @@
 
 @interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate>
 {
-    
+    UIButton *backButton;
 }
 
 @property (nonatomic,strong) TFLoginViewController *loginViewController;
@@ -55,6 +55,7 @@
     
     [self.navigationController setNavigationBarHidden:YES];
     dataBackgroundView.contentView.textFieldView.hidden = YES;
+    dataBackgroundView.contentView.backButton.hidden = YES;
     dataBackgroundView.contentView.imagesView.delegate = self;
 
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -62,6 +63,7 @@
     [self.view addSubview:self.logoutButton];
     [self.logoutButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [self.logoutButton addTarget:self action:@selector(logoutButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"com.user.updated"
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
@@ -245,7 +247,6 @@
     [self imagesView:view tappedView:imgView];
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
     UserInfo *userInfo = faceImage.createdBy;
-
     
     NSString *name = userInfo.name.length ? userInfo.name : NSLocalizedString(@"Name", nil);
     NSString *age = userInfo.age.length ? userInfo.age : NSLocalizedString(@"Age", nil);
@@ -279,7 +280,6 @@
     [finalString appendAttributedString:nationalString];
     [dataBackgroundView.descLabel setAttributedText:finalString];
 
-    
     if (userInfo.parse_id && userInfo.name) {
         TFChatViewController *chatViewController = [[TFChatViewController alloc] initWithRecipient:userInfo];
         UINavigationController *chatNavController = [[UINavigationController alloc] initWithRootViewController:chatViewController];
@@ -296,6 +296,13 @@
 -(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView
 {
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
+
+    dataBackgroundView.contentView.backButton.hidden = NO;
+    dataBackgroundView.contentView.imagesView.hidden = YES;
+    dataBackgroundView.contentView.imageView2.hidden = NO;
+    [dataBackgroundView.contentView.imageView2 setImageURL:[NSURL URLWithString:faceImage.image_url] forFileId:faceImage.parse_id];
+    [dataBackgroundView.contentView.photoButton2 setTitle:NSLocalizedString(@"Chat", nil) forState:UIControlStateNormal];
+    
     CGFloat progress = [faceImage.confidence floatValue]/100.f;
     [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
     [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
@@ -390,6 +397,15 @@
 
 #pragma mark - TFBaseContentViewDelegate,TFPhotoContentViewDelegate
 
+
+-(void) photoContentView:(TFPhotoContentView *) view backbuttonTapped:(UIButton *) btn
+{
+    dataBackgroundView.contentView.backButton.hidden = YES;
+    dataBackgroundView.contentView.imagesView.hidden = NO;
+    dataBackgroundView.contentView.imageView2.hidden = YES;
+    [dataBackgroundView.contentView.photoButton2 setTitle:NSLocalizedString(@"Search Again", nil) forState:UIControlStateNormal];
+}
+
 -(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn
 {
     switch (btn.tag) {
@@ -463,88 +479,95 @@
             TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:0];
             [cameraViewController setDelegate:self];
             [self presentViewController:cameraViewController animated:YES completion:NULL];
-         }
+        }
             break;
         case 2:
         {
-            self.interstitial = [self createAndLoadInterstitial];
-            
-            //face recognition.
-            FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
-            if (faceImage) {
-                __block int index = 0;
-                
-                [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
-                    if (!error) {
-                        FaceImage *fImage = (FaceImage *)object;
-                        MAImageView *imageView = nil;
-                        switch (index) {
-                            case 0:
-                                imageView = dataBackgroundView.contentView.imagesView.imageView1;
-                                break;
-                            case 1:
-                                imageView = dataBackgroundView.contentView.imagesView.imageView2;
-                                break;
-                            case 2:
-                                imageView = dataBackgroundView.contentView.imagesView.imageView3;
-                                break;
-                            case 3:
-                                imageView = dataBackgroundView.contentView.imagesView.imageView4;
-                                break;
-                                
-                            default:
-                                break;
+            if (![btn.titleLabel.text isEqualToString:NSLocalizedString(@"Chat", nil)]) {
+                self.interstitial = [self createAndLoadInterstitial];
+                //face recognition.
+                FaceImage *faceImage = [TFAppManager faceImageWithUserId:[PFUser currentUser].objectId];
+                if (faceImage) {
+                    __block int index = 0;
+                    
+                    MBProgressHUD *progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    [progressHUD setLabelText:NSLocalizedString(@"Searching...", nil)];
+                    
+                    [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
+                        [progressHUD hide:YES];
+                        if (!error) {
+                            FaceImage *fImage = (FaceImage *)object;
+                            MAImageView *imageView = nil;
+                            switch (index) {
+                                case 0:
+                                    imageView = dataBackgroundView.contentView.imagesView.imageView1;
+                                    break;
+                                case 1:
+                                    imageView = dataBackgroundView.contentView.imagesView.imageView2;
+                                    break;
+                                case 2:
+                                    imageView = dataBackgroundView.contentView.imagesView.imageView3;
+                                    break;
+                                case 3:
+                                    imageView = dataBackgroundView.contentView.imagesView.imageView4;
+                                    break;
+                                    
+                                default:
+                                    break;
+                            }
+                            index ++;
+                            [dataBackgroundView.contentView.imagesView setHidden:NO];
+                            [dataBackgroundView.contentView.imageView2 setHidden:YES];
+                            [dataBackgroundView.contentView.photoButton2 setTitle:NSLocalizedString(@"Search Again", nil) forState:UIControlStateNormal];
+                            [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
+                            CGFloat progress = [faceImage.confidence floatValue]/100.f;
+                            [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                            [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                            [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
+                            [dataBackgroundView.contentView.progressLabel sizeToFit];
+                            UserInfo *userInfo = faceImage.createdBy;
+                            
+                            NSString *name = userInfo.name.length ? userInfo.name : NSLocalizedString(@"Name", nil);
+                            NSString *age = userInfo.age.length ? userInfo.age : NSLocalizedString(@"Age", nil);
+                            NSString *city = userInfo.city.length ? userInfo.city : NSLocalizedString(@"City", nil);
+                            NSString *national = userInfo.national.length ? userInfo.national : NSLocalizedString(@"Nationality", nil);
+                            
+                            NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+                            NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+                            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+                            if ([name isEqualToString:NSLocalizedString(@"Name", nil)]) {
+                                [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+                            }
+                            [finalString appendAttributedString:nameString];
+                            [finalString appendAttributedString:commaString];
+                            NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+                            if ([age isEqualToString:NSLocalizedString(@"Age", nil)]) {
+                                [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+                            }
+                            [finalString appendAttributedString:ageString];
+                            [finalString appendAttributedString:commaString];
+                            NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+                            if ([city isEqualToString:NSLocalizedString(@"City", nil)]) {
+                                [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+                            }
+                            [finalString appendAttributedString:cityString];
+                            [finalString appendAttributedString:commaString];
+                            NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+                            if ([national isEqualToString:NSLocalizedString(@"Nationality", nil)]) {
+                                [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+                            }
+                            [finalString appendAttributedString:nationalString];
+                            [dataBackgroundView.descLabel setAttributedText:finalString];
+                        } else {
+                            [self showErrorAlert:error];
                         }
-                        index ++;
-                        [dataBackgroundView.contentView.imagesView setHidden:NO];
-                        [dataBackgroundView.contentView.imageView2 setHidden:YES];
-                        [dataBackgroundView.contentView.photoButton2 setTitle:NSLocalizedString(@"Search Again", nil) forState:UIControlStateNormal];
-                        [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
-                        CGFloat progress = [faceImage.confidence floatValue]/100.f;
-                        [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                        [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                        [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
-                        [dataBackgroundView.contentView.progressLabel sizeToFit];
-                        UserInfo *userInfo = faceImage.createdBy;
-                        
-                        NSString *name = userInfo.name.length ? userInfo.name : NSLocalizedString(@"Name", nil);
-                        NSString *age = userInfo.age.length ? userInfo.age : NSLocalizedString(@"Age", nil);
-                        NSString *city = userInfo.city.length ? userInfo.city : NSLocalizedString(@"City", nil);
-                        NSString *national = userInfo.national.length ? userInfo.national : NSLocalizedString(@"Nationality", nil);
-                        
-                        NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
-                        NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
-                        NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
-                        if ([name isEqualToString:NSLocalizedString(@"Name", nil)]) {
-                            [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
-                        }
-                        [finalString appendAttributedString:nameString];
-                        [finalString appendAttributedString:commaString];
-                        NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
-                        if ([age isEqualToString:NSLocalizedString(@"Age", nil)]) {
-                            [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
-                        }
-                        [finalString appendAttributedString:ageString];
-                        [finalString appendAttributedString:commaString];
-                        NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
-                        if ([city isEqualToString:NSLocalizedString(@"City", nil)]) {
-                            [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
-                        }
-                        [finalString appendAttributedString:cityString];
-                        [finalString appendAttributedString:commaString];
-                        NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
-                        if ([national isEqualToString:NSLocalizedString(@"Nationality", nil)]) {
-                            [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
-                        }
-                        [finalString appendAttributedString:nationalString];
-                        [dataBackgroundView.descLabel setAttributedText:finalString];
-                    } else {
-                        [self showErrorAlert:error];
-                    }
-                }];
+                    }];
+                } else {
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:NSLocalizedString(@"Please click a selfie and tap the add button to upload it to our server.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+                    [alertView show];
+                }
             } else {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:NSLocalizedString(@"Please click a selfie and tap the add button to upload it to our server.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
-                [alertView show];
+                [self imagesView:dataBackgroundView.contentView.imagesView longPressedView:dataBackgroundView.contentView.imageView2];
             }
         }
             break;

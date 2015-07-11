@@ -87,6 +87,11 @@
         self.progressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.progressLabel setFont:[UIFont boldSystemFontOfSize:14.f]];
         [self addSubview:self.progressLabel];
+        
+        self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.backButton addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        [self addSubview:self.backButton];
     }
     return self;
 }
@@ -130,6 +135,9 @@
     }
     [self.progressLabel sizeToFit];
     self.progressLabel.center = self.progressView.center;
+    
+    self.backButton.frame = CGRectMake(0, self.imageView1.frame.origin.y, 35.f, 35.f);
+    self.backButton.center = CGPointMake(self.frame.size.width/2, self.backButton.center.y);
 }
 
 
@@ -137,6 +145,14 @@
 {
     if ([self.delegate respondsToSelector:@selector(photoContentViewWasTapped:)]) {
         [self.delegate photoContentViewWasTapped:self];
+    }
+}
+
+
+- (void)backButtonTapped:(UIButton *)btn
+{
+    if ([self.delegate respondsToSelector:@selector(photoContentView:backbuttonTapped:)]) {
+        [self.delegate photoContentView:self backbuttonTapped:btn];
     }
 }
 

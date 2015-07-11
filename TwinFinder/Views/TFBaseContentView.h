@@ -31,6 +31,7 @@
 @protocol TFBaseContentViewDelegate <NSObject>
 
 -(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn;
+-(void) baseContentView:(TFBaseContentView *) view backButtonTapped:(UIButton *) btn;
 -(void) baseContentView:(TFBaseContentView *) view didSelectNationalityTextField:(UITextField *) textField;
 
 

@@ -27,7 +27,7 @@
 @property(nonatomic) UIButton *photoButton2;
 @property(nonatomic) TFTextFieldView *textFieldView;
 @property(nonatomic) TFImagesView *imagesView;
-
+@property (nonatomic) UIButton *backButton;
 
 
 @end
@@ -37,6 +37,7 @@
 @protocol TFPhotoContentViewDelegate <NSObject>
 
 -(void) photoContentView:(TFPhotoContentView *) view buttonTapped:(UIButton *) btn;
+-(void) photoContentView:(TFPhotoContentView *) view backbuttonTapped:(UIButton *) btn;
 -(void) photoContentViewWasTapped:(TFPhotoContentView *) view;
 
 
