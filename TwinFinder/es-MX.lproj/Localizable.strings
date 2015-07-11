@@ -6,24 +6,26 @@
   Copyright (c) 2015 Parag Dulam. All rights reserved.
 */
 
-"Add Photo" = "Foto hinzufügen";
-"Start Search" = "Suche starten";
-"Create Profile" = "Profil erstellen";
-"Update Profile" = "Profil aktualisieren";
-"Camera" = "Kamera";
+"Add Photo" = "Add Photo";
+"Start Search" = "Start Search";
+"Create Profile" = "Create Profile";
+"Update Profile" = "Update Profile";
+"Camera" = "Camera";
 "Name" = "Name";
-"Age" = "Alter";
-"City" = "Stadt";
+"Age" = "Age";
+"City" = "City";
 "Land" = "Land";
 "National." = "National.";
-"Take New Picture" = "Foto aktualisieren";
-"Loading..." = "Laden...";
-"Error" = "Fehler";
-"Nationality" = "Nationalität";
-"Search Again" = "erneut suchen";
+"Take New Picture" = "Take New Picture";
+"Loading..." = "Loading...";
+"Error" = "Error";
+"Nationality" = "Nationality";
+"Search Again" = "Search Again";
 "Ok" = "Ok";
 "Uploading..." = "Uploading...";
 "The selected user has not configured his profile." = "The selected user has not configured his profile.";
+"Please click a selfie and tap the add button to upload it to our server." = "Please click a selfie and tap the add button to upload it to our server.";
 "Please make sure you take a selfie in bright light and face resides within the circle" = "Please make sure you take a selfie in bright light and face resides within the circle";
 "There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = "There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light.";
+
 
