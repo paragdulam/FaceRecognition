@@ -115,10 +115,10 @@
 }
 
 - (GADInterstitial *)createAndLoadInterstitial {
-    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-4512831376775086/9680376458"];
+    GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-8389287507606895/4011652165"];
     interstitial.delegate = self;
     GADRequest *request = [GADRequest request];
-    request.testDevices = @[kGADSimulatorID,@"0cd059293bbf2ef79fa5cb8a7530afc1"];
+    request.testDevices = @[kGADSimulatorID];
     [interstitial loadRequest:request];
     return interstitial;
 }
