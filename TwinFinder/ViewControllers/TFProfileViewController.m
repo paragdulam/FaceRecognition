@@ -301,9 +301,9 @@
     
     dataBackgroundView.contentView.photoButton2.hidden = YES;
     dataBackgroundView.contentView.progressView.hidden = YES;
-    dataBackgroundView.bottomButton2.hidden = YES;
     dataBackgroundView.contentView.imageView2.hidden = YES;
-    [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Camera", nil) forState:UIControlStateNormal];
+    [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Update Profile", nil) forState:UIControlStateNormal];
+    [dataBackgroundView.bottomButton2 setTitle:NSLocalizedString(@"Camera", nil) forState:UIControlStateNormal];
     [dataBackgroundView.contentView bringSubviewToFront:dataBackgroundView.contentView.textFieldView];
     
     cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -390,6 +390,7 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [nationalityTextField setText:[self.countries objectAtIndex:row]];
+    [dataBackgroundView.contentView.textFieldView textFieldDidChange:nationalityTextField];
 }
 
 - (void) baseContentView:(TFBaseContentView *)view didSelectNationalityTextField:(UITextField *)textField
@@ -409,6 +410,11 @@
 {
     switch (btn.tag) {
         case 1:
+        {
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }
+            break;
+        case 2:
         {
             TFCameraViewController *cameraViewController = [[TFCameraViewController alloc] initWithIndex:0];
             [cameraViewController setDelegate:self];

@@ -23,7 +23,7 @@
 
 @property (nonatomic,weak) id<TFTextFieldViewDelegate>delegate;
 
-
+-(void)textFieldDidChange:(UITextField *) textField;
 -(void) fetchUserInfo;
 -(void) updateUserInfoToParse;
 
