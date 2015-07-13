@@ -16,16 +16,16 @@
 "City" = "City";
 "Land" = "Land";
 "National." = "National.";
-"Take New Picture" = "Take New Picture";
+"Take New Picture" = "neues Foto hinzf.";
 "Loading..." = "Loading...";
 "Error" = "Error";
 "Nationality" = "Nationality";
 "Search Again" = "Search Again";
 "Ok" = "Ok";
 "Uploading..." = "Uploading...";
-"The selected user has not configured his profile." = "The selected user has not configured his profile.";
-"Please click a selfie and tap the add button to upload it to our server." = "Please click a selfie and tap the add button to upload it to our server.";
-"Please make sure you take a selfie in bright light and face resides within the circle" = "Please make sure you take a selfie in bright light and face resides within the circle";
-"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = "There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light.";
+"The selected user has not configured his profile." = "Der ausgewählte Benutzer hat sein Profil noch nicht hinzugefügt.";
+"Please click a selfie and tap the add button to upload it to our server." = "Mach ein 'selfie' und füge es durch den 'add' Knopf hinzu.";
+"Please make sure you take a selfie in bright light and face resides within the circle" = "Bitte mache ein Foto in einer hellen Umgebung - Nur so kann die Gesichtsanalyse arbeiten";
+"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = "Etwas stimmt mit dem hinzugefügten Foto nicht.Bitte mache ein Foto in einer hellen Umgebung - Nur so kann die Gesichtsanalyse arbeiten.";
 
 
