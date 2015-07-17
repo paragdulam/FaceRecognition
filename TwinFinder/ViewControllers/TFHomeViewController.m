@@ -28,7 +28,7 @@
 #import "MBProgressHUD.h"
 
 
-@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate>
+@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate,GADBannerViewDelegate>
 {
     UIButton *backButton;
 }
@@ -37,6 +37,7 @@
 @property (nonatomic,strong) UIButton *logoutButton;
 @property (nonatomic,weak) AppDelegate *appDelegate;
 @property(nonatomic, strong) GADInterstitial *interstitial;
+@property (strong, nonatomic) GADBannerView *bannerView;
 
 
 @end
@@ -52,6 +53,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(self.view.frame.size.width, 50)) origin:CGPointMake(0, self.view.frame.size.height - 55)];
+    self.bannerView.delegate = self;
+    [self.view addSubview:self.bannerView];
+    
+    self.bannerView.adUnitID = @"ca-app-pub-8389287507606895/2534918963";
+    self.bannerView.rootViewController = self;
+    GADRequest *request = [GADRequest request];
+    [self.bannerView loadRequest:request];
     
     [self.navigationController setNavigationBarHidden:YES];
     dataBackgroundView.contentView.textFieldView.hidden = YES;
@@ -118,7 +128,6 @@
     GADInterstitial *interstitial = [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-8389287507606895/4011652165"];
     interstitial.delegate = self;
     GADRequest *request = [GADRequest request];
-    request.testDevices = @[kGADSimulatorID];
     [interstitial loadRequest:request];
     return interstitial;
 }
@@ -380,6 +389,20 @@
 -(void) cameraViewControllerDidCancel:(TFCameraViewController *) vc
 {
     [vc dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+#pragma mark - GADBannerViewDelegate
+
+
+- (void)adViewDidReceiveAd:(GADBannerView *)view
+{
+    
+}
+
+- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    
 }
 
 

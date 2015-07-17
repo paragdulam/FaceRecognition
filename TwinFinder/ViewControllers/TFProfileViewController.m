@@ -17,8 +17,10 @@
 #import "TFAppManager.h"
 #import "TFHomeViewController.h"
 #import "CountryPicker.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
+
+@interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,GADBannerViewDelegate>
 {
     UIButton *cancelButton;
     UIView *backgroundCountryPickerView;
@@ -28,6 +30,8 @@
 }
 
 @property (nonatomic,strong)    NSArray *countries;
+@property (strong, nonatomic) GADBannerView *bannerView;
+
 
 
 @end
@@ -43,6 +47,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(self.view.frame.size.width, 50)) origin:CGPointMake(0, self.view.frame.size.height - 55)];
+    self.bannerView.delegate = self;
+    [self.view addSubview:self.bannerView];
+    
+    self.bannerView.adUnitID = @"ca-app-pub-8389287507606895/2534918963";
+    self.bannerView.rootViewController = self;
+    GADRequest *request = [GADRequest request];
+    [self.bannerView loadRequest:request];
+
     dataBackgroundView.contentView.backButton.hidden = YES;
     self.countries = @[ @"Abkhazia",
                         @"Afghanistan",
@@ -374,6 +388,18 @@
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
+}
+
+
+
+- (void)adViewDidReceiveAd:(GADBannerView *)view
+{
+    
+}
+
+- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
