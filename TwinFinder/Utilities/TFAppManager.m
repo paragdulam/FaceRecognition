@@ -513,8 +513,8 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             faceImage.image_url = imageFile.url;
-            [[TFAppManager appDelegate].managedObjectContext save:nil];
             
+            [[TFAppManager appDelegate].managedObjectContext save:nil];
             PFQuery *imageQuery = [PFQuery queryWithClassName:@"FaceImage"];
             [imageQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
             [imageQuery whereKey:@"imageIndex" equalTo:[NSNumber numberWithInt:index]];

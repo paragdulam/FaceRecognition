@@ -28,6 +28,7 @@
 #import "MBProgressHUD.h"
 
 
+
 @interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate,GADBannerViewDelegate>
 {
     UIButton *backButton;
@@ -54,7 +55,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(self.view.frame.size.width, 50)) origin:CGPointMake(0, self.view.frame.size.height - 55)];
+    self.bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait
+                                                     origin:CGPointMake(0, self.view.frame.size.height - 55)];
     self.bannerView.delegate = self;
     [self.view addSubview:self.bannerView];
     

@@ -23,6 +23,7 @@
 "Search Again" = "erneut suchen";
 "Ok" = "Ok";
 "Uploading..." = "Uploading...";
+"Take Picture" = "Foto aufnehmen";
 "The selected user has not configured his profile." = "Der ausgewählte Benutzer hat sein Profil noch nicht hinzugefügt.";
 "Please click a selfie and tap the add button to upload it to our server." = "Mach ein 'selfie' und füge es durch den 'add' Knopf hinzu.";
 "Please make sure you take a selfie in bright light and face resides within the circle" = "Bitte mache ein Foto in einer hellen Umgebung - Nur so kann die Gesichtsanalyse arbeiten";

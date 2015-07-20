@@ -8,9 +8,9 @@ var apiSecretKey = "4a1e752996404ace987b52d6d22a4a34";
 var baseURL = "http://api.skybiometry.com/fc/";
 
 //paragdulam@yahoo.co.in
-// var apiKey = "99b77d7e55d24bb5bf6cb5c6d9ee9b1a";
-// var apiSecretKey = "a9f78fd1d5654c92a3ed4d57d28c8ef0";
-// var baseURL = "http://api.skybiometry.com/fc/";
+//var apiKey = "99b77d7e55d24bb5bf6cb5c6d9ee9b1a";
+//var apiSecretKey = "a9f78fd1d5654c92a3ed4d57d28c8ef0";
+//var baseURL = "http://api.skybiometry.com/fc/";
 
 
 
@@ -183,6 +183,8 @@ Parse.Cloud.define("detectFace", function(request,response) {
   },
   error: function(object, error) {
     // error is an instance of Parse.Error.
+    console.log(httpResponse.text);
+    response.error(httpResponse.error);
   }
 });
 
@@ -191,6 +193,7 @@ Parse.Cloud.define("detectFace", function(request,response) {
 
 Parse.Cloud.define("getLookalikes", function(request,response) {
   var faceImageId = request.params.faceImageId;
+  console.log('getLookalikes called with faceImageId ' + faceImageId);
   Parse.Cloud.run("detectFace", { "faceImageId": faceImageId }, {
     success:function(detectFaceResponse) {
       var tid = detectFaceResponse.photos[0].tags[0].tid;
