@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "UserInfo.h"
 #import "TFAppManager.h"
+#import "TFHomeViewController.h"
 
 @interface TFImageViewController ()<ADBannerViewDelegate>
 
@@ -27,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self.navigationController setNavigationBarHidden:YES];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
     [imageView setImage:[UIImage imageNamed:@"1"]];
     [self.view addSubview:imageView];
@@ -95,7 +96,8 @@
 
 - (void)findTwinButtonTapped:(UIButton *)btn
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    TFHomeViewController *homeViewController = [[TFHomeViewController alloc] init];
+    [self.navigationController pushViewController:homeViewController animated:YES];
 }
 
 

@@ -57,8 +57,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self backButtonTapped:nil];
-    
     self.bannerView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, 320, 50)];
     self.bannerView.delegate = self;
     [self.view addSubview:self.bannerView];
@@ -85,18 +83,19 @@
                                                       [dataBackgroundView.bottomButton1 setTitle:NSLocalizedString(@"Update Profile", nil) forState:UIControlStateNormal];
     
                                                   }];
-    if ([[PFUser currentUser] sessionToken]) {
+//    if ([[PFUser currentUser] sessionToken]) {
         [self doPostLogin];
-    } else {
-        [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
-    }
+//    } else {
+//        [self performSelector:@selector(showLoginView:) withObject:[NSNumber numberWithBool:NO] afterDelay:.3f];
+//    }
 }
 
 
 - (void)backButtonTapped:(UIButton *)btn
 {
-    TFImageViewController *imageViewController = [[TFImageViewController alloc] init];
-    [self presentViewController:imageViewController animated:NO completion:NULL];
+    [self.navigationController popViewControllerAnimated:YES];
+//    TFImageViewController *imageViewController = [[TFImageViewController alloc] init];
+//    [self presentViewController:imageViewController animated:NO completion:NULL];
 }
 
 

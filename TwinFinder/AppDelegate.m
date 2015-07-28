@@ -14,9 +14,11 @@
 #import "UserInfo.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import "TFChatViewController.h"
+#import "TFImageViewController.h"
+#import "TFLoginViewController.h"
 
 
-@interface AppDelegate ()
+@interface AppDelegate ()<PFLogInViewControllerDelegate>
 
 
 
@@ -57,9 +59,16 @@
     
     // Override point for customization after application launch.
     
-    TFHomeViewController *homeViewController = [[TFHomeViewController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
-    self.window.rootViewController = navController;
+    if (![[PFUser currentUser] sessionToken]) {
+        TFLoginViewController *loginViewController = [[TFLoginViewController alloc] init];
+        [loginViewController setFields:PFLogInFieldsFacebook | PFLogInFieldsTwitter | PFLogInFieldsLogInButton | PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsSignUpButton];
+        [loginViewController setDelegate:self];
+        [self.window setRootViewController:loginViewController];
+    } else {
+        TFImageViewController *imageViewController = [[TFImageViewController alloc] init];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:imageViewController];
+        [self.window setRootViewController:navController];
+    }
     [self.window makeKeyAndVisible];
     
     if (application.applicationState != UIApplicationStateBackground) {
@@ -205,6 +214,46 @@
     __managedObjectContext  = nil;
     __persistentStoreCoordinator = nil;
 }
+
+
+#pragma mark - PFLogInViewControllerDelegate
+
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    UserInfo *userInfo = (UserInfo *)[NSEntityDescription insertNewObjectForEntityForName:@"UserInfo" inManagedObjectContext:[TFAppManager appDelegate].managedObjectContext];
+    userInfo.parse_id = user.objectId;
+    [[TFAppManager appDelegate].managedObjectContext save:nil];
+    
+    TFImageViewController *imageViewController = [[TFImageViewController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:imageViewController];
+    [self.window setRootViewController:navController];
+
+    
+    PFInstallation *installation = [PFInstallation currentInstallation];
+    installation[@"user"] = [PFUser currentUser];
+    [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+     {
+         if (error != nil)
+         {
+             NSLog(@"ParsePushUserAssign save error.");
+         }
+     }];
+    
+    [logInController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+    [alertView show];
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController
+{
+    
+}
+
 
 #pragma mark - Core Data stack
 
