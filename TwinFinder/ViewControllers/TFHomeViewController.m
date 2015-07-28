@@ -25,11 +25,13 @@
 #import <MessageUI/MessageUI.h>
 #import "TFChatViewController.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <iAd/iAd.h>
 #import "MBProgressHUD.h"
+#import "TFImageViewController.h"
 
 
 
-@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate,GADBannerViewDelegate>
+@interface TFHomeViewController ()<PFLogInViewControllerDelegate,TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,TFImagesViewDelegate,MFMailComposeViewControllerDelegate,GADInterstitialDelegate,GADBannerViewDelegate,ADBannerViewDelegate>
 {
     UIButton *backButton;
 }
@@ -38,8 +40,8 @@
 @property (nonatomic,strong) UIButton *logoutButton;
 @property (nonatomic,weak) AppDelegate *appDelegate;
 @property(nonatomic, strong) GADInterstitial *interstitial;
-@property (strong, nonatomic) GADBannerView *bannerView;
-
+//@property (strong, nonatomic) GADBannerView *bannerView;
+@property (strong, nonatomic) ADBannerView *bannerView;
 
 @end
 
@@ -55,15 +57,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait
-                                                     origin:CGPointMake(0, self.view.frame.size.height - 55)];
+    [self backButtonTapped:nil];
+    
+    self.bannerView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, 320, 50)];
     self.bannerView.delegate = self;
     [self.view addSubview:self.bannerView];
-    
-    self.bannerView.adUnitID = @"ca-app-pub-8389287507606895/2534918963";
-    self.bannerView.rootViewController = self;
-    GADRequest *request = [GADRequest request];
-    [self.bannerView loadRequest:request];
     
     [self.navigationController setNavigationBarHidden:YES];
     dataBackgroundView.contentView.textFieldView.hidden = YES;
@@ -95,6 +93,13 @@
 }
 
 
+- (void)backButtonTapped:(UIButton *)btn
+{
+    TFImageViewController *imageViewController = [[TFImageViewController alloc] init];
+    [self presentViewController:imageViewController animated:NO completion:NULL];
+}
+
+
 
 -(void) showLoginView:(NSNumber *) animated
 {
@@ -109,21 +114,7 @@
 
 -(void)logoutButtonTapped:(UIButton *) btn
 {
-    [PFUser logOut];
-    [self.appDelegate flushDatabase];
-    [TFAppManager logout];
-    
-    PFInstallation *installation = [PFInstallation currentInstallation];
-    [installation removeObjectForKey:@"user"];
-    [installation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-     {
-         if (error != nil)
-         {
-             NSLog(@"ParsePushUserResign save error.");
-         }
-     }];
-    
-    [self showLoginView:[NSNumber numberWithBool:YES]];
+    [self backButtonTapped:btn];
 }
 
 - (GADInterstitial *)createAndLoadInterstitial {
@@ -550,8 +541,6 @@
                             CGFloat progress = [faceImage.confidence floatValue]/100.f;
                             [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
                             [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                            [dataBackgroundView.contentView.progressLabel setText:[NSString stringWithFormat:@"%@%%",faceImage.confidence]];
-                            [dataBackgroundView.contentView.progressLabel sizeToFit];
                             UserInfo *userInfo = faceImage.createdBy;
                             
                             NSString *name = userInfo.name.length ? userInfo.name : NSLocalizedString(@"Name", nil);

@@ -18,9 +18,12 @@
 #import "TFHomeViewController.h"
 #import "CountryPicker.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import "UserInfo.h"
+#import <iAd/iAd.h>
 
 
-@interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,GADBannerViewDelegate>
+
+@interface TFProfileViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate,TFCameraViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,GADBannerViewDelegate,ADBannerViewDelegate>
 {
     UIButton *cancelButton;
     UIView *backgroundCountryPickerView;
@@ -30,7 +33,7 @@
 }
 
 @property (nonatomic,strong)    NSArray *countries;
-@property (strong, nonatomic) GADBannerView *bannerView;
+@property (strong, nonatomic) ADBannerView *bannerView;
 
 
 
@@ -48,14 +51,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.bannerView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFromCGSize(CGSizeMake(self.view.frame.size.width, 50)) origin:CGPointMake(0, self.view.frame.size.height - 55)];
+    self.bannerView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 50, 320, 50)];
     self.bannerView.delegate = self;
     [self.view addSubview:self.bannerView];
     
-    self.bannerView.adUnitID = @"ca-app-pub-8389287507606895/2534918963";
-    self.bannerView.rootViewController = self;
-    GADRequest *request = [GADRequest request];
-    [self.bannerView loadRequest:request];
+    UserInfo *userInfo = [TFAppManager userWithId:[PFUser currentUser].objectId];
+    [dataBackgroundView.profilePicButton setImage:[UIImage imageNamed:userInfo.national] forState:UIControlStateNormal];
 
     dataBackgroundView.contentView.backButton.hidden = YES;
     self.countries = @[ @"Abkhazia",
@@ -390,18 +391,6 @@
     return 1;
 }
 
-
-
-- (void)adViewDidReceiveAd:(GADBannerView *)view
-{
-    
-}
-
-- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
-{
-    
-}
-
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return [self.countries count];
@@ -416,6 +405,8 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [nationalityTextField setText:[self.countries objectAtIndex:row]];
+    UIImage *profileImage = [UIImage imageNamed:nationalityTextField.text];
+    [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
     [dataBackgroundView.contentView.textFieldView textFieldDidChange:nationalityTextField];
 }
 

@@ -85,7 +85,7 @@
         [self addSubview:self.progressView];
         
         self.progressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [self.progressLabel setFont:[UIFont boldSystemFontOfSize:14.f]];
+        [self.progressLabel setFont:[UIFont boldSystemFontOfSize:12.f]];
         [self addSubview:self.progressLabel];
         
         self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -103,7 +103,7 @@
 {
     [super layoutSubviews];
     
-    self.progressView.frame = CGRectMake(0, 0, 50, 50);
+    self.progressView.frame = CGRectMake(0, 0, 35, 35);
     self.progressView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height - 30.f);
     
     float width = (self.frame.size.width - 15 - 50)/2;

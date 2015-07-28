@@ -509,7 +509,7 @@ WithCompletionHandler:(void(^)(id object,int type,NSError *error))completionBloc
     [[TFAppManager appDelegate].managedObjectContext save:&saveError];
 //    completionBlock(faceImage,0,saveError);
     
-    PFFile *imageFile = [PFFile fileWithData:imData];
+    PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imData contentType:@"image/png"];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             faceImage.image_url = imageFile.url;

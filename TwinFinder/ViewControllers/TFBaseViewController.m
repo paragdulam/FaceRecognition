@@ -13,7 +13,9 @@
 
 
 @interface TFBaseViewController ()<TFBaseContentViewDelegate,TFPhotoContentViewDelegate>
-
+{
+    UIImageView *logoImageView;
+}
 
 @end
 
@@ -32,6 +34,9 @@
     [appNameLabel setText:@"twinfinder"];
     [appNameLabel sizeToFit];
     [self.view addSubview:appNameLabel];
+    
+    logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_small"]];
+    [self.view addSubview:logoImageView];
     
     homeViewBackground = [[UIView alloc] initWithFrame:CGRectZero];
     homeViewBackground.backgroundColor = [UIColor lightGrayColor];
@@ -57,6 +62,8 @@
     logoCenter.x = self.view.frame.size.width/2;
     logoCenter.y = 40.f;
     appNameLabel.center = logoCenter;
+    
+    logoImageView.center = CGPointMake(self.view.frame.size.width - 30, appNameLabel.center.y);
     
     homeViewBackground.frame = CGRectMake(5, CGRectGetMaxY(appNameLabel.frame), self.view.frame.size.width - 10, self.view.frame.size.height - CGRectGetMaxY(appNameLabel.frame) - 60.f );
     

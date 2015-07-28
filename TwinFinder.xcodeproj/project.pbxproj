@@ -74,12 +74,22 @@
 		F12650FC1AF61EE000A2AF97 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1981A9FAEBD00364F11 /* LaunchScreen.xib */; };
 		F12650FD1AF61EE000A2AF97 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1B8098F1AAC6DB300EAE5A8 /* Localizable.strings */; };
 		F12650FE1AF61EE000A2AF97 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1ABA1961A9FAEBD00364F11 /* Images.xcassets */; };
+		F15B48601B5CEF4C00199443 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15B48591B5CEF4C00199443 /* GoogleMobileAds.framework */; };
+		F15B48611B5CEF4C00199443 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15B48591B5CEF4C00199443 /* GoogleMobileAds.framework */; };
+		F15B48621B5CEF4C00199443 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F15B485E1B5CEF4C00199443 /* README.txt */; };
+		F15B48631B5CEF4C00199443 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F15B485E1B5CEF4C00199443 /* README.txt */; };
+		F15B48641B5CEF4C00199443 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F15B485F1B5CEF4C00199443 /* README.txt */; };
+		F15B48651B5CEF4C00199443 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F15B485F1B5CEF4C00199443 /* README.txt */; };
+		F15B48671B5CF6DC00199443 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15B48661B5CF6DC00199443 /* iAd.framework */; };
+		F15B48681B5CF6E300199443 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15B48661B5CF6DC00199443 /* iAd.framework */; };
 		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
 		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
 		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
 		F186E8501AAB75D700197AAB /* TFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84F1AAB75D700197AAB /* TFHomeViewController.m */; };
 		F186E8531AAB7E1800197AAB /* TFBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E8521AAB7E1800197AAB /* TFBaseContentView.m */; };
 		F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */; };
+		F1A52F901B65590A00E56213 /* TFImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A52F8F1B65590A00E56213 /* TFImageViewController.m */; };
+		F1A52F911B65590A00E56213 /* TFImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A52F8F1B65590A00E56213 /* TFImageViewController.m */; };
 		F1B658731AB2078400A503E4 /* TFImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B658721AB2078400A503E4 /* TFImagesView.m */; };
 		F1F6A0401B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */; };
 		F1F6A0411B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */; };
@@ -159,6 +169,13 @@
 		F110C9981AB76050001ECBD4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F12651031AF61EE000A2AF97 /* TwinFinder copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TwinFinder copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12651041AF61EE100A2AF97 /* TwinFinder copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TwinFinder copy-Info.plist"; path = "/Users/paragdulam/Projects/FaceRecognition/TwinFinder/TwinFinder copy-Info.plist"; sourceTree = "<absolute>"; };
+		F15B48591B5CEF4C00199443 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		F15B485B1B5CEF4C00199443 /* GADMAdNetworkAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdNetworkAdapterProtocol.h; sourceTree = "<group>"; };
+		F15B485C1B5CEF4C00199443 /* GADMAdNetworkConnectorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdNetworkConnectorProtocol.h; sourceTree = "<group>"; };
+		F15B485D1B5CEF4C00199443 /* GADMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMEnums.h; sourceTree = "<group>"; };
+		F15B485E1B5CEF4C00199443 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		F15B485F1B5CEF4C00199443 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		F15B48661B5CF6DC00199443 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		F15E2DE21AAC19CB0040BBCB /* TFPhotoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPhotoContentView.h; sourceTree = "<group>"; };
 		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
 		F15E2DE51AAC1A410040BBCB /* MAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAImageView.h; sourceTree = "<group>"; };
@@ -171,6 +188,8 @@
 		F186E8521AAB7E1800197AAB /* TFBaseContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFBaseContentView.m; sourceTree = "<group>"; };
 		F18C71191AA04397007497A1 /* CollectionBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionBackgroundView.h; sourceTree = "<group>"; };
 		F18C711A1AA04397007497A1 /* CollectionBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionBackgroundView.m; sourceTree = "<group>"; };
+		F1A52F8E1B65590A00E56213 /* TFImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFImageViewController.h; sourceTree = "<group>"; };
+		F1A52F8F1B65590A00E56213 /* TFImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFImageViewController.m; sourceTree = "<group>"; };
 		F1B658711AB2078400A503E4 /* TFImagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFImagesView.h; sourceTree = "<group>"; };
 		F1B658721AB2078400A503E4 /* TFImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFImagesView.m; sourceTree = "<group>"; };
 		F1F6A03E1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyCollectionViewCell.h; sourceTree = "<group>"; };
@@ -185,6 +204,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F15B48671B5CF6DC00199443 /* iAd.framework in Frameworks */,
+				F15B48601B5CEF4C00199443 /* GoogleMobileAds.framework in Frameworks */,
 				F1FDBE4E1AC2D4BB00CDDBD9 /* Accounts.framework in Frameworks */,
 				F1FDBE4C1AC2D4B300CDDBD9 /* Twitter.framework in Frameworks */,
 				F1FDBE4A1AC2D4AF00CDDBD9 /* Social.framework in Frameworks */,
@@ -204,6 +225,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F15B48681B5CF6E300199443 /* iAd.framework in Frameworks */,
+				F15B48611B5CEF4C00199443 /* GoogleMobileAds.framework in Frameworks */,
 				F12650F61AF61EE000A2AF97 /* Accounts.framework in Frameworks */,
 				F12650F71AF61EE000A2AF97 /* Twitter.framework in Frameworks */,
 				F12650F81AF61EE000A2AF97 /* Social.framework in Frameworks */,
@@ -218,6 +241,7 @@
 		CF55CC0EAAF92EAF3E4E02A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F15B48661B5CF6DC00199443 /* iAd.framework */,
 				F1FDBE4D1AC2D4BB00CDDBD9 /* Accounts.framework */,
 				F1FDBE4B1AC2D4B300CDDBD9 /* Twitter.framework */,
 				F1FDBE491AC2D4AF00CDDBD9 /* Social.framework */,
@@ -257,6 +281,7 @@
 		D14E3E551A9FBB1100ABE348 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F15B48581B5CEF4C00199443 /* GoogleMobileAdsSdkiOS-7.3.1 */,
 				D1C627611ADA8343003C48CD /* HTAutocompleteManager.h */,
 				D1C627621ADA8343003C48CD /* HTAutocompleteManager.m */,
 				F15E2DE51AAC1A410040BBCB /* MAImageView.h */,
@@ -290,6 +315,8 @@
 				D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */,
 				D18579501AC56C3500787517 /* TFChatViewController.h */,
 				D18579511AC56C3500787517 /* TFChatViewController.m */,
+				F1A52F8E1B65590A00E56213 /* TFImageViewController.h */,
+				F1A52F8F1B65590A00E56213 /* TFImageViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -392,6 +419,27 @@
 				A478DE25B600557ABFDB741A /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F15B48581B5CEF4C00199443 /* GoogleMobileAdsSdkiOS-7.3.1 */ = {
+			isa = PBXGroup;
+			children = (
+				F15B48591B5CEF4C00199443 /* GoogleMobileAds.framework */,
+				F15B485A1B5CEF4C00199443 /* Mediation Adapters */,
+				F15B485F1B5CEF4C00199443 /* README.txt */,
+			);
+			path = "GoogleMobileAdsSdkiOS-7.3.1";
+			sourceTree = "<group>";
+		};
+		F15B485A1B5CEF4C00199443 /* Mediation Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				F15B485B1B5CEF4C00199443 /* GADMAdNetworkAdapterProtocol.h */,
+				F15B485C1B5CEF4C00199443 /* GADMAdNetworkConnectorProtocol.h */,
+				F15B485D1B5CEF4C00199443 /* GADMEnums.h */,
+				F15B485E1B5CEF4C00199443 /* README.txt */,
+			);
+			path = "Mediation Adapters";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -499,7 +547,9 @@
 			files = (
 				D1ABA19A1A9FAEBD00364F11 /* LaunchScreen.xib in Resources */,
 				D1B8098D1AAC6DB300EAE5A8 /* Localizable.strings in Resources */,
+				F15B48621B5CEF4C00199443 /* README.txt in Resources */,
 				D1ABA1971A9FAEBD00364F11 /* Images.xcassets in Resources */,
+				F15B48641B5CEF4C00199443 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +566,9 @@
 			files = (
 				F12650FC1AF61EE000A2AF97 /* LaunchScreen.xib in Resources */,
 				F12650FD1AF61EE000A2AF97 /* Localizable.strings in Resources */,
+				F15B48631B5CEF4C00199443 /* README.txt in Resources */,
 				F12650FE1AF61EE000A2AF97 /* Images.xcassets in Resources */,
+				F15B48651B5CEF4C00199443 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +656,7 @@
 				D14E3E781A9FBB1100ABE348 /* CustomCollectionFlowLayout.m in Sources */,
 				D14E3E741A9FBB1100ABE348 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				D14E3E791A9FBB1100ABE348 /* TFCameraOverlayView.m in Sources */,
+				F1A52F901B65590A00E56213 /* TFImageViewController.m in Sources */,
 				F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */,
 				D14E3E7B1A9FBB1100ABE348 /* TFUserProfileView.m in Sources */,
 				D1ABA1891A9FAEBD00364F11 /* main.m in Sources */,
@@ -650,6 +703,7 @@
 				F12650DF1AF61EE000A2AF97 /* CustomCollectionFlowLayout.m in Sources */,
 				F12650E01AF61EE000A2AF97 /* StretchyHeaderCollectionViewLayout.m in Sources */,
 				F12650E11AF61EE000A2AF97 /* TFCameraOverlayView.m in Sources */,
+				F1A52F911B65590A00E56213 /* TFImageViewController.m in Sources */,
 				F12650E21AF61EE000A2AF97 /* CollectionBackgroundView.m in Sources */,
 				F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */,
 				F12650E41AF61EE000A2AF97 /* main.m in Sources */,
@@ -785,6 +839,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TwinFinder/Utilities/GoogleMobileAdsSdkiOS-7.3.1",
+				);
 				INFOPLIST_FILE = TwinFinder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -800,6 +858,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TwinFinder/Utilities/GoogleMobileAdsSdkiOS-7.3.1",
+				);
 				INFOPLIST_FILE = TwinFinder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -847,6 +909,10 @@
 			baseConfigurationReference = 7F9C47FAD13D66A59DFECD2C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TwinFinder/Utilities/GoogleMobileAdsSdkiOS-7.3.1",
+				);
 				INFOPLIST_FILE = "TwinFinder copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -859,6 +925,10 @@
 			baseConfigurationReference = A478DE25B600557ABFDB741A /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TwinFinder/Utilities/GoogleMobileAdsSdkiOS-7.3.1",
+				);
 				INFOPLIST_FILE = "TwinFinder copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
