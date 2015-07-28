@@ -513,66 +513,69 @@
                     [TFAppManager getLookalikesForFaceImage:faceImage withCompletionBlock:^(id object, NSError *error) {
                         [progressHUD hide:YES];
                         if (!error) {
-                            FaceImage *fImage = (FaceImage *)object;
-                            MAImageView *imageView = nil;
-                            switch (index) {
-                                case 0:
-                                    imageView = dataBackgroundView.contentView.imagesView.imageView1;
-                                    break;
-                                case 1:
-                                    imageView = dataBackgroundView.contentView.imagesView.imageView2;
-                                    break;
-                                case 2:
-                                    imageView = dataBackgroundView.contentView.imagesView.imageView3;
-                                    break;
-                                case 3:
-                                    imageView = dataBackgroundView.contentView.imagesView.imageView4;
-                                    break;
-                                    
-                                default:
-                                    break;
+                            if (index < 4 && object) {
+                                NSLog(@"index %d",index);
+                                FaceImage *fImage = (FaceImage *)object;
+                                MAImageView *imageView = nil;
+                                switch (index) {
+                                    case 0:
+                                        imageView = dataBackgroundView.contentView.imagesView.imageView1;
+                                        break;
+                                    case 1:
+                                        imageView = dataBackgroundView.contentView.imagesView.imageView2;
+                                        break;
+                                    case 2:
+                                        imageView = dataBackgroundView.contentView.imagesView.imageView3;
+                                        break;
+                                    case 3:
+                                        imageView = dataBackgroundView.contentView.imagesView.imageView4;
+                                        break;
+                                        
+                                    default:
+                                        break;
+                                }
+                                index ++;
+                                [dataBackgroundView.contentView.imagesView setHidden:NO];
+                                [dataBackgroundView.contentView.imageView2 setHidden:YES];
+                                [dataBackgroundView.contentView.photoButton2 setTitle:NSLocalizedString(@"Search Again", nil) forState:UIControlStateNormal];
+                                [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
+                                CGFloat progress = [faceImage.confidence floatValue]/100.f;
+                                [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                                [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
+                                UserInfo *userInfo = faceImage.createdBy;
+                                
+                                NSString *name = userInfo.name.length ? userInfo.name : NSLocalizedString(@"Name", nil);
+                                NSString *age = userInfo.age.length ? userInfo.age : NSLocalizedString(@"Age", nil);
+                                NSString *city = userInfo.city.length ? userInfo.city : NSLocalizedString(@"City", nil);
+                                NSString *national = userInfo.national.length ? userInfo.national : NSLocalizedString(@"Nationality", nil);
+                                
+                                NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
+                                NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
+                                NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
+                                if ([name isEqualToString:NSLocalizedString(@"Name", nil)]) {
+                                    [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
+                                }
+                                [finalString appendAttributedString:nameString];
+                                [finalString appendAttributedString:commaString];
+                                NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
+                                if ([age isEqualToString:NSLocalizedString(@"Age", nil)]) {
+                                    [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
+                                }
+                                [finalString appendAttributedString:ageString];
+                                [finalString appendAttributedString:commaString];
+                                NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
+                                if ([city isEqualToString:NSLocalizedString(@"City", nil)]) {
+                                    [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
+                                }
+                                [finalString appendAttributedString:cityString];
+                                [finalString appendAttributedString:commaString];
+                                NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
+                                if ([national isEqualToString:NSLocalizedString(@"Nationality", nil)]) {
+                                    [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
+                                }
+                                [finalString appendAttributedString:nationalString];
+                                [dataBackgroundView.descLabel setAttributedText:finalString];
                             }
-                            index ++;
-                            [dataBackgroundView.contentView.imagesView setHidden:NO];
-                            [dataBackgroundView.contentView.imageView2 setHidden:YES];
-                            [dataBackgroundView.contentView.photoButton2 setTitle:NSLocalizedString(@"Search Again", nil) forState:UIControlStateNormal];
-                            [imageView setImageURL:[NSURL URLWithString:fImage.image_url] forFileId:fImage.parse_id];
-                            CGFloat progress = [faceImage.confidence floatValue]/100.f;
-                            [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                            [dataBackgroundView.contentView.progressView setProgress:progress animated:YES];
-                            UserInfo *userInfo = faceImage.createdBy;
-                            
-                            NSString *name = userInfo.name.length ? userInfo.name : NSLocalizedString(@"Name", nil);
-                            NSString *age = userInfo.age.length ? userInfo.age : NSLocalizedString(@"Age", nil);
-                            NSString *city = userInfo.city.length ? userInfo.city : NSLocalizedString(@"City", nil);
-                            NSString *national = userInfo.national.length ? userInfo.national : NSLocalizedString(@"Nationality", nil);
-                            
-                            NSMutableAttributedString *finalString = [[NSMutableAttributedString alloc] init];
-                            NSMutableAttributedString *commaString = [[NSMutableAttributedString alloc] initWithString:@","];
-                            NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name];
-                            if ([name isEqualToString:NSLocalizedString(@"Name", nil)]) {
-                                [nameString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nameString.string.length)];
-                            }
-                            [finalString appendAttributedString:nameString];
-                            [finalString appendAttributedString:commaString];
-                            NSMutableAttributedString *ageString = [[NSMutableAttributedString alloc] initWithString:age];
-                            if ([age isEqualToString:NSLocalizedString(@"Age", nil)]) {
-                                [ageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, ageString.string.length)];
-                            }
-                            [finalString appendAttributedString:ageString];
-                            [finalString appendAttributedString:commaString];
-                            NSMutableAttributedString *cityString = [[NSMutableAttributedString alloc] initWithString:city];
-                            if ([city isEqualToString:NSLocalizedString(@"City", nil)]) {
-                                [cityString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, cityString.string.length)];
-                            }
-                            [finalString appendAttributedString:cityString];
-                            [finalString appendAttributedString:commaString];
-                            NSMutableAttributedString *nationalString = [[NSMutableAttributedString alloc] initWithString:national];
-                            if ([national isEqualToString:NSLocalizedString(@"Nationality", nil)]) {
-                                [nationalString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:14.f] range:NSMakeRange(0, nationalString.string.length)];
-                            }
-                            [finalString appendAttributedString:nationalString];
-                            [dataBackgroundView.descLabel setAttributedText:finalString];
                         } else {
 //                            [self showErrorAlert:error];
                             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:NSLocalizedString(@"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light.", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
