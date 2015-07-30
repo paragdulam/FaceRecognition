@@ -1,0 +1,33 @@
+/* 
+  Localizable.strings
+  TwinFinder
+
+  Created by Parag Dulam on 08/03/15.
+  Copyright (c) 2015 Parag Dulam. All rights reserved.
+*/
+
+"Add Photo" = " добавить фото.";
+"Start Search" = " искать ";
+"Create Profile" = " Создать профиль ";
+"Update Profile" = " Обновить Профиль ";
+"Camera" = " камера ";
+"Name" = " имя ";
+"Age" = " возраст ";
+"City" = " город ";
+"Land" = " страна ";
+"National." = " национ.";
+"Take New Picture" = " сделать новую  Фото .";
+"Loading..." = " загрузка...";
+"Error" = " ошибка ";
+"Nationality" = " национальность ";
+"Search Again" = " Искать Снова ";
+"Ok" = " ок ";
+"Take Picture" = " Сделать Фотографию ";
+"Uploading..." = " Загрузка...";
+"Find your twin" = " Найти близнеца";
+"Log out" = " выйти ";
+"The selected user has not configured his profile." = " Выбранный пользователь не настроил свой профиль.";
+"Please click a selfie and tap the add button to upload it to our server." = " Пожалуйста, сделайте selfie и нажмите кнопку Добавить , чтобы загрузить его на наш сервер.";
+"Please make sure you take a selfie in bright light and face resides within the circle" = " Пожалуйста, убедитесь, что вы делайте selfie в ярком свете и лицо остается в пределах круга ";
+"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = " Что-то не так с фото которий вы только что загрузили, убедитесь, что вы делайте selfie в ярком свете.";
+

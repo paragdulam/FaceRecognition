@@ -192,6 +192,12 @@
 		F1A52F8F1B65590A00E56213 /* TFImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFImageViewController.m; sourceTree = "<group>"; };
 		F1B658711AB2078400A503E4 /* TFImagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFImagesView.h; sourceTree = "<group>"; };
 		F1B658721AB2078400A503E4 /* TFImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFImagesView.m; sourceTree = "<group>"; };
+		F1EF67051B6A8CC10054FF71 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F1EF67061B6A8CC10054FF71 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F1EF67071B6A8CDD0054FF71 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F1EF67081B6A8CDD0054FF71 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F1EF670A1B6A8D1B0054FF71 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		F1EF670B1B6A8D1B0054FF71 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F1F6A03E1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyCollectionViewCell.h; sourceTree = "<group>"; };
 		F1F6A03F1B0482BB000D0BF0 /* TFEmptyCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFEmptyCollectionViewCell.m; sourceTree = "<group>"; };
 		F1FDBE491AC2D4AF00CDDBD9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -527,6 +533,9 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				ru,
+				it,
 			);
 			mainGroup = D1ABA17A1A9FAEBD00364F11;
 			productRefGroup = D1ABA1841A9FAEBD00364F11 /* Products */;
@@ -740,6 +749,9 @@
 			children = (
 				D1ABA1991A9FAEBD00364F11 /* Base */,
 				D1B8098C1AAC6D5D00EAE5A8 /* de */,
+				F1EF67051B6A8CC10054FF71 /* es */,
+				F1EF67071B6A8CDD0054FF71 /* ru */,
+				F1EF670A1B6A8D1B0054FF71 /* it */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -749,6 +761,9 @@
 			children = (
 				D1B8098E1AAC6DB300EAE5A8 /* de */,
 				D1B809901AAC6DB700EAE5A8 /* en */,
+				F1EF67061B6A8CC10054FF71 /* es */,
+				F1EF67081B6A8CDD0054FF71 /* ru */,
+				F1EF670B1B6A8D1B0054FF71 /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

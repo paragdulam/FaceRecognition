@@ -6,27 +6,28 @@
   Copyright (c) 2015 Parag Dulam. All rights reserved.
 */
 
-"Add Photo" = "Add Photo";
-"Start Search" = "Start Search";
-"Create Profile" = "Create Profile";
-"Update Profile" = "Update Profile";
-"Camera" = "Camera";
-"Name" = "Name";
-"Age" = "Age";
-"City" = "City";
-"Land" = "Land";
-"National." = "National.";
-"Take New Picture" = "Take New Picture";
-"Loading..." = "Loading...";
-"Error" = "Error";
-"Nationality" = "Nationality";
-"Search Again" = "Search Again";
+"Add Photo" = "aggiungi foto";
+"Start Search" = " inizia la ricerca";
+"Create Profile" = " crea un profilo";
+"Update Profile" = " aggiorna il profile";
+"Camera" = " fotocamera";
+"Name" = " nome";
+"Age" = " età";
+"City" = " città";
+"Land" = " paese";
+"National." = " cittadinanza.";
+"Take New Picture" = " scatta una nuova foto";
+"Loading..." = " caricamento...";
+"Error" = " errore";
+"Nationality" = " nazionalità";
+"Search Again" = " cerca ancora";
 "Ok" = "Ok";
-"Take Picture" = "Take Picture";
-"Uploading..." = "Uploading...";
-"The selected user has not configured his profile." = "The selected user has not configured his profile.";
-"Please click a selfie and tap the add button to upload it to our server." = "Please click a selfie and tap the add button to upload it to our server.";
-"Please make sure you take a selfie in bright light and face resides within the circle" = "Please make sure you take a selfie in bright light and face resides within the circle";
-"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = "There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light.";
-
+"Take Picture" = " fai una foto";
+"Uploading..." = " caricamento...";
+"Find your twin" = " trova il tuo gemello";
+"Log out" = " disconnettersi";
+"The selected user has not configured his profile." = " l’utente selezionato non ha configurato il suo profilo.";
+"Please click a selfie and tap the add button to upload it to our server." = " per favore fai un selfie e premi il bottone aggiungi per aggiungerlo al nostro server.";
+"Please make sure you take a selfie in bright light and face resides within the circle" = " assicurarsi di fare un selfie con la giusta luminosità e con la faccia all’interno del cerchio ";
+"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = " c’è qualcosa che non va con l’immagine appena caricata. Per favore assicuratevi di fare un selfie con la giusta luminosità.";
 

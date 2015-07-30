@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  TwinFinder
+
+  Created by Parag Dulam on 08/03/15.
+  Copyright (c) 2015 Parag Dulam. All rights reserved.
+*/
+
+"Add Photo" = "Agregar foto";
+"Start Search" = "Comenzar  búsqueda ";
+"Create Profile" = "Crear perfil";
+"Update Profile" = "Actualizar perfil";
+"Camera" = "Cámara";
+"Name" = "Nombre";
+"Age" = "Edad";
+"City" = "Ciudad";
+"Land" = "Pais";
+"National." = "Nacional.";
+"Take New Picture" = "tomar nueva fotografía";
+"Loading..." = "Cargando...";
+"Error" = "Error";
+"Nationality" = "Nacionalidad";
+"Search Again" = "Buscar nuevamente";
+"Ok" = "Ok";
+"Take Picture" = "Tomar foto";
+"Uploading..." = "Subiendo...";
+"Find your twin" = "Encuentra tu gemelo";
+"Log out" = "Discontarse";
+"The selected user has not configured his profile." = " El usuario seleccionado no ha configurado su perfil.";
+"Please click a selfie and tap the add button to upload it to our server." = "Por favor, haga clic en “selfie” y pulse el botón añadir para subirlo a nuestro servidor.";
+"Please make sure you take a selfie in bright light and face resides within the circle" = " Por favor, asegúrate de tomarte una selfie con buena luz y que tu cara esté dentro del circulo.";
+"There is something wrong with the image you just uploaded.Please make sure you take a selfie in bright light." = " Algo salió mal con la imagen que subiste. Por favor, asegúrate que te tomas la “selfie” en un lugar con buena luz. .";
