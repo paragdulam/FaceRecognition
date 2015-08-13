@@ -33,6 +33,7 @@
 -(void) baseContentView:(TFBaseContentView *) view buttonTapped:(UIButton *) btn;
 -(void) baseContentView:(TFBaseContentView *) view backButtonTapped:(UIButton *) btn;
 -(void) baseContentView:(TFBaseContentView *) view didSelectNationalityTextField:(UITextField *) textField;
+-(void) baseContentView:(TFBaseContentView *) view didSelectCountryTextField:(UITextField *) textField;
 
 
 @end

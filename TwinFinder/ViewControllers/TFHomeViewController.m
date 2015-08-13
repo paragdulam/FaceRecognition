@@ -65,6 +65,7 @@
     dataBackgroundView.contentView.textFieldView.hidden = YES;
     dataBackgroundView.contentView.backButton.hidden = YES;
     dataBackgroundView.contentView.imagesView.delegate = self;
+    dataBackgroundView.contentView.progressView.hidden = YES;
 
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.logoutButton.frame = CGRectMake(0, 0, 40, 40);
@@ -298,6 +299,8 @@
 
 -(void) imagesView:(TFImagesView *) view tappedView:(MAImageView *) imgView
 {
+    dataBackgroundView.contentView.progressView.hidden = NO;
+    dataBackgroundView.contentView.progressLabel.hidden = NO;
     FaceImage *faceImage = [TFAppManager faceImageWithFaceImageId:imgView.idString];
 
     dataBackgroundView.contentView.backButton.hidden = NO;
@@ -417,6 +420,8 @@
 
 -(void) photoContentView:(TFPhotoContentView *) view backbuttonTapped:(UIButton *) btn
 {
+    dataBackgroundView.contentView.progressView.hidden = YES;
+    dataBackgroundView.contentView.progressLabel.hidden = YES;
     dataBackgroundView.contentView.backButton.hidden = YES;
     dataBackgroundView.contentView.imagesView.hidden = NO;
     dataBackgroundView.contentView.imageView2.hidden = YES;

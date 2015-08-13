@@ -19,6 +19,7 @@
     UITextField *ageTextField;
     UITextField *cityTextField;
     HTAutocompleteTextField *nationalTextField;
+    HTAutocompleteTextField *countryTextField;
 }
 
 @property (nonatomic,weak) id<TFTextFieldViewDelegate>delegate;
@@ -35,5 +36,6 @@
 
 -(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) uInfo;
 -(void) textFieldView:(TFTextFieldView *) view didSelectNationalityTextField:(UITextField *) nationalityTextField;
+-(void) textFieldView:(TFTextFieldView *) view didSelectCountryTextField:(UITextField *) countryTextField;
 
 @end

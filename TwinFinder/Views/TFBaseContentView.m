@@ -175,6 +175,14 @@
     }
 }
 
+- (void)textFieldView:(TFTextFieldView *)view didSelectCountryTextField:(UITextField *)countryTextField
+{
+    if ([self.delegate respondsToSelector:@selector(baseContentView:didSelectCountryTextField:)]) {
+        [self.delegate baseContentView:self didSelectCountryTextField:countryTextField];
+    }
+}
+
+
 
 -(void) textFieldView:(TFTextFieldView *) view didUpdateUser:(UserInfo *) userInfo
 {

@@ -30,7 +30,6 @@
 		D1ABA1A61A9FAEBD00364F11 /* TwinFinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1A51A9FAEBD00364F11 /* TwinFinderTests.m */; };
 		D1B8098D1AAC6DB300EAE5A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1B8098F1AAC6DB300EAE5A8 /* Localizable.strings */; };
 		D1B809931AAC7F3500EAE5A8 /* TFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */; };
-		D1B809961AACBD7800EAE5A8 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809951AACBD7800EAE5A8 /* UserInfo.m */; };
 		D1B8099C1AACBDAA00EAE5A8 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
 		D1B8099F1AACCC2D00EAE5A8 /* TFBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099E1AACCC2C00EAE5A8 /* TFBaseViewController.m */; };
 		D1B809A21AACD0B300EAE5A8 /* TFTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809A11AACD0B300EAE5A8 /* TFTextFieldView.m */; };
@@ -53,7 +52,6 @@
 		F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E6B1A9FBB1100ABE348 /* TFUserProfileView.m */; };
 		F12650E41AF61EE000A2AF97 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1ABA1881A9FAEBD00364F11 /* main.m */; };
 		F12650E61AF61EE000A2AF97 /* TwinFinder.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E7C1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel */; };
-		F12650E71AF61EE000A2AF97 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B809951AACBD7800EAE5A8 /* UserInfo.m */; };
 		F12650E81AF61EE000A2AF97 /* FaceImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */; };
 		F12650E91AF61EE000A2AF97 /* CSStickyHeaderFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E571A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.m */; };
 		F12650EA1AF61EE000A2AF97 /* TFFriendsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D14E3E691A9FBB1100ABE348 /* TFFriendsHeaderView.m */; };
@@ -84,6 +82,8 @@
 		F15B48681B5CF6E300199443 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15B48661B5CF6DC00199443 /* iAd.framework */; };
 		F15E2DE41AAC19CB0040BBCB /* TFPhotoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */; };
 		F15E2DE71AAC1A410040BBCB /* MAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F15E2DE61AAC1A410040BBCB /* MAImageView.m */; };
+		F17630081B7D1EAB00AF7113 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F17630071B7D1EAB00AF7113 /* UserInfo.m */; };
+		F17630091B7D1EAB00AF7113 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F17630071B7D1EAB00AF7113 /* UserInfo.m */; };
 		F186E84D1AAAF19400197AAB /* TFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84C1AAAF19400197AAB /* TFLoginViewController.m */; };
 		F186E8501AAB75D700197AAB /* TFHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E84F1AAB75D700197AAB /* TFHomeViewController.m */; };
 		F186E8531AAB7E1800197AAB /* TFBaseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F186E8521AAB7E1800197AAB /* TFBaseContentView.m */; };
@@ -156,8 +156,6 @@
 		D1B809901AAC6DB700EAE5A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D1B809911AAC7F3500EAE5A8 /* TFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFProfileViewController.h; sourceTree = "<group>"; };
 		D1B809921AAC7F3500EAE5A8 /* TFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFProfileViewController.m; sourceTree = "<group>"; };
-		D1B809941AACBD7800EAE5A8 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
-		D1B809951AACBD7800EAE5A8 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		D1B8099A1AACBDAA00EAE5A8 /* FaceImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceImage.h; sourceTree = "<group>"; };
 		D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceImage.m; sourceTree = "<group>"; };
 		D1B8099D1AACCC2C00EAE5A8 /* TFBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFBaseViewController.h; sourceTree = "<group>"; };
@@ -180,6 +178,8 @@
 		F15E2DE31AAC19CB0040BBCB /* TFPhotoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPhotoContentView.m; sourceTree = "<group>"; };
 		F15E2DE51AAC1A410040BBCB /* MAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAImageView.h; sourceTree = "<group>"; };
 		F15E2DE61AAC1A410040BBCB /* MAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAImageView.m; sourceTree = "<group>"; };
+		F17630061B7D1EAB00AF7113 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		F17630071B7D1EAB00AF7113 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		F186E84B1AAAF19400197AAB /* TFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFLoginViewController.h; sourceTree = "<group>"; };
 		F186E84C1AAAF19400197AAB /* TFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFLoginViewController.m; sourceTree = "<group>"; };
 		F186E84E1AAB75D700197AAB /* TFHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHomeViewController.h; sourceTree = "<group>"; };
@@ -274,12 +274,12 @@
 			isa = PBXGroup;
 			children = (
 				D14E3E7C1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel */,
-				D1B809941AACBD7800EAE5A8 /* UserInfo.h */,
-				D1B809951AACBD7800EAE5A8 /* UserInfo.m */,
 				D1B8099A1AACBDAA00EAE5A8 /* FaceImage.h */,
 				D1B8099B1AACBDAA00EAE5A8 /* FaceImage.m */,
 				D18579531AC58E5C00787517 /* Message.h */,
 				D18579541AC58E5C00787517 /* Message.m */,
+				F17630061B7D1EAB00AF7113 /* UserInfo.h */,
+				F17630071B7D1EAB00AF7113 /* UserInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -667,10 +667,10 @@
 				D14E3E791A9FBB1100ABE348 /* TFCameraOverlayView.m in Sources */,
 				F1A52F901B65590A00E56213 /* TFImageViewController.m in Sources */,
 				F18C711B1AA04397007497A1 /* CollectionBackgroundView.m in Sources */,
+				F17630081B7D1EAB00AF7113 /* UserInfo.m in Sources */,
 				D14E3E7B1A9FBB1100ABE348 /* TFUserProfileView.m in Sources */,
 				D1ABA1891A9FAEBD00364F11 /* main.m in Sources */,
 				D14E3E7D1A9FBE8D00ABE348 /* TwinFinder.xcdatamodel in Sources */,
-				D1B809961AACBD7800EAE5A8 /* UserInfo.m in Sources */,
 				D1B8099C1AACBDAA00EAE5A8 /* FaceImage.m in Sources */,
 				D14E3E721A9FBB1100ABE348 /* CSStickyHeaderFlowLayout.m in Sources */,
 				D14E3E7A1A9FBB1100ABE348 /* TFFriendsHeaderView.m in Sources */,
@@ -714,10 +714,10 @@
 				F12650E11AF61EE000A2AF97 /* TFCameraOverlayView.m in Sources */,
 				F1A52F911B65590A00E56213 /* TFImageViewController.m in Sources */,
 				F12650E21AF61EE000A2AF97 /* CollectionBackgroundView.m in Sources */,
+				F17630091B7D1EAB00AF7113 /* UserInfo.m in Sources */,
 				F12650E31AF61EE000A2AF97 /* TFUserProfileView.m in Sources */,
 				F12650E41AF61EE000A2AF97 /* main.m in Sources */,
 				F12650E61AF61EE000A2AF97 /* TwinFinder.xcdatamodel in Sources */,
-				F12650E71AF61EE000A2AF97 /* UserInfo.m in Sources */,
 				F12650E81AF61EE000A2AF97 /* FaceImage.m in Sources */,
 				F12650E91AF61EE000A2AF97 /* CSStickyHeaderFlowLayout.m in Sources */,
 				F12650EA1AF61EE000A2AF97 /* TFFriendsHeaderView.m in Sources */,

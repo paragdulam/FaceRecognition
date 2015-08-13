@@ -30,6 +30,7 @@
     UIPickerView *countryPicker;
     UIToolbar *toolBar;
     UITextField *nationalityTextField;
+    UITextField *countryTextField;
 }
 
 @property (nonatomic,strong)    NSArray *countries;
@@ -404,15 +405,36 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    [nationalityTextField setText:[self.countries objectAtIndex:row]];
-    UIImage *profileImage = [UIImage imageNamed:nationalityTextField.text];
-    [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
-    [dataBackgroundView.contentView.textFieldView textFieldDidChange:nationalityTextField];
+    if (nationalityTextField) {
+        [nationalityTextField setText:[self.countries objectAtIndex:row]];
+        UIImage *profileImage = [UIImage imageNamed:nationalityTextField.text];
+        [dataBackgroundView.profilePicButton setImage:profileImage forState:UIControlStateNormal];
+        [dataBackgroundView.contentView.textFieldView textFieldDidChange:nationalityTextField];
+    } else if (countryTextField) {
+        [countryTextField setText:[self.countries objectAtIndex:row]];
+        [dataBackgroundView.contentView.textFieldView textFieldDidChange:countryTextField];
+    }
 }
 
 - (void) baseContentView:(TFBaseContentView *)view didSelectNationalityTextField:(UITextField *)textField
 {
+    countryTextField = nil;
     nationalityTextField = textField;
+    
+    [UIView beginAnimations:nil context:NULL];
+    
+    CGRect pickerFrame = backgroundCountryPickerView.frame;
+    pickerFrame.origin.y = self.view.frame.size.height - 240.f;
+    backgroundCountryPickerView.frame = pickerFrame;
+    
+    [UIView commitAnimations];
+}
+
+
+- (void) baseContentView:(TFBaseContentView *)view didSelectCountryTextField:(UITextField *)textField
+{
+    nationalityTextField = nil;
+    countryTextField = textField;
     
     [UIView beginAnimations:nil context:NULL];
     

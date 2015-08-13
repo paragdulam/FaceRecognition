@@ -2,7 +2,7 @@
 //  UserInfo.m
 //  TwinFinder
 //
-//  Created by Parag Dulam on 08/03/15.
+//  Created by Parag Dulam on 8/14/15.
 //  Copyright (c) 2015 Parag Dulam. All rights reserved.
 //
 
@@ -12,13 +12,13 @@
 @implementation UserInfo
 
 @dynamic age;
+@dynamic city;
 @dynamic firstName;
 @dynamic gender;
+@dynamic land;
 @dynamic lastName;
 @dynamic name;
-@dynamic parse_id;
-@dynamic city;
 @dynamic national;
-
+@dynamic parse_id;
 
 @end

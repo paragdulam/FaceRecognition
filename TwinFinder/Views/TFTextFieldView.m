@@ -73,8 +73,23 @@
         nationalTextField.leftView = leftView;
         [nationalTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:nationalTextField];
+        
+        countryTextField = [[HTAutocompleteTextField alloc] initWithFrame:CGRectZero];
+        countryTextField.textAlignment = NSTextAlignmentCenter;
+        countryTextField.autocompleteDisabled = NO;
+        countryTextField.autocompleteDataSource = [HTAutocompleteManager sharedManager];
+        countryTextField.autoCompleteTextFieldDelegate = self;
+        countryTextField.autocompleteType = HTAutocompleteTypeCountry;
+        countryTextField.backgroundColor = [UIColor whiteColor];
+        countryTextField.placeholder = NSLocalizedString(@"Land", nil);
+        countryTextField.font = [UIFont boldSystemFontOfSize:14.f];
+        countryTextField.delegate = self;
+        leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, nameTextField.frame.size.height)];
+        countryTextField.leftView = leftView;
+        [countryTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+        [self addSubview:countryTextField];
  
-        [self fetchUserInfo];        
+        [self fetchUserInfo];
     }
     return self;
 }
@@ -87,6 +102,7 @@
     ageTextField.text = self.userInfo.age;
     cityTextField.text = self.userInfo.city;
     nationalTextField.text = self.userInfo.national;
+    countryTextField.text = self.userInfo.land;
     if ([self.delegate respondsToSelector:@selector(textFieldView:didUpdateUser:)]) {
         [self.delegate textFieldView:self didUpdateUser:self.userInfo];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"profile.updated" object:self.userInfo];
@@ -103,6 +119,8 @@
         self.userInfo.city = textField.text;
     } else if (textField == nationalTextField) {
         self.userInfo.national = textField.text;
+    } else if (textField == countryTextField) {
+        self.userInfo.land = textField.text;
     }
     [[TFAppManager appDelegate].managedObjectContext save:nil];
     if ([self.delegate respondsToSelector:@selector(textFieldView:didUpdateUser:)]) {
@@ -139,6 +157,7 @@
         [userInfo setObject:ageTextField.text forKey:@"age"];
         [userInfo setObject:cityTextField.text forKey:@"city"];
         [userInfo setObject:nationalTextField.text forKey:@"national"];
+        [userInfo setObject:countryTextField.text forKey:@"land"];
         [userInfo setObject:[PFUser currentUser] forKey:@"User"];
         [userInfo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [TFAppManager saveUserinfo:userInfo];
@@ -184,6 +203,11 @@
             [self.delegate textFieldView:self didSelectNationalityTextField:textField];
         }
         return NO;
+    } else if (textField == countryTextField) {
+        if ([self.delegate respondsToSelector:@selector(textFieldView:didSelectCountryTextField:)]) {
+            [self.delegate textFieldView:self didSelectCountryTextField:textField];
+        }
+        return NO;
     }
     return YES;
 }
@@ -195,10 +219,11 @@
     self.layer.cornerRadius = 2.f;
     self.clipsToBounds = YES;
     
-    nameTextField.frame = CGRectMake(5, 5, self.frame.size.width - 10, 30);
+    nameTextField.frame = CGRectMake(5, 5, self.frame.size.width - 10, 25);
     ageTextField.frame = CGRectMake(nameTextField.frame.origin.x, CGRectGetMaxY(nameTextField.frame) + 5, nameTextField.frame.size.width, nameTextField.frame.size.height);
     cityTextField.frame = CGRectMake(ageTextField.frame.origin.x, CGRectGetMaxY(ageTextField.frame) + 5, ageTextField.frame.size.width, ageTextField.frame.size.height);
     nationalTextField.frame = CGRectMake(cityTextField.frame.origin.x, CGRectGetMaxY(cityTextField.frame) + 5, cityTextField.frame.size.width, cityTextField.frame.size.height);
+    countryTextField.frame = CGRectMake(nationalTextField.frame.origin.x, CGRectGetMaxY(nationalTextField.frame) + 5, nationalTextField.frame.size.width, nationalTextField.frame.size.height);
     
     nameTextField.layer.cornerRadius = 2;
     nameTextField.clipsToBounds = YES;
@@ -211,6 +236,9 @@
     
     nationalTextField.layer.cornerRadius = 2;
     nationalTextField.clipsToBounds = YES;
+    
+    countryTextField.layer.cornerRadius = 2;
+    countryTextField.clipsToBounds = YES;
 }
 
 @end
